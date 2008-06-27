@@ -1,0 +1,29 @@
+Puzzle (working title)
+
+ a game where you have to go through mazes (how original).
+ The trick is that depending on your shoes, you can do many funny stuff.
+ The goal is to make thinks extendible (to use some metaprog magic)
+
+ step 1 :
+
+      A puzzle is a room, with a entry, an exit, a dimension, and cells (how original)
+      A cell is an object, cause I want funny inheritence (and I should be able to ask cells stuff like : CAN I walk there ?)
+      I want to load a puzzle from a description
+
+class SillyPuzzle < Puzzle
+
+ # w, h
+ dim 4,3
+
+ # row alias r
+ # I is entry, - is walkable, # is wall, O is exit, but then it is just parsing
+ row "I###"
+ row "-###"
+ row "---O"
+
+end
+
+(notice that this makes a puzzle damn easy to load ... and to save ...)
+
+
+
