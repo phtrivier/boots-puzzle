@@ -1,6 +1,24 @@
+class Wall
+end
+class In
+end
+class Walkable
+end
+class Out
+end
+
 class Puzzle
 
+  class BadCellCharError < RuntimeError
+    attr_accessor :char
+    def initialize(c)
+      @char = c
+    end
+  end
+
+
   attr_accessor :w, :h
+  attr_accessor :cells
 
   def self.dim(w,h)
     self.instance_eval do
@@ -15,9 +33,66 @@ class Puzzle
     end
   end
 
+  def self.row(txt)
+
+    self.instance_eval do
+      if (@c_cells == nil)
+        @c_cells = []
+      end
+      @c_cells << txt
+    end
+
+  end
+
+  def self.c_cells
+    @c_cells
+  end
+
+  def self.meta
+    class << self
+      self
+    end
+  end
+
+  def parse_row(txt)
+    # For each char ....
+    res = []
+
+    txt.each_byte do |b|
+      c = b.chr
+
+      case c
+        when "#" then res << Wall.new
+        when "I" then res << In.new
+        when "O" then res << Out.new
+        when "-" then res << Walkable.new
+        else
+           if (respond_to?(:extend_cell))
+              res << extend_cell(c)
+           else
+             raise BadCellCharError.new(c)
+           end
+      end
+    end
+
+    res
+  end
+
   def initialize
-    @w = self.w
-    @h = self.h
+    @w = w
+    @h = h
+    @cells = []
+
+    if (self.class.c_cells != nil)
+      self.class.c_cells.each do |txt|
+        @cells << parse_row(txt)
+      end
+    end
+
+  end
+
+  def cell(i,j)
+    @cell[i][j]
   end
 
 end
