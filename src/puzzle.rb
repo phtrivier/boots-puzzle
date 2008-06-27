@@ -1,17 +1,7 @@
 require 'cell'
+require 'errors'
 
 class Puzzle
-
-  class BadCellCharError < RuntimeError
-    attr_accessor :char
-    def initialize(c)
-      @char = c
-    end
-  end
-
-  class BadDimension < RuntimeError
-  end
-
 
   attr_accessor :w, :h
   attr_accessor :cells

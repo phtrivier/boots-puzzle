@@ -73,7 +73,7 @@ class PuzzleTest < Test::Unit::TestCase
     begin
       p = InvalidCharPuzzle.new
       assert(false, "Bad char")
-    rescue Puzzle::BadCellCharError => e
+    rescue BadCellCharError => e
       assert_equal "%", e.char
     end
   end
@@ -88,7 +88,7 @@ class PuzzleTest < Test::Unit::TestCase
     begin
       p = BadDimensionPuzzle.new
       assert(false, "Bad dimension")
-    rescue Puzzle::BadDimension => e
+    rescue BadDimension => e
       assert_equal("Bad row : ##, expecting 3 cell(s)", e.message)
     end
   end
@@ -102,7 +102,7 @@ class PuzzleTest < Test::Unit::TestCase
     begin
       p = BadDimensionPuzzle2.new
       assert(false, "Bad dimension")
-    rescue Puzzle::BadDimension => e
+    rescue BadDimension => e
       assert_equal("Bad puzzle ; found 1 row(s), expecting 2", e.message)
     end
   end
