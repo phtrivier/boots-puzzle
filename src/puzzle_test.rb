@@ -61,7 +61,7 @@ class PuzzleTest < Test::Unit::TestCase
 
   def test_rows_definition_are_extendible
     p = ExtendingCellTypePuzzle.new
-    assert_equal ExtendedCell, p.cells[0][1].class
+    assert_equal ExtendedCell, p.cell(0,1).class
   end
 
   class InvalidCharPuzzle < Puzzle

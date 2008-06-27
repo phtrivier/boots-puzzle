@@ -41,7 +41,6 @@ class Puzzle
   end
 
   def parse_row(txt)
-    # For each char ....
     res = []
 
     if (txt.size != @w)
@@ -87,7 +86,7 @@ class Puzzle
   end
 
   def cell(i,j)
-    @cell[i][j]
+    @cells[i][j]
   end
 
 end
