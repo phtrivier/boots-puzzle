@@ -9,13 +9,15 @@ class PuzzleTest < Test::Unit::TestCase
   end
 
   class DimPuzzle < Puzzle
-      dim 4,3
+      dim 1,2
+      row "#"
+      row "#"
   end
 
   def test_reads_dimension
     p = DimPuzzle.new
-    assert_equal 4, p.w
-    assert_equal 3, p.h
+    assert_equal 1, p.w
+    assert_equal 2, p.h
 
     q = NoDimPuzzle.new
     assert_equal nil, q.w
@@ -24,7 +26,7 @@ class PuzzleTest < Test::Unit::TestCase
   end
 
   class RowsPuzzle < Puzzle
-    dim 3,4
+    dim 3,2
     row "###"
     row "I-O"
   end
@@ -70,9 +72,38 @@ class PuzzleTest < Test::Unit::TestCase
   def test_invalid_cell_definition_with_no_extension_cause_errors
     begin
       p = InvalidCharPuzzle.new
-      assert("Should not be possible to create this", false)
+      assert(false, "Bad char")
     rescue Puzzle::BadCellCharError => e
       assert_equal "%", e.char
+    end
+  end
+
+  class BadDimensionPuzzle < Puzzle
+    dim 3,2
+    row "##"
+    row "##"
+  end
+
+  def test_checks_dimension_width
+    begin
+      p = BadDimensionPuzzle.new
+      assert(false, "Bad dimension")
+    rescue Puzzle::BadDimension => e
+      assert_equal("Bad row : ##, expecting 3 cell(s)", e.message)
+    end
+  end
+
+  class BadDimensionPuzzle2 < Puzzle
+    dim 3,2
+    row "###"
+  end
+
+  def test_checks_dimension_height
+    begin
+      p = BadDimensionPuzzle2.new
+      assert(false, "Bad dimension")
+    rescue Puzzle::BadDimension => e
+      assert_equal("Bad puzzle ; found 1 row(s), expecting 2", e.message)
     end
   end
 

@@ -16,6 +16,9 @@ class Puzzle
     end
   end
 
+  class BadDimension < RuntimeError
+  end
+
 
   attr_accessor :w, :h
   attr_accessor :cells
@@ -58,6 +61,10 @@ class Puzzle
     # For each char ....
     res = []
 
+    if (txt.size != @w)
+      raise BadDimension.new("Bad row : #{txt}, expecting #{@w} cell(s)")
+    end
+
     txt.each_byte do |b|
       c = b.chr
 
@@ -87,6 +94,11 @@ class Puzzle
       self.class.c_cells.each do |txt|
         @cells << parse_row(txt)
       end
+
+      if @cells.size != @h
+        raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
+      end
+
     end
 
   end
