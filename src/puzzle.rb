@@ -89,4 +89,14 @@ class Puzzle
     @cells[i][j]
   end
 
+  def each_cell
+
+    @cells.each_with_index do |row, i|
+      row.each_with_index do |c, j|
+        yield i,j,c
+      end
+    end
+
+  end
+
 end

@@ -107,5 +107,30 @@ class PuzzleTest < Test::Unit::TestCase
     end
   end
 
+  class PuzzleIter < Puzzle
+    dim 2,2
+    row "#I"
+    row "-O"
+  end
+
+  def test_iterate_over_cells
+
+    p = PuzzleIter.new
+
+    res = []
+
+    p.each_cell do |i,j,c|
+
+      res << [i,j,c.class]
+
+    end
+
+    assert_equal([0,0, Wall], res[0])
+    assert_equal([0,1, In], res[1])
+    assert_equal([1,0, Walkable], res[2])
+    assert_equal([1,1, Out], res[3])
+
+  end
+
 
 end
