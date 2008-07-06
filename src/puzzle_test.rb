@@ -197,5 +197,39 @@ class PuzzleTest < Test::Unit::TestCase
     end
   end
 
+  def test_knowns_whether_a_cell_is_valid
+    pu = TestPuzzle.new
+    assert !pu.valid?(-1,0)
+    assert !pu.valid?(3,0)
+    assert !pu.valid?(0,-1)
+    assert !pu.valid?(0,3)
+    assert pu.valid?(1,0)
+  end
+
+  def test_moves_the_player_in_the_puzzle_using_default_boots
+
+    pu = TestPuzzle.new
+    pu.enters_player!
+
+    pu.try_move!(:right)
+    assert_equal [0,1], pu.player.pos
+
+    pu.try_move!(:down)
+    assert_equal [1,1], pu.player.pos
+
+    pu.try_move!(:up)
+    assert_equal [0,1], pu.player.pos
+
+    pu.try_move!(:left)
+    assert_equal [0,1], pu.player.pos
+
+    pu.try_move!(:down)
+    assert_equal [1,1], pu.player.pos
+
+    pu.try_move!(:left)
+    assert_equal [1,0], pu.player.pos
+
+  end
+
 
 end

@@ -167,6 +167,10 @@ class Puzzle
     cell(i,j).walkable?
   end
 
+  def valid?(i,j)
+    i >= 0 and i < @w and j >= 0 and j < @h
+  end
+
   # Initialize the player to the entry of
   # the puzzle
   def enters_player!
@@ -177,6 +181,34 @@ class Puzzle
 
     @player = Player.new
     @player.move(@in)
+  end
+
+  # Try and move the player to another position
+  def try_move!(dir)
+
+    ni,nj = new_position(dir)
+
+    try_move_to(ni,nj)
+
+  end
+
+  # TODO : PUT THIS INTO THE SHOES !!
+  def new_position(dir)
+    i,j = player.pos
+    case dir
+      when :up then [i-1, j]
+      when :down then [i+1, j]
+      when :left then [i, j-1]
+      when :right then [i, j+1]
+    end
+  end
+
+  def try_move_to(i,j)
+
+    if (valid?(i,j) and walkable?(i,j))
+      @player.move([i,j])
+    end
+
   end
 
 end

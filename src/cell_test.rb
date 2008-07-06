@@ -51,4 +51,11 @@ class CellTest < Test::Unit::TestCase
     assert !(W4.new.walkable?)
   end
 
+  def test_common_cells
+    assert Walkable.new.walkable?
+    assert In.new.walkable?
+    assert Out.new.walkable?
+    assert ! Wall.new.walkable?
+  end
+
 end
