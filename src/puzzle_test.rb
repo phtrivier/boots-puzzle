@@ -4,6 +4,13 @@ require 'puzzle'
 
 class PuzzleTest < Test::Unit::TestCase
 
+  def assert_point_equal(i,j,k,l)
+    assert_equal(i,k, "Line index should be equals")
+    assert_equal(j,l, "Column index should be equals")
+  end
+
+  # -----------------------
+
   class NoDimPuzzle < Puzzle
 
   end
@@ -168,9 +175,27 @@ class PuzzleTest < Test::Unit::TestCase
     assert p.walkable?(1,1)
   end
 
-  def assert_point_equal(i,j,k,l)
-    assert_equal(i,k, "Line index should be equals")
-    assert_equal(j,l, "Column index should be equals")
+  def test_player_starts_at_entry
+    pu = TestPuzzle.new
+    pu.enters_player!
+
+    p = pu.player
+
+    assert_not_nil p
+    assert_equal [0,1], p.pos
+    assert_equal 0, p.i
+    assert_equal 1, p.j
+
   end
+
+  def test_refuses_to_enter_player_if_no_entry
+    pu = NoInOut.new
+    begin
+      pu.enters_player!
+      assert(false, "Should not be possible to enter a puzzle with no entry")
+    rescue NoEntry
+    end
+  end
+
 
 end

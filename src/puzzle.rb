@@ -1,5 +1,6 @@
 require 'cell'
 require 'errors'
+require 'player'
 
 class Puzzle
 
@@ -12,6 +13,8 @@ class Puzzle
   # TODO : Make sure there is only one in.
   # TODO : Potentially, make several outs ?
   attr_reader :in, :out
+  # The player, nul until 'enters_player!' is called
+  attr_reader :player
 
   # Class methods to make definition of a puzzle
   # DSL-like
@@ -164,4 +167,17 @@ class Puzzle
     cell(i,j).walkable?
   end
 
+  # Initialize the player to the entry of
+  # the puzzle
+  def enters_player!
+
+    if (@in == [nil,nil])
+      raise NoEntry
+    end
+
+    @player = Player.new
+    @player.move(@in)
+  end
+
 end
+
