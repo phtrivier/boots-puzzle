@@ -132,5 +132,33 @@ class PuzzleTest < Test::Unit::TestCase
 
   end
 
+  def test_knows_location_of_in_out
+    i,j = PuzzleIter.new.in
+    assert_point_equal(0,1,i,j)
+    i,j = PuzzleIter.new.out
+    assert_point_equal(1,1,i,j)
+  end
+
+  class NoInOut < Puzzle
+    dim 2, 2
+    row "##"
+    row "--"
+  end
+
+
+  def test_returns_nil_nil_if_no_in_out
+
+    i,j = NoInOut.new.in
+    assert_point_equal(nil,nil,i,j)
+    i,j = NoInOut.new.out
+    assert_point_equal(nil,nil,i,j)
+
+
+  end
+
+  def assert_point_equal(i,j,k,l)
+    assert_equal(i,k, "Line index should be equals")
+    assert_equal(j,l, "Column index should be equals")
+  end
 
 end

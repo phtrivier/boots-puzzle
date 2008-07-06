@@ -80,9 +80,32 @@ class Puzzle
       if @cells.size != @h
         raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
       end
-
     end
 
+    each_cell do |i,j,c|
+      if (c.class == In)
+        @in = [i,j]
+      elsif (c.class == Out)
+        @out = [i,j]
+      end
+    end
+
+  end
+
+  def in
+    if (@in == nil)
+      return nil, nil
+    else
+      return @in[0], @in[1]
+    end
+  end
+
+  def out
+    if (@out == nil)
+      return nil, nil
+    else
+      return @out[0], @out[1]
+    end
   end
 
   def cell(i,j)
