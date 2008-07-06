@@ -16,6 +16,9 @@ class Puzzle
   # Class methods to make definition of a puzzle
   # DSL-like
 
+  # A 'static' array of all cells string
+  # provided by 'row'
+
   # Sets the size of the puzzle.
   # The rows will have to respect those dimensions.
   def self.dim(w,h)
@@ -44,16 +47,23 @@ class Puzzle
   def self.row(txt)
 
     self.instance_eval do
-      if (@c_cells == nil)
-        @c_cells = []
+
+      if (!instance_variable_defined?(:@c_cells))
+        instance_variable_set(:@c_cells, [])
       end
+
       @c_cells << txt
+
     end
 
   end
 
   def self.c_cells
-    @c_cells
+    if (!instance_variable_defined?(:@c_cells))
+      nil
+    else
+      instance_variable_get(:@c_cells)
+    end
   end
 
   def self.meta

@@ -153,7 +153,6 @@ class PuzzleTest < Test::Unit::TestCase
     i,j = NoInOut.new.out
     assert_point_equal(nil,nil,i,j)
 
-
   end
 
   def assert_point_equal(i,j,k,l)

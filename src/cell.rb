@@ -1,8 +1,29 @@
-class Wall
+class Cell
+
+  # This might be redefined if needed
+  def walkable?
+    false
+  end
+
+  def self.walkable(b=true)
+    self.instance_eval do
+      define_method :walkable? do
+        return b
+      end
+    end
+  end
+
 end
-class In
+
+class Wall < Cell
 end
-class Walkable
+
+class Walkable < Cell
+  walkable
 end
-class Out
+
+class In < Walkable
+end
+
+class Out < Walkable
 end
