@@ -3,9 +3,21 @@ require 'errors'
 
 class Puzzle
 
+  # Ints with the dimension
   attr_accessor :w, :h
+  # Two-dimensionnal  array of cells
   attr_accessor :cells
+  # Arrays of length two with the position
+  # of the entry and exit of the puzzle.
+  # TODO : Make sure there is only one in.
+  # TODO : Potentially, make several outs ?
+  attr_reader :in, :out
 
+  # Class methods to make definition of a puzzle
+  # DSL-like
+
+  # Sets the size of the puzzle.
+  # The rows will have to respect those dimensions.
   def self.dim(w,h)
     self.instance_eval do
 
@@ -19,6 +31,16 @@ class Puzzle
     end
   end
 
+  # Add a row to the puzzle.
+  # Argument is a string of characters, each character
+  # corresponding to a cell.
+  # Following chars are built-in :
+  #  I for entry
+  #  O for exit
+  #  - for a walkable cell
+  #  # for a wall
+  # Puzzle can define a method 'extend_cell', which creates
+  # other type of cells from a single char.
   def self.row(txt)
 
     self.instance_eval do
@@ -40,6 +62,7 @@ class Puzzle
     end
   end
 
+  # Parse a row of cells defined by 'row'
   def parse_row(txt)
     res = []
 
@@ -67,20 +90,21 @@ class Puzzle
     res
   end
 
+  # Constructor
   def initialize
     @w = w
     @h = h
     @cells = []
 
-    if (self.class.c_cells != nil)
-      self.class.c_cells.each do |txt|
-        @cells << parse_row(txt)
-      end
+    init_dimensions
 
-      if @cells.size != @h
-        raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
-      end
-    end
+    init_in_out
+
+  end
+
+  # Init the position of entry and exit
+  def init_in_out
+    @in = @out = [nil,nil]
 
     each_cell do |i,j,c|
       if (c.class == In)
@@ -92,26 +116,29 @@ class Puzzle
 
   end
 
-  def in
-    if (@in == nil)
-      return nil, nil
-    else
-      return @in[0], @in[1]
+  # Init the dimension of the puzzle
+  def init_dimensions
+
+    if (self.class.c_cells != nil)
+      self.class.c_cells.each do |txt|
+        @cells << parse_row(txt)
+      end
+
+      if @cells.size != @h
+        raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
+      end
     end
+
   end
 
-  def out
-    if (@out == nil)
-      return nil, nil
-    else
-      return @out[0], @out[1]
-    end
-  end
-
+  # A cell by its position
   def cell(i,j)
     @cells[i][j]
   end
 
+  # Iterate over the cells
+  # Yields the position of each cell (two ints) and the
+  # cell itself
   def each_cell
 
     @cells.each_with_index do |row, i|
