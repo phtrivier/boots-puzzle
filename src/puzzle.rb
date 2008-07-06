@@ -159,4 +159,9 @@ class Puzzle
 
   end
 
+  # Is a given cell walkable ?
+  def walkable?(i,j)
+    cell(i,j).walkable?
+  end
+
 end

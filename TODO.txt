@@ -23,7 +23,16 @@ class SillyPuzzle < Puzzle
 
 end
 
-(notice that this makes a puzzle damn easy to load ... and to save ...)
+  step 2 :
+
+   a player is somthing that can walk on a puzzle, and be at a certain place
+   it starts at the entry -> you know where the entry is ...
+    it can try and walk on a puzzle, that is , it tries to go somewhere else, ask the puzzle if it is ok (puzzle.walkable?(i,j)) and then goes there
+   if it reaches the end of the puzzle( oh, I don't know where the out is .... :D), then the puzzle is solved (puzzle.in?(i,j) / puzzle.out?(i,j))
+
+
+
+
 
 
 

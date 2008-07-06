@@ -145,7 +145,6 @@ class PuzzleTest < Test::Unit::TestCase
     row "--"
   end
 
-
   def test_returns_nil_nil_if_no_in_out
 
     i,j = NoInOut.new.in
@@ -153,6 +152,20 @@ class PuzzleTest < Test::Unit::TestCase
     i,j = NoInOut.new.out
     assert_point_equal(nil,nil,i,j)
 
+  end
+
+  class TestPuzzle < Puzzle
+    dim 2,2
+    row "#I"
+    row "O-"
+  end
+
+  def test_knows_whether_a_position_is_walkable
+    p = TestPuzzle.new
+    assert !p.walkable?(0,0)
+    assert p.walkable?(0,1)
+    assert p.walkable?(1,0)
+    assert p.walkable?(1,1)
   end
 
   def assert_point_equal(i,j,k,l)
