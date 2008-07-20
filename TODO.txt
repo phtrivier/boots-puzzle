@@ -27,9 +27,26 @@ end
 
    a player is somthing that can walk on a puzzle, and be at a certain place
    it starts at the entry -> you know where the entry is ...
+
     it can try and walk on a puzzle, that is , it tries to go somewhere else, ask the puzzle if it is ok (puzzle.walkable?(i,j)) and then goes there
+
    if it reaches the end of the puzzle( oh, I don't know where the out is .... :D), then the puzzle is solved (puzzle.in?(i,j) / puzzle.out?(i,j))
 
+
+  next step :
+       * fixe the controls, if necerray
+
+       * add the notion of getting to the out and be really happy (easy)
+
+       * add the shoes
+
+         the player has a current pair of shoes
+         by default its the BareFeet
+         moving the player actually asks its current shoes to move it
+
+
+
+       * make the editor, to be able to create decent levels (using Shoes !!)
 
 
 

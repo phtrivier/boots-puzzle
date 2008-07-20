@@ -1,4 +1,6 @@
 require 'test/unit'
+require 'rubygems'
+require 'mocha'
 
 require 'puzzle'
 
@@ -185,7 +187,6 @@ class PuzzleTest < Test::Unit::TestCase
     assert_equal [0,1], p.pos
     assert_equal 0, p.i
     assert_equal 1, p.j
-
   end
 
   def test_refuses_to_enter_player_if_no_entry
@@ -207,7 +208,6 @@ class PuzzleTest < Test::Unit::TestCase
   end
 
   def test_moves_the_player_in_the_puzzle_using_default_boots
-
     pu = TestPuzzle.new
     pu.enters_player!
 
@@ -228,8 +228,28 @@ class PuzzleTest < Test::Unit::TestCase
 
     pu.try_move!(:left)
     assert_equal [1,0], pu.player.pos
-
   end
 
+  class MockBoots
+    attr_reader :called
+    def initialize
+      @called = false
+    end
+
+    def move()
+    end
+  end
+
+  def test_trying_to_move_ask_players_current_shoes_to_move
+    pu = TestPuzzle.new
+
+    pu.enters_player!
+    m = mock()
+    pu.player.current_boots=m
+
+    m.expects(:try_move!).with(pu, :up)
+
+    pu.try_move!(:up)
+  end
 
 end

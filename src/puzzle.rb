@@ -180,35 +180,14 @@ class Puzzle
     end
 
     @player = Player.new
-    @player.move(@in)
+    @player.move!(@in)
   end
 
-  # Try and move the player to another position
+  # Try and move the player to another position.
+  # The current boots of the player are used
+  # to make the move.
   def try_move!(dir)
-
-    ni,nj = new_position(dir)
-
-    try_move_to(ni,nj)
-
-  end
-
-  # TODO : PUT THIS INTO THE SHOES !!
-  def new_position(dir)
-    i,j = player.pos
-    case dir
-      when :up then [i-1, j]
-      when :down then [i+1, j]
-      when :left then [i, j-1]
-      when :right then [i, j+1]
-    end
-  end
-
-  def try_move_to(i,j)
-
-    if (valid?(i,j) and walkable?(i,j))
-      @player.move([i,j])
-    end
-
+    @player.current_boots.try_move!(self, dir)
   end
 
 end
