@@ -38,27 +38,34 @@ class GameWindow < Gosu::Window
 
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
-
     @colors = { Wall => Gosu::Color.new(0xff00ff00),
       Walkable => Gosu::Color.new(0xffff0000),
       In => Gosu::Color.new(0xff000000),
       Out => Gosu::Color.new(0xff0000ff) }
 
+    @keys = {
+      :up => [Gosu::Button::KbUp, Gosu::Button::GpUp],
+      :down => [Gosu::Button::KbDown, Gosu::Button::GpDown],
+      :right => [Gosu::Button::KbRight, Gosu::Button::GpRight],
+      :left => [Gosu::Button::KbLeft, Gosu::Button::GpLeft]
+    }
+
+    @keys_down = { :up => false, :down => false, :right => false, :left => false }
+
   end
 
   def update
+    [:up, :down, :right, :left].each do |dir|
 
-    if button_down? Gosu::Button::KbLeft or button_down? Gosu::Button::GpLeft then
-      @puzzle.try_move!(:left)
-    end
-    if button_down? Gosu::Button::KbUp or button_down? Gosu::Button::GpUp then
-      @puzzle.try_move!(:up)
-    end
-    if button_down? Gosu::Button::KbDown or button_down? Gosu::Button::GpDown then
-      @puzzle.try_move!(:down)
-    end
-    if button_down? Gosu::Button::KbRight or button_down? Gosu::Button::GpRight then
-      @puzzle.try_move!(:right)
+      keys = @keys[dir]
+
+      if (button_down? keys[0] or button_down? keys[1]) and !@keys_down[dir]
+        @puzzle.try_move!(dir)
+        @keys_down[dir] = true
+      elsif (!button_down? keys[0] and !button_down? keys[1] and @keys_down[dir])
+         @keys_down[dir] = false
+      end
+
     end
 
   end
