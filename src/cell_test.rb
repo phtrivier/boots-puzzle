@@ -46,8 +46,8 @@ class CellTest < Test::Unit::TestCase
 
   def test_walkable_follow_inheritence
     assert !(W1.new.walkable?)
-    assert (W2.new.walkable?)
-    assert (W3.new.walkable?)
+    assert W2.new.walkable?
+    assert W3.new.walkable?
     assert !(W4.new.walkable?)
   end
 
