@@ -41,8 +41,25 @@ end
        * add the shoes
 
          the player has a current pair of shoes
+             OK
          by default its the BareFeet
+            OK
          moving the player actually asks its current shoes to move it
+                OK
+
+                the player can handles shoes in funny way :
+
+                    * take_current_shoes_off
+                                             (and then it has bare foot)
+                    * puts_on shoes from its right hand
+                              * if the player is already wearing shoes, it gets exchanged (that's easy to do, so no fun)
+                    * puts_on shoes from its left hand
+
+                    * drop shoes from its left hand / right hand
+
+                    So you can wear at must one out of three shoes ...
+
+
 
 
 
