@@ -40,6 +40,8 @@ class GameWindow < Gosu::Window
 
     @images = { }
 
+    @player_img = Gosu::Image.new(self, "img/player.bmp", false)
+
     @keys = {
       :up => [Gosu::Button::KbUp, Gosu::Button::GpUp],
       :down => [Gosu::Button::KbDown, Gosu::Button::GpDown],
@@ -89,19 +91,18 @@ class GameWindow < Gosu::Window
   def draw_player
     i,j = @puzzle.player.pos
 
-    ps = @s / 3
-    delta_ps = @s / 3
+    x = @x0 + j * @s
+    y = @y0 + i * @s
 
-    x = @x0 + j * @s + delta_ps
-    y = @y0 + i * @s + delta_ps
+    @player_img.draw(x,y, ZOrder::UI)
 
-    color = Gosu::Color.new(0xff00ffff)
+#     color = Gosu::Color.new(0xff00ffff)
 
-    draw_quad( x , y , color,
-                  x + ps, y, color,
-                  x, y + ps, color,
-                  x + ps, y+ ps, color,
-                  ZOrder::UI)
+#     draw_quad( x , y , color,
+#                   x + ps, y, color,
+#                   x, y + ps, color,
+#                   x + ps, y+ ps, color,
+#                   ZOrder::UI)
 
   end
 
