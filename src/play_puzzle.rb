@@ -38,10 +38,7 @@ class GameWindow < Gosu::Window
 
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
-    @colors = { Wall => Gosu::Color.new(0xff00ff00),
-      Walkable => Gosu::Color.new(0xffff0000),
-      In => Gosu::Color.new(0xff000000),
-      Out => Gosu::Color.new(0xff0000ff) }
+    @images = { }
 
     @keys = {
       :up => [Gosu::Button::KbUp, Gosu::Button::GpUp],
@@ -79,7 +76,7 @@ class GameWindow < Gosu::Window
 
     @x0 = 20
     @y0 = 50
-    @s = 30
+    @s = 32
 
     @puzzle.each_cell do |i,j,c|
       draw_cell(i,j,c)
@@ -115,24 +112,29 @@ class GameWindow < Gosu::Window
 
       # TODO : GET THE COLOR
       #color = get_color(c.color_name)
-      color = get_color(c)
+#       color = get_color(c)
 
       # DRAW A SQUARE OF THE COLOR, OF THE PROPER SIZE, ETC...
 #      drawQuad (double x1, double y1, Color c1, double x2, double y2, Color c2, double x3, double y3, Color c3, double x4, double y4, Color c4, ZPos z, AlphaMode mode=amDefault)
       #puts "Drawing cell : #{i},#{j}, #{c}"
 
-      draw_quad( x, y, color,
-                  x + @s, y , color,
-                  x, y + @s, color,
-                  x + @s, y+ @s, color,
-                  ZOrder::UI)
+#       draw_quad( x, y, color,
+#                   x + @s, y , color,
+#                   x, y + @s, color,
+#                   x + @s, y+ @s, color,
+#                   ZOrder::UI)
+
+    i = get_image(c)
+    i.draw(x,y, ZOrder::UI)
 
   end
 
-  def get_color(cell)
-    # make it use image instead of colors
-    res = @colors[cell.class]
-    # puts "Using color #{res}, for class #{cell.class}"
+  def get_image(cell)
+    if (not @images.has_key?(cell.src))
+      @images[cell.src] = Gosu::Image.new(self, cell.src, false)
+    end
+    res = @images[cell.src]
+
     res
   end
 

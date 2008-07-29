@@ -58,4 +58,9 @@ class CellTest < Test::Unit::TestCase
     assert ! Wall.new.walkable?
   end
 
+  def test_image_src_is_taken_from_class_name
+    assert_equal "img/walkable.png", Walkable.new.src
+    assert_equal "img/in.png", In.new.src
+  end
+
 end

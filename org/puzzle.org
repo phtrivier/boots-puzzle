@@ -1,6 +1,12 @@
 * Game Engine
-** TODO Cut down images for every kind of cells
-** TODO Add an image source to cells, and put images somewhere they can be loaded
+** DONE Cut down images for every kind of cells
+*** DONE in
+*** DONE out
+*** DONE walkable
+*** DONE wall
+** DONE Add an image source to cells, and put images somewhere they can be loaded
+   If nothing is said, the image is look for in a file that has the name of the class with lower case(no caml case for the moment)
+** In the puzzle application, load the images instead of drawing a rectangle
 ** TODO Add the 'walk' function (it does something when you walk on a Cell)
 ** TODO Add the story system
    When you load a puzzle, you can optionnaly

@@ -13,6 +13,10 @@ class Cell
     end
   end
 
+  def src
+    "img/#{self.class.name.downcase}.png"
+  end
+
 end
 
 class Wall < Cell

@@ -1,6 +1,6 @@
 class EditorCell
   attribute_accessor :type
-  attribute_accessor :src
+  attribute_accessor :image
 end
 
 Shoes.app :title => "Puzzle editor" do
