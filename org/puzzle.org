@@ -1,0 +1,38 @@
+* Game Engine
+** TODO Cut down images for every kind of cells
+** TODO Add an image source to cells, and put images somewhere they can be loaded
+** TODO Add the 'walk' function (it does something when you walk on a Cell)
+** TODO Add the story system
+   When you load a puzzle, you can optionnaly
+   - require a 'some_puzzle_name_story' module
+   - call a load_story function, defined in the module
+   - the function makes (for the moment), several calls to
+
+     special_cell(:toto, Walkable) do
+       foo bar baz
+     end
+
+   - it is possible to retrieve a cell by its name (so that cells can use each other)
+** TODO Add quotes / dialogs / other persons ?
+* Puzzle Editor
+** TODO ask for the dimensions
+** TODO Make up a grid of cells (empty at the beginning)
+** TODO add a block of tools (one for each known cells)
+** TODO add a group of selected tools holder
+** TODO clicking on a tool, then a tool holder set the content of the tool holder
+** TODO clicking
+
+** layout
+**
+** brushes
+** saving / loading
+** triggers
+* Test Editor
+** recording
+** adding assertions
+** saving / loading
+* Scenario, Game, Ideas ...
+** No scenario
+** Only puzzles
+** THIS ONE IS MADE TO FAIL, MAKE MISTAKE, AND THROW AWAY
+   Only to make it better, that is ... :P
