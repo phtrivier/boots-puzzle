@@ -230,16 +230,6 @@ class PuzzleTest < Test::Unit::TestCase
     assert_equal [1,0], pu.player.pos
   end
 
-  class MockBoots
-    attr_reader :called
-    def initialize
-      @called = false
-    end
-
-    def move()
-    end
-  end
-
   def test_trying_to_move_ask_players_current_shoes_to_move
     pu = TestPuzzle.new
 
@@ -250,6 +240,20 @@ class PuzzleTest < Test::Unit::TestCase
     m.expects(:try_move!).with(pu, :up)
 
     pu.try_move!(:up)
+  end
+
+  def test_walking_on_a_cell_calls_its_corresponding_walk_method
+    pu = TestPuzzle.new
+    c = mock()
+    c.expects(:walkable?).returns(true)
+    c.expects(:walk!).with(pu)
+
+    pu.set_cell(1,1,c)
+    assert_equal(c, pu.cell(1,1))
+    pu.enters_player!
+
+    pu.try_move!(:down)
+
   end
 
 end

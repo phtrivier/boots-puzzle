@@ -40,7 +40,7 @@ class GameWindow < Gosu::Window
 
     @images = { }
 
-    @player_img = Gosu::Image.new(self, "img/player.bmp", false)
+    @player_img = Gosu::Image.new(self, "img/player.png", false)
 
     @keys = {
       :up => [Gosu::Button::KbUp, Gosu::Button::GpUp],

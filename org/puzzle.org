@@ -9,16 +9,17 @@
 ** DONE In the puzzle application, load the images instead of drawing a rectangle
 ** TODO Add the 'walk' function (it does something when you walk on a Cell)
 ** TODO Add the story system
-   When you load a puzzle, you can optionnaly
-   - require a 'some_puzzle_name_story' module
-   - call a load_story function, defined in the module
-   - the function makes (for the moment), several calls to
+*** TODO Puzzle has a function cell_reference(i,j,name) so that a cell can be retrieved by its name
+    (internally, only the position is stored, it will be easier)
+*** TODO special_cell(:toto, Walkable) changes the special cell with a new cell, created from a base class, and it is given the content of what happens on walk
 
      special_cell(:toto, Walkable) do
        foo bar baz
      end
 
-   - it is possible to retrieve a cell by its name (so that cells can use each other)
+*** TODO 'X' are considered special cells (no cell is created ... or maybe a MockCell (just so that nothing bad happens ?)
+*** TODO it is forbidden to set IN and OUT as special cells ... or should it ?
+
 ** TODO Add quotes / dialogs / other persons ?
 * Puzzle Editor
 ** TODO ask for the dimensions

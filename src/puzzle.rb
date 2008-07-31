@@ -149,6 +149,10 @@ class Puzzle
     @cells[i][j]
   end
 
+  def set_cell(i,j,c)
+    @cells[i][j] = c
+  end
+
   # Iterate over the cells
   # Yields the position of each cell (two ints) and the
   # cell itself
