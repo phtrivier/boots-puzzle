@@ -349,4 +349,11 @@ class PuzzleTest < Test::Unit::TestCase
     end
   end
 
+  def test_cell_can_be_set_by_name
+    pu = PuzzleWithStory.new
+    assert_equal  Walkable, pu.cell_by_name(:bar).class
+    pu.set_cell_by_name(:bar, Wall.new)
+    assert_equal  Wall, pu.cell_by_name(:bar).class
+  end
+
 end

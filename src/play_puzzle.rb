@@ -34,11 +34,31 @@ end
 
 require 'puzzle'
 
+module SimplePuzzleStory
+  def init_story
+    story_event(:hello, Walkable) do |puzzle|
+      puts "Hello, you walked here !!"
+    end
+
+    story_event(:almost_the_end, Walkable) do |puzzle|
+      puzzle.set_cell_by_name(:hello, Wall.new)
+      puts "Ho no, the entrance is locked now !!"
+    end
+  end
+end
+
 class SimplePuzzle < Puzzle
   dim 3,3
   row "###"
   row "I##"
   row "--O"
+
+  named_cells do
+    named_cell :hello, 2, 0
+    named_cell :almost_the_end, 2, 1
+  end
+
+  story SimplePuzzleStory
 end
 
 class GameWindow < Gosu::Window

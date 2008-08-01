@@ -251,17 +251,22 @@ class Puzzle
 
   # TODO : define an event
   def story_event(name, base_class, &walk_proc)
+    cell = base_class.new
+
+    cell.meta.instance_eval do
+      define_method(:walk!) do |puzzle|
+        walk_proc.call(puzzle)
+      end
+    end
+
+    set_cell_by_name(name, cell)
+  end
+
+  # Replace a named cell.
+  def set_cell_by_name(name, c)
     if (@named_cells.has_key?(name))
       i,j = @named_cells[name]
-      cell = base_class.new
-
-      cell.meta.instance_eval do
-          define_method(:walk!) do |puzzle|
-            walk_proc.call(puzzle)
-          end
-       end
-
-      @cells[i][j] = cell
+      @cells[i][j] = c
     else
        raise NoCellError.new("No cell named #{name} in puzzle")
     end
