@@ -44,6 +44,12 @@ class Cell
   def walk!(puzzle)
   end
 
+  def meta
+    class << self
+      self
+    end
+  end
+
 end
 
 class Wall < Cell

@@ -7,11 +7,11 @@
 ** DONE Add an image source to cells, and put images somewhere they can be loaded
    If nothing is said, the image is look for in a file that has the name of the class with lower case(no caml case for the moment)
 ** DONE In the puzzle application, load the images instead of drawing a rectangle
-** TODO Add the 'walk' function (it does something when you walk on a Cell)
+** DONE Add the 'walk' function (it does something when you walk on a Cell)
 ** TODO Add the story system
-*** TODO Puzzle has a function cell_reference(i,j,name) so that a cell can be retrieved by its name
+*** DONE Puzzle has a function named_cell(i,j,name), and cell_by_name so that a cell can be retrieved by its name
     (internally, only the position is stored, it will be easier)
-*** TODO special_cell(:toto, Walkable) changes the special cell with a new cell, created from a base class, and it is given the content of what happens on walk
+*** DONE story_event(:toto, Walkable) changes the special cell with a new cell, created from a base class, and it is given the content of what happens on walk
 
      special_cell(:toto, Walkable) do
        foo bar baz
@@ -21,6 +21,7 @@
 *** TODO it is forbidden to set IN and OUT as special cells ... or should it ?
 
 ** TODO Add quotes / dialogs / other persons ?
+** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
 ** TODO ask for the dimensions
 ** TODO Make up a grid of cells (empty at the beginning)

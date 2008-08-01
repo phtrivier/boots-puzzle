@@ -32,3 +32,5 @@ end
 class NoEntry < RuntimeError
 end
 
+class NoCellError < RuntimeError
+end

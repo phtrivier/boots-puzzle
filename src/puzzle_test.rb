@@ -276,4 +276,77 @@ class PuzzleTest < Test::Unit::TestCase
 
   end
 
+  class SpecialPuzzle < Puzzle
+    dim 2,2
+    row "--"
+    row "IO"
+
+    named_cells do
+      named_cell :bar, 0 ,0
+      named_cell :foo, 0, 1
+    end
+
+  end
+
+  def test_cell_can_be_referenced_and_located_by_name
+    pu = SpecialPuzzle.new
+    assert_equal pu.cell(0,0), pu.cell_by_name(:bar)
+    assert_equal pu.cell(0,1), pu.cell_by_name(:foo)
+    assert_nil pu.cell_by_name(:baz)
+  end
+
+  def test_events_can_be_added
+    pu = SpecialPuzzle.new
+    assert_equal Walkable, pu.cell_by_name(:bar).class
+    pu.story_event(:bar, Wall) do |puzzle|
+    end
+    assert_equal Wall, pu.cell_by_name(:bar).class
+  end
+
+  module PuzzleStory
+    attr_accessor :called
+    @called = false
+
+    def init_story
+      story_event(:bar, Walkable) do |puzzle|
+        @called = true
+      end
+    end
+  end
+
+  class PuzzleWithStory < SpecialPuzzle
+    dim 2,2
+    row "--"
+    row "IO"
+
+    named_cells do
+      named_cell :bar, 0 ,0
+      named_cell :foo, 0, 1
+    end
+
+    story PuzzleTest::PuzzleStory
+  end
+
+  def test_loads_story_if_relevant
+    pu = PuzzleWithStory.new
+    assert_equal Walkable, pu.cell_by_name(:bar).class
+    pu.enters_player!
+    assert !pu.called
+    pu.try_move!(:up)
+    assert pu.called
+    pu.called = false
+    pu.try_move!(:right)
+    assert !pu.called
+  end
+
+  def test_shout_if_an_event_is_defined_on_a_non_existing_cell
+    pu = PuzzleWithStory.new
+    begin
+      pu.story_event(:baz, Cell) do |puzzle|
+      end
+    rescue NoCellError => e
+      assert_equal "No cell named baz in puzzle", e.message
+    end
+  end
+
 end

@@ -129,10 +129,19 @@ class Puzzle
     @w = w
     @h = h
     @cells = []
+    @named_cells = { }
 
     init_dimensions
 
     init_in_out
+
+    if (respond_to?(:init_named_cells))
+      init_named_cells
+    end
+
+    if (respond_to?(:init_story))
+      init_story
+    end
 
   end
 
@@ -201,7 +210,7 @@ class Puzzle
   def enters_player!
 
     if (@in == [nil,nil])
-      raise NoEntry
+      raise NoEntry.new("No entry in this puzzle !")
     end
 
     @player = Player.new
@@ -213,6 +222,49 @@ class Puzzle
   # to make the move.
   def try_move!(dir)
     @player.current_boots.try_move!(self, dir)
+  end
+
+  def self.named_cells(&block)
+    self.instance_eval do
+      define_method(:init_named_cells, block)
+    end
+  end
+
+  def cell_by_name(name)
+    res = nil
+    if (@named_cells.has_key?(name))
+      i,j = @named_cells[name]
+      res = cell(i,j)
+    end
+    res
+  end
+
+  # Defined a named cell
+  def named_cell(name, i, j)
+    @named_cells[name] = [i,j]
+  end
+
+  # TODO : indicate which story should be loaded
+  def self.story(story_name)
+    include story_name
+  end
+
+  # TODO : define an event
+  def story_event(name, base_class, &walk_proc)
+    if (@named_cells.has_key?(name))
+      i,j = @named_cells[name]
+      cell = base_class.new
+
+      cell.meta.instance_eval do
+          define_method(:walk!) do |puzzle|
+            walk_proc.call(puzzle)
+          end
+       end
+
+      @cells[i][j] = cell
+    else
+       raise NoCellError.new("No cell named #{name} in puzzle")
+    end
   end
 
 end
