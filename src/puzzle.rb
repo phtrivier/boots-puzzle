@@ -244,12 +244,15 @@ class Puzzle
     @named_cells[name] = [i,j]
   end
 
-  # TODO : indicate which story should be loaded
+  # Indicate which story should be loaded
   def self.story(story_name)
     include story_name
   end
 
-  # TODO : define an event
+  # Define an event on a named cell
+  # (Note that the base class might actually be
+  # in the Puzzle class rather than
+  # in the Story module ... anyway ...)
   def story_event(name, base_class, &walk_proc)
     cell = base_class.new
 

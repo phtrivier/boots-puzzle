@@ -18,57 +18,91 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
+require 'puzzle'
 
-class EditorCell
-  attribute_accessor :type
-  attribute_accessor :image
-end
 
-Shoes.app :title => "Puzzle editor" do
+class Editor < Shoes
+  url '/', :index
 
-#   @w = ask "Puzzle\'s Width ?"
+  def cell(i, j, t)
+    stack :width => '40px' do
+      b = border black, :strokewidth => 1
 
-#   @w = @w.to_i
+      @cells[i][j] = t
+      img = image Walkable.new.src
 
-#   if (@w <= 0)
-#     alert "Bad width !"
-#     Kernel.exit(-1)
-#     exit
-#   end
+      click do |b, l, t|
 
-#   @h = ask "Puzzle\'s Height ?"
+        # TODO : Check if it is the starting of a zone or the end of a zone ...
+        # Store the dimensions somewhere ...
+        # Then change all the zones as required !!
+        # TODO : ADD THE HOVER TO CHANGE THE BACKGROUND COLOR IF REQUIRED
 
-#   @h = @h.to_i
-#   if (@h <= 0)
-#     alert "Bad Height !"
-#     Kernel.exit(-1)
-#     exit
-#   end
+        puts "Clicked on #{i}, #{j} ... original type was #{t}"
 
-  # FIXME : use unhardwired values
-  @w = 10;
-  @h = 7;
+        @cells[i][j] = @new_type
+        puts img.path
+        img.remove
+        img = image @new_type.new.src
 
-  @cells = []
-  @h.times do
-    @cells << []
-  end
+        puts img.path
 
-  flow do
-    stack :width => '20%' do
-      border black, :strokewidth => 1
-      para "list of available tools"
-      para "list of selected tools"
-    end
+      end
 
-    stack :width => '60%' do
-      border black, :strokewidth => 1
-      para "grid of selectable cells"
-    end
-
-    stack :width => '20%' do
-      border black, :strokewidth => 1
-      para "list of special cells (with positions)"
     end
   end
+
+  def index
+
+     # FIXME : use unhardwired values
+    @w = 10;
+    @h = 7;
+
+    @cells = []
+
+    @new_type = Wall
+
+    show_editor
+  end
+
+  def show_editor
+    flow do
+      stack :width => '20%' do
+        border black, :strokewidth => 1
+        para "list of available tools"
+        para "list of selected tools"
+      end
+
+      stack :width => '60%' do
+        border black, :strokewidth => 1
+
+        (0..@h).each do |i|
+          # puts "adding a row ? "
+          @cells[i] = []
+          flow :margin => 5 do
+            @w.times do |j|
+
+              # puts "adding a cell ?"
+
+              cell(i, j , Walkable)
+
+            end
+
+          end
+
+        end
+
+      end
+
+      stack :width => '20%' do
+        border black, :strokewidth => 1
+
+        para "list of special cells (with positions)"
+
+      end
+    end
+  end
+
 end
+
+Editor.app :title => "Puzzle editor", :width => 800
