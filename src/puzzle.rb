@@ -124,10 +124,19 @@ class Puzzle
     res
   end
 
-  # Constructor
-  def initialize
-    @w = w
-    @h = h
+  # Constructor without argument
+  # Dimensions are provided by the parent class,
+  # provided 'dim' has been called on them
+  def initialize(_w = nil, _h = nil)
+
+    if (_w != nil and _h != nil)
+      @w = _w
+      @h = _h
+    else
+      @w = w
+      @h = h
+    end
+
     @cells = []
     @named_cells = { }
 
@@ -142,7 +151,6 @@ class Puzzle
     if (respond_to?(:init_story))
       init_story
     end
-
   end
 
   # Init the position of entry and exit
@@ -162,6 +170,8 @@ class Puzzle
   # Init the dimension of the puzzle
   def init_dimensions
 
+    # If a parent class exists with the description,
+    # use it to build the puzzle.
     if (self.class.c_cells != nil)
       self.class.c_cells.each do |txt|
         @cells << parse_row(txt)
@@ -169,6 +179,14 @@ class Puzzle
 
       if @cells.size != @h
         raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
+      end
+
+    else
+
+      # Let the array have proper dimensions no matter what
+      # (usefull for Puzzle.empty)
+      @h.times do |i|
+        @cells[i] = []
       end
     end
 
@@ -273,6 +291,17 @@ class Puzzle
     else
        raise NoCellError.new("No cell named #{name} in puzzle")
     end
+  end
+
+  # Convinient method to create an empty puzzle
+  def self.empty(w,h)
+    pu = Puzzle.new(w, h)
+    pu.h.times do |i|
+      pu.w.times do |j|
+        pu.set_cell(i,j, Walkable.new)
+      end
+    end
+    pu
   end
 
 end

@@ -47,10 +47,14 @@ class PuzzleTest < Test::Unit::TestCase
     p = DimPuzzle.new
     assert_equal 1, p.w
     assert_equal 2, p.h
+    begin
+      q = NoDimPuzzle.new
+      assert false, "Should not be able to create a puzzle without dimensions"
+      assert_equal nil, q.w
+      assert_equal nil, q.h
+    rescue => e
+    end
 
-    q = NoDimPuzzle.new
-    assert_equal nil, q.w
-    assert_equal nil, q.h
 
   end
 
@@ -374,6 +378,14 @@ class PuzzleTest < Test::Unit::TestCase
     assert !pu.valid?(2,0), "Position should be out of the puzzle's reach"
     pu.try_move!(:down)
     assert_equal [1,0], pu.player.pos
+  end
+
+  def test_creates_empty_puzzle
+    pu = Puzzle.empty(5,6)
+    assert_equal 5, pu.w
+    assert_equal 6, pu.h
+
+    assert_equal Walkable, pu.cell(2,2).class
   end
 
 end

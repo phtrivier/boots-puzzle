@@ -29,7 +29,9 @@ class Editor < Shoes
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
 
-  def create_cell(i, j, t)
+  # i,j : position of the cell
+  # t : type of cell at time of creation
+  def create_cell_image(i, j, t)
     stack :width => '40px' do
       b = border black, :strokewidth => 1
 
@@ -56,29 +58,29 @@ class Editor < Shoes
   end
 
   def update_editor_cell(i,j,t)
+    # TODO : MAKE THIS UPDATE THE PUZZLE ITSELF ...
     debug "Updating cell at #{i},#{j} - type to be applied : #{@new_type}"
     @cells[i][j].type = @new_type
-    img = @cells[i][j].img
+    img = @cells[i][j].img # Replace if with a list of images ...
     img.path = @new_type.new.src
     debug "New image path : #{img.path}"
     img.hide
     img.show
   end
 
+  # Save the puzzle (rudimentory, for the moment ...)
+  # TODO : MOVE THIS TO THE PUZZLE MODEL ITSELF !!
   def save_puzzle
-
     res = "class #{@puzzle_class} < Puzzle\n"
-    res << " dim #{@w},#{@h}\n"
+    res << " dim #{@puzzle.w},#{@puzzle.h}\n"
 
     # TODO : Really, make this more extensible, OO and all
     # It must be easy to add code in the Cell class to do
     # the output for me ... without breaking a lot ...
     @cells.each do |line|
-
       res << " row \""
       line.each do |c|
         debug "Cell type : #{c.type}, is it walkable ? #{c.type == Walkable}."
-
         if (c.type == Wall)
           res << "#"
         end
@@ -91,26 +93,17 @@ class Editor < Shoes
         if (c.type == Out)
           res << "O"
         end
-
-#         case c.type
-#           when Wall then res << "#"
-#           when In then res << "I"
-#           when Out then res << "O"
-#           when Walkable then res << "-"
-#         end
-
       end
       res << "\"\n"
-
     end
-
     res << "end\n"
-
     debug res
     File.open(@file_name, "w") << res
-
   end
 
+  # Load the page
+
+  # Main page
   def index
 
     @cells = []
@@ -123,11 +116,12 @@ class Editor < Shoes
     @right_tool_type = nil
 
     # FIXME : use unhardwired values
-    @w = 10;
-    @h = 7;
+    # @w = 10;
+    # @h = 7;
 
     @puzzle_class = "FooPuzzle"
     @file_name = "foo_puzzle.rb"
+    @puzzle = Puzzle.empty(10, 10)
 
     show_editor
   end
@@ -203,15 +197,15 @@ class Editor < Shoes
       stack :width => '60%' do
         border black, :strokewidth => 1
 
-        @h.times do |i|
+        @puzzle.h.times do |i|
           # debugs "adding a row ? "
+          # This is only the images ...
           @cells[i] = []
           flow :margin => 5 do
-            @w.times do |j|
+            @puzzle.w.times do |j|
 
               # debugs "adding a cell ?"
-
-              create_cell(i, j , Walkable)
+              create_cell_image(i,j, @puzzle.cell(i,j).class)
 
             end
 
