@@ -20,18 +20,22 @@
 
 require 'puzzle'
 
+class EditorCell < Struct.new(:type,:img)
+end
+
 class Editor < Shoes
   url '/', :index
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
 
-  def cell(i, j, t)
+  def create_cell(i, j, t)
     stack :width => '40px' do
       b = border black, :strokewidth => 1
 
-      @cells[i][j] = t
       img = image Walkable.new.src
+
+      @cells[i][j] = EditorCell.new(t, img)
 
       click do |b, l, t|
 
@@ -39,26 +43,29 @@ class Editor < Shoes
         # Store the dimensions somewhere ...
         # Then change all the zones as required !!
         # TODO : ADD THE HOVER TO CHANGE THE BACKGROUND COLOR IF REQUIRED
-
         debug "Clicked on #{i}, #{j} ... original type was #{t}"
-
         if (b == LEFT_BUTTON)
           @new_type = @left_tool_type
         elsif (b == RIGHT_BUTTON)
           @new_type = @right_tool_type
         end
-        debug "New type to be applied : #{@new_type}"
-        @cells[i][j] = @new_type
-
-        img.path = @new_type.new.src
-        debug "New image path : #{img.path}"
-        img.hide
-        img.show
-
+        update_editor_cell(i,j,@new_type)
       end
 
     end
   end
+
+  def update_editor_cell(i,j,t)
+    debug "Updating cell at #{i},#{j} - type to be applied : #{@new_type}"
+    @cells[i][j].type = @new_type
+    img = @cells[i][j].img
+    img.path = @new_type.new.src
+    debug "New image path : #{img.path}"
+    img.hide
+    img.show
+  end
+
+
 
   def index
 
@@ -157,7 +164,7 @@ class Editor < Shoes
 
               # debugs "adding a cell ?"
 
-              cell(i, j , Walkable)
+              create_cell(i, j , Walkable)
 
             end
 
