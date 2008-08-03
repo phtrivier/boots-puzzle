@@ -388,4 +388,18 @@ class PuzzleTest < Test::Unit::TestCase
     assert_equal Walkable, pu.cell(2,2).class
   end
 
+  def test_can_save_itself
+
+    pu = NonSymetricPuzzle.new
+    expected = ["class NonSymetricPuzzle < Puzzle",
+                " dim 3,2",
+                ' row "I--"',
+                ' row "--O"',
+                "end\n"
+                ].join("\n")
+
+    assert_equal expected, pu.serialize('NonSymetricPuzzle')
+
+  end
+
 end

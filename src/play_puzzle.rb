@@ -74,12 +74,7 @@ class GameWindow < Gosu::Window
     self.caption = "Puzzle Game"
 
     if (ARGV[0] != nil && ARGV[1] != nil)
-      file_name = ARGV[0]
-      klass_name = ARGV[1]
-      begin
-        require file_name
-        @puzzle = Kernel.const_get(klass_name).new
-      rescue LoadError,NameError => e
+      @puzzle = Puzzle.load(ARGV[0], ARGV[1]) do |file_name, klass_name, e|
         puts "Unable to load puzzle #{klass_name} from file #{file_name}, #{e}"
         usage
         exit(-1)

@@ -304,5 +304,44 @@ class Puzzle
     pu
   end
 
+  def serialize(class_name)
+
+    res = "class #{class_name} < Puzzle\n"
+    res << " dim #{@w},#{@h}\n"
+
+    # TODO : Really, make this more extensible, OO and all
+    # It must be easy to add code in the Cell class to do
+    # the output for me ... without breaking a lot ...
+    @cells.each do |line|
+      res << " row \""
+      line.each do |c|
+        if (c.class == Wall)
+          res << "#"
+        end
+        if (c.class == Walkable)
+          res << "-"
+        end
+        if (c.class == In)
+          res << "I"
+        end
+        if (c.class == Out)
+          res << "O"
+        end
+      end
+      res << "\"\n"
+    end
+    res << "end\n"
+    res
+  end
+
+  def self.load(file_name, klass_name, &error_block)
+     begin
+       require file_name
+       @puzzle = Kernel.const_get(klass_name).new
+     rescue LoadError, NameError => e
+       error_block.call(file_name, klass_name, e)
+     end
+  end
+
 end
 

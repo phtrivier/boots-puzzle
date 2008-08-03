@@ -20,7 +20,7 @@
 
 require 'puzzle'
 
-class EditorCell < Struct.new(:type,:img)
+class EditorCell < Struct.new(:type, :img)
 end
 
 class Editor < Shoes
@@ -35,7 +35,7 @@ class Editor < Shoes
     stack :width => '40px' do
       b = border black, :strokewidth => 1
 
-      img = image Walkable.new.src
+      img = image t.new.src
 
       @cells[i][j] = EditorCell.new(t, img)
 
@@ -58,47 +58,23 @@ class Editor < Shoes
   end
 
   def update_editor_cell(i,j,t)
-    # TODO : MAKE THIS UPDATE THE PUZZLE ITSELF ...
-    debug "Updating cell at #{i},#{j} - type to be applied : #{@new_type}"
-    @cells[i][j].type = @new_type
+    debug "Updating cell at #{i},#{j} - type to be applied : #{t}"
+    @puzzle.set_cell(i,j, t.new)
+    # TODO : CLEAN THE STRUCT, THERE SHOULD BE ONLY IMAGE ?
     img = @cells[i][j].img # Replace if with a list of images ...
-    img.path = @new_type.new.src
+    img.path = t.new.src
     debug "New image path : #{img.path}"
     img.hide
     img.show
   end
 
   # Save the puzzle (rudimentory, for the moment ...)
-  # TODO : MOVE THIS TO THE PUZZLE MODEL ITSELF !!
   def save_puzzle
-    res = "class #{@puzzle_class} < Puzzle\n"
-    res << " dim #{@puzzle.w},#{@puzzle.h}\n"
-
-    # TODO : Really, make this more extensible, OO and all
-    # It must be easy to add code in the Cell class to do
-    # the output for me ... without breaking a lot ...
-    @cells.each do |line|
-      res << " row \""
-      line.each do |c|
-        debug "Cell type : #{c.type}, is it walkable ? #{c.type == Walkable}."
-        if (c.type == Wall)
-          res << "#"
-        end
-        if (c.type == Walkable)
-          res << "-"
-        end
-        if (c.type == In)
-          res << "I"
-        end
-        if (c.type == Out)
-          res << "O"
-        end
-      end
-      res << "\"\n"
-    end
-    res << "end\n"
+    res = @puzzle.serialize(@puzzle_class)
     debug res
-    File.open(@file_name, "w") << res
+    File.open(@file_name, "w+") do |f|
+      f << res
+    end
   end
 
   # Load the page
@@ -110,20 +86,38 @@ class Editor < Shoes
 
     @new_type = Wall
 
+    # TODO : move both in a proper structure (a nice array ;) )
     @left_tool_img =  nil
     @left_tool_type = nil
     @right_tool_img = nil
     @right_tool_type = nil
 
-    # FIXME : use unhardwired values
-    # @w = 10;
-    # @h = 7;
+    puts ARGV[1]
 
+    if (ARGV[1] != nil and ARGV[2] != nil)
+      @file_name = ARGV[1]
+      @puzzle_class = ARGV[2]
+      @puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
+        alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
+              "\n A new one will be created.")
+        init_new_puzzle
+      end
+    else
+      init_new_puzzle
+    end
+
+    puts @puzzle.w
+    puts @puzzle.h
+    puts @puzzle.cell(2,3).class
+
+    show_editor
+  end
+
+  def init_new_puzzle
+    # TODO : Create a dialog to ask ...
     @puzzle_class = "FooPuzzle"
     @file_name = "foo_puzzle.rb"
     @puzzle = Puzzle.empty(10, 10)
-
-    show_editor
   end
 
   def cell_button(klass)
