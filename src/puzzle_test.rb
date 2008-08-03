@@ -402,4 +402,23 @@ class PuzzleTest < Test::Unit::TestCase
 
   end
 
+  def test_saving_puzzle_with_named_cells
+
+    pu = PuzzleWithStory.new
+
+    ex =  ["class PuzzleWithStory < Puzzle",
+           " dim 2,2",
+           ' row "--"',
+           ' row "IO"',
+           '',
+           ' named_cells do',
+           '  named_cell :bar, 0 ,0',
+           '  named_cell :foo, 0, 1',
+           ' end',
+           'end\n'].join("\n")
+
+    assert_equal ex, pu.serialize("PuzzleWithStory")
+
+  end
+
 end

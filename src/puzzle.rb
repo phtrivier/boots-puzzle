@@ -29,6 +29,7 @@ class Puzzle
   attr_accessor :w, :h
   # Two-dimensionnal  array of cells
   attr_accessor :cells
+  attr_reader :named_cells
   # Arrays of length two with the position
   # of the entry and exit of the puzzle.
   # TODO : Make sure there is only one in.
@@ -330,6 +331,16 @@ class Puzzle
       end
       res << "\"\n"
     end
+
+    if (!@named_cells.empty?)
+      res << "\n"
+      res << " named_cells do\n"
+      @named_cells.each do |name, pos|
+        res << "  named_cell #{name.to_symb}, #{pos[0]}, #{pos[1]}\n"
+      end
+      res << " end\n"
+    end
+
     res << "end\n"
     res
   end

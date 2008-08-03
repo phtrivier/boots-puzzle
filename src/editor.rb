@@ -41,17 +41,25 @@ class Editor < Shoes
 
       click do |b, l, t|
 
-        # TODO : Check if it is the starting of a zone or the end of a zone ...
-        # Store the dimensions somewhere ...
-        # Then change all the zones as required !!
-        # TODO : ADD THE HOVER TO CHANGE THE BACKGROUND COLOR IF REQUIRED
-        debug "Clicked on #{i}, #{j} ... original type was #{t}"
-        if (b == LEFT_BUTTON)
-          @new_type = @left_tool_type
-        elsif (b == RIGHT_BUTTON)
-          @new_type = @right_tool_type
+        if (@named_cells_on)
+
+          name = ask("Name of the cell ?")
+          @puzzle.named_cell(name, i,j)
+          toggle_named_cells
+          update_named_cells_list
+
+        else
+
+          debug "Clicked on #{i}, #{j} ... original type was #{t}"
+          if (b == LEFT_BUTTON)
+            @new_type = @left_tool_type
+          elsif (b == RIGHT_BUTTON)
+            @new_type = @right_tool_type
+          end
+          update_editor_cell(i,j,@new_type)
+
         end
-        update_editor_cell(i,j,@new_type)
+
       end
 
     end
@@ -91,8 +99,6 @@ class Editor < Shoes
     @left_tool_type = nil
     @right_tool_img = nil
     @right_tool_type = nil
-
-    puts ARGV[1]
 
     if (ARGV[1] != nil and ARGV[2] != nil)
       @file_name = ARGV[1]
@@ -212,7 +218,18 @@ class Editor < Shoes
       stack :width => '20%' do
         border black, :strokewidth => 1
 
-        para "list of special cells (with positions)"
+        para "Named cells"
+
+        flow do
+          flow :width => "50%" do
+            para "Position"
+          end
+          flow :width => "50%" do
+            para "Name"
+          end
+        end
+
+        create_named_cells_list
 
       end
     end
@@ -225,8 +242,51 @@ class Editor < Shoes
           alert "Error while saving : #{e}"
         end
       end
+
+      button "name cell" do
+        toggle_named_cells
+      end
+
+      @named_cell_status = para ""
+      @named_cells_on = false
+
     end
 
+  end
+
+  def toggle_named_cells
+    if (@named_cells_on)
+      @named_cells_on = false
+      @named_cell_status.hide
+    else
+      @named_cells_on = true
+      @named_cell_status.text = "Click a cell to name it"
+      @named_cell_status.hide
+      @named_cell_status.show
+
+    end
+  end
+
+  def create_named_cells_list
+    @named_cells_list = stack do
+    end
+    update_named_cells_list
+  end
+
+  def update_named_cells_list
+    @named_cells_list.clear
+    @puzzle.named_cells.each do |name, pos|
+      @named_cells_list.append do
+        flow do
+          flow :width => "50%" do
+            para "[#{pos[0]},#{pos[1]}]"
+          end
+          flow :width => "50%" do
+            para name
+          end
+        end
+      end
+    end
   end
 
 end
