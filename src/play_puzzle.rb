@@ -61,12 +61,34 @@ class SimplePuzzle < Puzzle
   story SimplePuzzleStory
 end
 
+# TODO : add a better HELP
+def usage
+  puts "----------------------------------------------------"
+  puts "Usage : 'play_puzzle file_name class_name'"
+  puts "Example : 'ruby play_puzzle foo_puzzle.rb FooPuzzle'"
+end
+
 class GameWindow < Gosu::Window
   def initialize
     super(640, 480, false)
     self.caption = "Puzzle Game"
 
-    @puzzle = SimplePuzzle.new
+    if (ARGV[0] != nil && ARGV[1] != nil)
+      file_name = ARGV[0]
+      klass_name = ARGV[1]
+      begin
+        require file_name
+        @puzzle = Kernel.const_get(klass_name).new
+      rescue LoadError,NameError => e
+        puts "Unable to load puzzle #{klass_name} from file #{file_name}, #{e}"
+        usage
+        exit(-1)
+      end
+
+    else
+      @puzzle = SimplePuzzle.new
+    end
+
     @puzzle.enters_player!
 
 #    @background_image = Gosu::Image.new(self, "media/Space.png", true)

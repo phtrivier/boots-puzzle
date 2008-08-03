@@ -356,4 +356,24 @@ class PuzzleTest < Test::Unit::TestCase
     assert_equal  Wall, pu.cell_by_name(:bar).class
   end
 
+  class NonSymetricPuzzle < Puzzle
+    dim 3,2
+    row "I--"
+    row "--O"
+  end
+
+  def test_walking_outside_of_a_symetric_puzzle_is_not_possible
+    pu = NonSymetricPuzzle.new
+
+    assert_equal 3, pu.w
+    assert_equal 2, pu.h
+
+    pu.enters_player!
+    pu.try_move!(:down)
+    assert_equal [1,0], pu.player.pos
+    assert !pu.valid?(2,0), "Position should be out of the puzzle's reach"
+    pu.try_move!(:down)
+    assert_equal [1,0], pu.player.pos
+  end
+
 end

@@ -106,7 +106,7 @@ class Puzzle
 
     txt.each_byte do |b|
       c = b.chr
-
+      # TODO : OOfy this ...
       case c
         when "#" then res << Wall.new
         when "I" then res << In.new
@@ -202,7 +202,7 @@ class Puzzle
   end
 
   def valid?(i,j)
-    i >= 0 and i < @w and j >= 0 and j < @h
+    i >= 0 and i < @h and j >= 0 and j < @w
   end
 
   # Initialize the player to the entry of

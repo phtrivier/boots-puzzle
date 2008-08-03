@@ -65,13 +65,53 @@ class Editor < Shoes
     img.show
   end
 
+  def save_puzzle
 
+    res = "class #{@puzzle_class} < Puzzle\n"
+    res << " dim #{@w},#{@h}\n"
+
+    # TODO : Really, make this more extensible, OO and all
+    # It must be easy to add code in the Cell class to do
+    # the output for me ... without breaking a lot ...
+    @cells.each do |line|
+
+      res << " row \""
+      line.each do |c|
+        debug "Cell type : #{c.type}, is it walkable ? #{c.type == Walkable}."
+
+        if (c.type == Wall)
+          res << "#"
+        end
+        if (c.type == Walkable)
+          res << "-"
+        end
+        if (c.type == In)
+          res << "I"
+        end
+        if (c.type == Out)
+          res << "O"
+        end
+
+#         case c.type
+#           when Wall then res << "#"
+#           when In then res << "I"
+#           when Out then res << "O"
+#           when Walkable then res << "-"
+#         end
+
+      end
+      res << "\"\n"
+
+    end
+
+    res << "end\n"
+
+    debug res
+    File.open(@file_name, "w") << res
+
+  end
 
   def index
-
-    # FIXME : use unhardwired values
-    @w = 10;
-    @h = 7;
 
     @cells = []
 
@@ -81,6 +121,13 @@ class Editor < Shoes
     @left_tool_type = nil
     @right_tool_img = nil
     @right_tool_type = nil
+
+    # FIXME : use unhardwired values
+    @w = 10;
+    @h = 7;
+
+    @puzzle_class = "FooPuzzle"
+    @file_name = "foo_puzzle.rb"
 
     show_editor
   end
@@ -156,7 +203,7 @@ class Editor < Shoes
       stack :width => '60%' do
         border black, :strokewidth => 1
 
-        (0..@h).each do |i|
+        @h.times do |i|
           # debugs "adding a row ? "
           @cells[i] = []
           flow :margin => 5 do
@@ -181,6 +228,17 @@ class Editor < Shoes
 
       end
     end
+
+    flow do
+      button "save" do
+        begin
+          save_puzzle
+        rescue RuntimeError => e
+          alert "Error while saving : #{e}"
+        end
+      end
+    end
+
   end
 
 end

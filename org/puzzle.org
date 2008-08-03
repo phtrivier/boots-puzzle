@@ -23,18 +23,17 @@
 ** TODO Add quotes / dialogs / other persons ?
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
-** TODO ask for the dimensions
-** TODO Make up a grid of cells (empty at the beginning)
-** TODO add a block of tools (one for each known cells)
-** TODO add a group of selected tools holder
-** TODO clicking on a tool, then a tool holder set the content of the tool holder
-** TODO clicking
-
-** layout
-**
-** brushes
+** TODO ask for the dimensions, the name of the file, the name of the puzzle ...
+   Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
+** DONE Make up a grid of cells (empty at the beginning)
+** DONE add a block of tools (one for each known cells)
+** DONE add a group of selected tools holder
+** DONE setting with the mouse
 ** saving / loading
+*** TODO saving
+*** TODO loading
 ** triggers
+** handle 'dirty' mode (to known when you need to save stuff ...)
 * Test Editor
 ** recording
 ** adding assertions
@@ -44,3 +43,5 @@
 ** Only puzzles
 ** THIS ONE IS MADE TO FAIL, MAKE MISTAKE, AND THROW AWAY
    Only to make it better, that is ... :P
+* General
+** TODO inline help
