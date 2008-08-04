@@ -8,7 +8,7 @@
    If nothing is said, the image is look for in a file that has the name of the class with lower case(no caml case for the moment)
 ** DONE In the puzzle application, load the images instead of drawing a rectangle
 ** DONE Add the 'walk' function (it does something when you walk on a Cell)
-** TODO Add the story system
+** DONE Add the story system
 *** DONE Puzzle has a function named_cell(i,j,name), and cell_by_name so that a cell can be retrieved by its name
     (internally, only the position is stored, it will be easier)
 *** DONE story_event(:toto, Walkable) changes the special cell with a new cell, created from a base class, and it is given the content of what happens on walk
@@ -31,7 +31,8 @@
 ** DONE setting with the mouse
 ** saving / loading
 *** TODO saving
-*** TODO loading
+**** TODO saving the named_cells (handling strings propertly, making sure things are symbols ..)
+*** DONE loading
 ** triggers
 ** handle 'dirty' mode (to known when you need to save stuff ...)
 * Test Editor
