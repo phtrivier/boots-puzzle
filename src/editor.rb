@@ -23,11 +23,49 @@ require 'puzzle'
 class EditorCell < Struct.new(:type, :img)
 end
 
+# A tool that act on a cell by changing its type
+# by contract, Tools should provide :
+#  src : a method to get the path to an image for the tool
+#  act : the method to call when the tool is applied to the editor
+class CellTool
+  def initialize(type)
+    @type = type
+  end
+
+  def src
+    @type.new.src
+  end
+
+  def act(editor, i,j)
+    editor.update_editor_cell(i,j,@type)
+  end
+end
+
+# A location for a selected tool
+class ToolSlot
+  attr_reader :img
+  attr_reader :tool
+
+  def initialize(tool, img)
+    @tool = tool
+    @img = img
+  end
+
+  def set_tool(tool)
+    @tool = tool
+    @img.path = tool.src
+    @img.hide
+    @img.show
+  end
+end
+
 class Editor < Shoes
   url '/', :index
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
+
+  # ----------------------------------------
 
   # Main page
   def index
@@ -35,11 +73,7 @@ class Editor < Shoes
 
     @new_type = Wall
 
-    # TODO : move both in a proper structure (a nice array ;) )
-    @left_tool_img =  nil
-    @left_tool_type = nil
-    @right_tool_img = nil
-    @right_tool_type = nil
+    @tool_slots = { }
 
     load_or_init_puzzle
     show_editor
@@ -100,13 +134,13 @@ class Editor < Shoes
       # Loading all the sub-classes of Cell
       # and cutting them in three (quite easy, actually !!)
       flow :margin_top => '5px', :margin_left => '5px' do
-        cell_button(In)
-        cell_button(Out)
+        cell_tool_button(CellTool.new(In))
+        cell_tool_button(CellTool.new(Out))
       end
 
       flow :margin_top => '5px', :margin_left => '5px' do
-        cell_button(Wall)
-        cell_button(Walkable)
+        cell_tool_button(CellTool.new(Wall))
+        cell_tool_button(CellTool.new(Walkable))
       end
 
     end
@@ -115,13 +149,29 @@ class Editor < Shoes
     stack do
       border black, :strokewidth => 1
       para "Left"
-      @left_tool_type = Wall
-      @left_tool_img = image @left_tool_type.new.src
+
+      @tool_slots[:left] = init_tool_slot(Wall) # ToolSlot.new(self, CellTool.new(Wall))
+
+#      @left_tool_type = Wall
+#      @left_tool_img = image @left_tool_type.new.src
+
       para "Right"
-      @right_tool_type = Walkable
-      @right_tool_img = image @right_tool_type.new.src
+
+#      @right_tool_type = Walkable
+#      @right_tool_img = image @right_tool_type.new.src
+      # @tool_slots[:right] = ToolSlot.new(self, CellTool.new(Walkable))
+      @tool_slots[:right] = init_tool_slot(Walkable)
+
     end
 
+  end
+
+  def init_tool_slot(type)
+    # This works because I am creating CellTool ...
+    tool = CellTool.new(type)
+    img = image tool.src
+    tool_slot = ToolSlot.new(tool, img)
+    tool_slot
   end
 
   def build_puzzle_grid_panel
@@ -253,12 +303,12 @@ class Editor < Shoes
         else
 
           debug "Clicked on #{i}, #{j} ... original type was #{t}"
+
           if (b == LEFT_BUTTON)
-            @new_type = @left_tool_type
+            @tool_slots[:left].tool.act(self, i,j)
           elsif (b == RIGHT_BUTTON)
-            @new_type = @right_tool_type
+            @tool_slots[:right].tool.act(self, i,j)
           end
-          update_editor_cell(i,j,@new_type)
 
         end
 
@@ -269,8 +319,6 @@ class Editor < Shoes
 
   # Update a cell in the grid
   def update_editor_cell(i,j,t)
-    # TODO : MOVE THIS TO THE NOTION OF A TOOL
-
     debug "Updating cell at #{i},#{j} - type to be applied : #{t}"
     @puzzle.set_cell(i,j, t.new)
     # TODO : CLEAN THE STRUCT, THERE SHOULD BE ONLY IMAGE ?
@@ -282,28 +330,15 @@ class Editor < Shoes
   end
 
   # A button to toggle the current tool
-  def cell_button(klass)
+  def cell_tool_button(tool)
     stack :width => "50%" do
-      image klass.new.src
+      image tool.src
 
       click do |b,l,t|
-
-        debug "Value of b : #{b}"
-        debug "Is it left ? #{b == LEFT_BUTTON}. Is it 1 ? #{b == 1}.}"
-        debug "Is it right ? #{b == RIGHT_BUTTON}. Is it 3 ? #{b == 3}.}"
-
         if (b == LEFT_BUTTON)
-          debug "left, new path : #{klass.new.src}"
-          @left_tool_img.path = klass.new.src
-          @left_tool_img.hide
-          @left_tool_img.show
-          @left_tool_type = klass
+          @tool_slots[:left].set_tool(tool)
         elsif (b == RIGHT_BUTTON)
-          debug "right, new path : #{klass.new.src}"
-          @right_tool_img.path = klass.new.src
-          @right_tool_img.hide
-          @right_tool_img.show
-          @right_tool_type = klass
+          @tool_slots[:right].set_tool(tool)
         end
       end
     end
