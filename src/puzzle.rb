@@ -149,6 +149,10 @@ class Puzzle
     if (respond_to?(:init_story))
       init_story
     end
+
+    if (respond_to?(:init_boots))
+      init_boots
+    end
   end
 
   # Init the position of entry and exit
@@ -400,6 +404,12 @@ class Puzzle
   def remove_boot(i,j)
     @boots.delete( [i,j] ) do |key|
       raise NoBootError.new("No boots at position #{i[0]},#{i[1]}")
+    end
+  end
+
+  def self.boots(&block)
+    self.instance_eval do
+      define_method(:init_boots, block)
     end
   end
 
