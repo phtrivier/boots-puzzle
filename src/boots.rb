@@ -36,6 +36,9 @@ class Boots
     end
   end
 
+  def src
+    raise RuntimeError("Should not instanciate Boots and call src. Subclass it.")
+  end
 end
 
 
@@ -51,6 +54,10 @@ class BareFeet < Boots
       when :right then [i, j+1]
     end
   end
+
+  def src
+     "img/bare_feet.png"
+  end
 end
 
 class DoubleBoots < Boots
@@ -63,4 +70,9 @@ class DoubleBoots < Boots
       when :right then [i, j+2]
     end
   end
+
+  def src
+    "img/double_boots.png"
+  end
+
 end

@@ -72,7 +72,58 @@ def usage
   puts "Example : 'ruby play_puzzle foo_puzzle.rb FooPuzzle'"
 end
 
+# Actions for the game UI
+class Action
+
+  def initialize(w)
+    @w = w
+    @key_down = false
+  end
+
+  def evaluate
+    if (triggered? and not @key_down)
+      @key_down = true
+      act!
+    elsif (@key_down and released?)
+      @key_down = false
+    end
+  end
+
+  def act!
+    # To define
+  end
+
+  def triggered?
+    # To define
+  end
+
+  def released?
+    # To define
+  end
+
+end
+
+class NextBootsAction < Action
+  def triggered?
+    @w.button_down?(Gosu::Button::KbTab)
+  end
+
+  def released?
+    !@w.button_down?(Gosu::Button::KbTab)
+  end
+
+  def act!
+    @w.puzzle.player.next_boots!
+  end
+end
+
+# --------------------------------------------
+# Game UI
+
 class GameWindow < Gosu::Window
+
+  attr_reader :puzzle
+
   def initialize
     super(640, 480, false)
     self.caption = "Puzzle Game"
@@ -108,11 +159,12 @@ class GameWindow < Gosu::Window
       :up => [Gosu::Button::KbUp, Gosu::Button::GpUp],
       :down => [Gosu::Button::KbDown, Gosu::Button::GpDown],
       :right => [Gosu::Button::KbRight, Gosu::Button::GpRight],
-      :left => [Gosu::Button::KbLeft, Gosu::Button::GpLeft]
+      :left => [Gosu::Button::KbLeft, Gosu::Button::GpLeft],
     }
 
     @keys_down = { :up => false, :down => false, :right => false, :left => false }
 
+    @actions = {  :next_boots => NextBootsAction.new(self) }
   end
 
   def update
@@ -127,6 +179,14 @@ class GameWindow < Gosu::Window
          @keys_down[dir] = false
       end
 
+    end
+
+    if (button_down?(Gosu::Button::KbSpace))
+      @puzzle.try_pick!
+    end
+
+    @actions.each do |name, action|
+      action.evaluate
     end
 
   end
@@ -147,12 +207,14 @@ class GameWindow < Gosu::Window
 
       b = @puzzle.boot_at(i,j)
       if (b!=nil)
-        draw_boot(i,j,c)
+        draw_boot(i,j,c,b)
       end
 
     end
 
     draw_player
+
+    draw_ui
 
   end
 
@@ -179,13 +241,64 @@ class GameWindow < Gosu::Window
 
   end
 
-  def draw_boot(i,j,c)
+  def draw_boot(i,j,c,b)
 
     x,y = to_screen_coords(i,j)
 
-    img = Gosu::Image.new(self, "img/double_boots.png", false)
+    img = Gosu::Image.new(self, b.src, false)
     img.draw(x,y, ZOrder::UI)
 
+  end
+
+  def draw_ui
+
+    draw_boots_ui
+    # draw_message_ui
+    # draw_keys_ui
+
+  end
+
+  def draw_boots_ui
+    @boots_ui_x0 = 300
+    @boots_ui_y0 = 30
+
+    x = @boots_ui_x0
+    y = @boots_ui_y0
+
+    @puzzle.player.each_boots do |boot, selected|
+
+      boot_image = image(boot.src)
+      boot_image.draw(x,y, ZOrder::UI)
+
+      if (selected)
+
+        # Draw a quad around the selected one ...
+        color = Gosu::Color.new(0xff00ff00)
+
+        draw_rectangle(x-5, y-5, x+@s+5, y+@s+5, color)
+
+      end
+
+      y = y + @s + 25
+
+    end
+
+  end
+
+  # O x1,y1 --- O #x2,y1
+  # |           |
+  # O x1,y2 --- O x2,y2
+  def draw_rectangle(x1,y1,x2,y2,color)
+
+    draw_line(x1,y1,color,x2,y1,color,ZOrder::UI)
+    draw_line(x2,y1,color,x2,y2,color,ZOrder::UI)
+    draw_line(x2,y2,color,x1,y2,color,ZOrder::UI)
+    draw_line(x1,y2,color,x1,y1,color,ZOrder::UI)
+
+  end
+
+  def image(src)
+    Gosu::Image.new(self, src, false)
   end
 
   def get_image(cell)
