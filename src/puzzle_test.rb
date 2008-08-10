@@ -259,7 +259,8 @@ class PuzzleTest < Test::Unit::TestCase
 
     pu.enters_player!
     m = mock()
-    pu.player.current_boots=m
+    pu.player.pick!(m)
+    pu.player.next_boots!
 
     m.expects(:try_move!).with(pu, :up)
 

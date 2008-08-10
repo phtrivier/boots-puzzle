@@ -423,7 +423,7 @@ class Puzzle
   end
 
   def try_pick!
-    if (@player.free_hand?)
+    if (@player.can_pick_boots?)
       i,j = @player.pos
       b = boot_at(i,j)
       if (b != nil)
@@ -433,11 +433,12 @@ class Puzzle
     end
   end
 
-  def try_drop!(side)
-    b = @player.boots_in_hand(side)
-    if (b != nil)
+  def try_drop!()
+    if (not @player.bare_feet?)
       # Have the player drop the boot, than put it back
-      @player.drop!(side)
+      # on the maze
+      b = @player.current_boots
+      @player.drop!
       i,j = @player.pos
       boot(i,j, b.class)
     end

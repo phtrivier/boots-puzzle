@@ -31,98 +31,88 @@ class PlayerTest < Test::Unit::TestCase
 
   def test_player_has_bare_feer_by_default
     assert_equal(BareFeet, @p.current_boots.class)
+    assert_equal(1, @p.boots.size)
   end
 
-  def test_player_has_no_boots_in_hand_by_default
-    assert_nil(@p.boots_in_right_hand)
-    assert_nil(@p.boots_in_left_hand)
-    assert(@p.free_hand?)
-  end
+   def test_player_can_pick_boots_and_navigate
+     assert_equal(1, @p.boots.size)
+     b1 = Boots.new
+     @p.pick!(b1)
+     assert_equal(2, @p.boots.size)
+     assert_equal(BareFeet, @p.current_boots.class)
+     @p.next_boots!
+     assert_equal(2, @p.boots.size)
+     assert_equal(b1, @p.current_boots)
+     @p.previous_boots!
+     assert_equal(2, @p.boots.size)
+     assert_equal(BareFeet, @p.current_boots.class)
+     @p.previous_boots!
+     assert_equal(b1, @p.current_boots)
+     @p.next_boots!
+     assert_equal(BareFeet, @p.current_boots.class)
+   end
 
-  def test_player_can_pick_boots
-    b1 = Boots.new
-    @p.pick!(b1)
-    assert_equal(b1, @p.boots_in_right_hand)
-    assert(@p.free_hand?)
-    b2 = Boots.new
-    @p.pick!(b2)
-    assert_equal(b2, @p.boots_in_left_hand)
-    assert(!@p.free_hand?)
-    b3 = Boots.new
-    begin
-      @p.pick!(b3)
-      assert(false, "Should not be possible to pick shoes with full hands")
-    rescue RuntimeError => e
-      assert_equal("No free hand to pick boots", e.message)
-    end
-  end
+   def test_player_can_have_as_much_as_three_boots
+     b1 = Boots.new
+     b2 = Boots.new
+     b3 = Boots.new
+     assert @p.can_pick_boots?
+     @p.pick!(b1)
+     assert @p.can_pick_boots?
+     assert_equal 2, @p.boots.size
+     @p.pick!(b2)
+     assert !@p.can_pick_boots?
+     assert_equal 3, @p.boots.size
+     @p.pick!(b3)
+     assert_equal 3, @p.boots.size
 
-  def test_player_can_drop_boots
-    b1 = Boots.new
-    @p.pick!(b1)
-    assert_equal(b1, @p.boots_in_right_hand)
-    assert(@p.free_hand?)
-    b2 = Boots.new
-    @p.pick!(b2)
-    assert_equal(b2, @p.boots_in_left_hand)
-    assert(!@p.free_hand?)
+     assert @p.boots.member?(b1)
+     assert @p.boots.member?(b2)
+     assert !@p.boots.member?(b3)
+   end
 
-    @p.drop!(:right)
-    assert_nil(@p.boots_in_right_hand)
-    b3 = Boots.new
-    @p.pick!(b3)
-    assert_equal(b3, @p.boots_in_right_hand)
+   def test_player_can_drop_current_boots_but_not_bare_foot
+     b1 = Boots.new
+     b2 = Boots.new
+     bf = @p.current_boots
+     @p.pick!(b1)
+     @p.pick!(b2)
+     @p.next_boots!
+     assert_equal b1, @p.current_boots
+     @p.drop!
+     assert_equal 2, @p.boots.size
+     assert !@p.boots.member?(b1)
+     assert_equal bf, @p.current_boots
+     @p.drop!
+     assert_equal 2, @p.boots.size
+     assert_equal bf, @p.current_boots
+   end
 
-    begin
-      @p.drop!(:foo)
-      assert(false, "Foo is not a valid side")
-    rescue RuntimeError => e
-      assert_equal("Wrong side to drop : foo", e.message)
-    end
-  end
+   def test_iterate_with_info
 
-  def test_player_can_put_boots_on_and_off
-    # One pair of boots in hand
-    b1 = Boots.new
-    @p.pick!(b1)
-    @p.put_on!(:right)
-    assert_equal(b1, @p.current_boots)
+     non_selected = []
+     selected = nil
+     bf = @p.current_boots
+     b1 = Boots.new
+     b2 = Boots.new
+     @p.pick!(b1)
+     @p.pick!(b2)
+     @p.next_boots!
 
-    @p.put_off!
-    assert_equal(BareFeet, @p.current_boots.class)
-    assert_equal(b1, @p.boots_in_right_hand)
+     @p.each_boots do |b, current|
+       if (current)
+         selected = b
+       else
+         non_selected << b
+       end
+     end
 
-    # A second pair of boots in hand
-    b2 = Boots.new
-    @p.pick!(b2)
-    @p.put_on!(:left)
-    assert_equal(b2, @p.current_boots)
+     assert_equal 2, non_selected.size
+     assert non_selected.member?(b2)
+     assert non_selected.member?(bf)
+     assert_equal b1, selected
 
-    @p.put_off!
-    assert(@p.bare_feet?)
-    assert_equal(b2, @p.boots_in_left_hand)
+   end
 
-    # Now put on one of the pairs, and pick a
-    # third one
-    @p.put_on!(:right)
-    b3 = Boots.new
-    @p.pick!(b3)
-    assert_equal(b1, @p.current_boots)
-    assert_equal(b2, @p.boots_in_left_hand)
-    assert_equal(b3, @p.boots_in_right_hand)
-    # Put in on ; worn shoes goes in the free hand
-    @p.put_on!(:right)
-    assert_equal(b3, @p.current_boots)
-    assert_equal(b2, @p.boots_in_left_hand)
-    assert_equal(b1, @p.boots_in_right_hand)
-    # Now put the current boots off : where does it go ?
-    # By default, I exchange it with the right side
-    @p.put_off!
-    assert_equal(b1, @p.current_boots)
-    assert_equal(b2, @p.boots_in_left_hand)
-    assert_equal(b3, @p.boots_in_right_hand)
-  end
-
-  # TODO : You cannot swap with bare foots
 
 end

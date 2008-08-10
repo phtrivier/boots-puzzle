@@ -258,26 +258,22 @@ class PuzzleStoryTest < Test::Unit::TestCase
     pu = PuzzleWithBoots.new
     pu.enters_player!
     assert_not_nil pu.boot_at(0,1)
-    assert_nil pu.player.boots_in_right_hand
-    assert_nil pu.player.boots_in_left_hand
+    assert_equal 1, pu.player.boots.size
     pu.try_move!(:up)
     pu.try_pick!
-    assert_nil pu.player.boots_in_right_hand
-    assert_nil pu.player.boots_in_left_hand
+    assert_equal 1, pu.player.boots.size
     pu.try_move!(:right)
     pu.try_pick!
-    assert_not_nil pu.player.boots_in_right_hand
-    assert_nil pu.player.boots_in_left_hand
+    assert_equal 2, pu.player.boots.size
     assert_nil pu.boot_at(0,1)
     pu.try_pick!
-    assert_not_nil pu.player.boots_in_right_hand
-    assert_nil pu.player.boots_in_left_hand
+    assert_equal 2, pu.player.boots.size
     assert_nil pu.boot_at(0,1)
-    pu.try_drop!(:right)
-    assert_nil pu.player.boots_in_right_hand
-    assert_nil pu.player.boots_in_left_hand
+    pu.try_drop!()
+    assert_nil pu.boot_at(0,1)
+    pu.player.next_boots!
+    pu.try_drop!()
     assert_not_nil pu.boot_at(0,1)
-
   end
 
   # TODO : You cannot drop when there is something
