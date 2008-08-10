@@ -263,6 +263,14 @@ class Puzzle
     @named_cells[name] = [i,j]
   end
 
+  # Undefine a named cell
+  # Throws an error if no cell exists with this name
+  def unname_cell(name)
+    @named_cells.delete(name) do |not_found_name|
+      raise NoCellError.new("No cell named #{not_found_name} in puzzle")
+    end
+  end
+
   # Indicate which story should be loaded
   def self.story(story_name)
     include story_name

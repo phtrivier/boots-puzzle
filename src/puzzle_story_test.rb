@@ -168,12 +168,23 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
   end
 
-  def _test_removing_the_name_of_a_cell
+  def test_removing_the_name_of_a_cell
     pu = PuzzleWithStory.new
 
-    asert_not_nil pu.named_cell(:foo)
+    assert_not_nil pu.cell_by_name(:foo)
     pu.unname_cell(:foo)
-    assert_nil pu.named_cell(:foo)
+    assert_nil pu.cell_by_name(:foo)
+
+    begin
+      pu.unname_cell(:baz)
+      bad("Should not be possible to remove unexisting cell")
+    rescue NoCellError => e
+      assert_equal "No cell named baz in puzzle", e.message
+    end
+
   end
 
+  def bad(msg)
+    assert false, msg
+  end
 end

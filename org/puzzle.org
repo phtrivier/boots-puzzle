@@ -1,5 +1,5 @@
 * Game Engine
-** TODO Make it posible to 'remove' named cells
+** DONE Make it posible to 'remove' named cells
 ** TODO Make it posible to position pairs of boots in the puzzles
 ** TODO Add quotes / dialogs / other persons ?
 ** TODO Make it possible to inherit the rows between puzzles
