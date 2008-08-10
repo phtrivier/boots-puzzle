@@ -36,13 +36,14 @@ require 'puzzle'
 
 module SimplePuzzleStory
   def init_story
-    story_event(:hello, Walkable) do |puzzle|
-      puts "Hello, you walked here !!"
-    end
-
-    story_event(:almost_the_end, Walkable) do |puzzle|
-      puzzle.set_cell_by_name(:hello, Wall.new)
-      puts "Ho no, the entrance is locked now !!"
+    story_event(:trap, Walkable) do |puzzle|
+      # Add a way to know if the event occured already ...
+      if (puzzle.cell_by_name(:begin).class != Wall)
+        puzzle.set_cell_by_name(:begin, Wall.new)
+        puzzle.set_cell_by_name(:end, Wall.new)
+        # TODO : ADD A ZONE WITH MESSAGES
+        puts "Ho no, the exit is locked now !!"
+      end
     end
   end
 end
@@ -54,12 +55,13 @@ class SimplePuzzle < Puzzle
   row "----"
 
   named_cells do
-    named_cell :hello, 2, 0
-    named_cell :almost_the_end, 2, 1
+    named_cell :begin,2,0
+    named_cell :trap, 2, 1
+    named_cell :end, 1, 3
   end
 
   boots do
-    boot 2,1, DoubleBoots
+    boot 2,3, DoubleBoots
   end
 
   story SimplePuzzleStory
