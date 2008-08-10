@@ -41,6 +41,37 @@ class CellTool
   end
 end
 
+# TODO : MAKE A TOOL ONLY FOR IN AND OUT
+# class GateTool < Struct.new(:name, :type)
+#   def act(editor, i, j)
+#     pu = editor.puzzle
+#     g = gate(pu)
+#     puts g
+#     if (g!= nil andg[0] != nil and g[1] != nil)
+#       editor.alert("This puzzle already has #{@name} in cell #{pu.in} ; remove the old one before adding a new one.")
+#     else
+#       editor.update_editor_cell(i,j,@type)
+#     end
+#   end
+
+#   def src
+#     @type.new.src
+#   end
+
+# end
+
+# class InTool < GateTool
+#   def initialize
+#     @name = "an entry"
+#     @type = In
+#   end
+
+#   def gate(puzzle)
+#     puzzle.in
+#   end
+# end
+
+
 # A location for a selected tool
 class ToolSlot
   attr_reader :img
@@ -64,6 +95,8 @@ class Editor < Shoes
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
+
+  attr_reader :puzzle
 
   # ----------------------------------------
 
@@ -135,6 +168,7 @@ class Editor < Shoes
       # and cutting them in three (quite easy, actually !!)
       flow :margin_top => '5px', :margin_left => '5px' do
         cell_tool_button(CellTool.new(In))
+#        cell_tool_button(InTool.new())
         cell_tool_button(CellTool.new(Out))
       end
 
@@ -149,17 +183,9 @@ class Editor < Shoes
     stack do
       border black, :strokewidth => 1
       para "Left"
-
-      @tool_slots[:left] = init_tool_slot(Wall) # ToolSlot.new(self, CellTool.new(Wall))
-
-#      @left_tool_type = Wall
-#      @left_tool_img = image @left_tool_type.new.src
+      @tool_slots[:left] = init_tool_slot(Wall)
 
       para "Right"
-
-#      @right_tool_type = Walkable
-#      @right_tool_img = image @right_tool_type.new.src
-      # @tool_slots[:right] = ToolSlot.new(self, CellTool.new(Walkable))
       @tool_slots[:right] = init_tool_slot(Walkable)
 
     end

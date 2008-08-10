@@ -30,19 +30,15 @@ class Puzzle
   # Two-dimensionnal  array of cells
   attr_accessor :cells
   attr_reader :named_cells
-  # Arrays of length two with the position
-  # of the entry and exit of the puzzle.
-  # TODO : Make sure there is only one in.
-  # TODO : Potentially, make several outs ?
-  attr_reader :in, :out
+
   # The player, nul until 'enters_player!' is called
   attr_reader :player
 
+  # Entry and exits
+  attr_reader :in, :out
+
   # Class methods to make definition of a puzzle
   # DSL-like
-
-  # A 'static' array of all cells string
-  # provided by 'row'
 
   # Sets the size of the puzzle.
   # The rows will have to respect those dimensions.
@@ -166,6 +162,35 @@ class Puzzle
       end
     end
 
+  end
+
+  # TODO : MAKE SURE THAT SETTING AN IN / OUT TWICE RAISES AN ERROR
+  # 'Manual' accessor for in and out
+#   def in
+#     if (@in != [nil, nil])
+#       @in
+#     else
+#       find_cell_by_type(In)
+#     end
+#   end
+
+#   def out
+#     if (@out != [nil, nil])
+#       @out
+#     else
+#       find_cell_by_type(Out)
+#     end
+#   end
+
+  def find_cell_by_type(type)
+    res = [nil, nil]
+    each_cell do |i,j,c|
+      if (c.class == type)
+        res = c
+        break
+      end
+    end
+    res
   end
 
   # Init the dimension of the puzzle
