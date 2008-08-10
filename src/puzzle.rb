@@ -380,6 +380,15 @@ class Puzzle
       res << " end\n"
     end
 
+    if (!@boots.empty?)
+      res << "\n"
+      res << " boots do\n"
+      @boots.each do |pos, boot|
+        res << "  boot #{pos[0]},#{pos[1]},#{boot.class}\n"
+      end
+      res << " end\n"
+    end
+
     res << "end\n"
     res
   end

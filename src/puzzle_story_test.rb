@@ -217,16 +217,41 @@ class PuzzleStoryTest < Test::Unit::TestCase
     row "--"
     row "IO"
 
+    named_cells do
+      named_cell :foo,0,0
+    end
+
     boots do
       boot 0,1,DummyBoots
     end
   end
 
-  def test_boots_in_class_definition
+  def test_boots_loaded_in_class_definition
     pu = PuzzleWithBoots.new
     assert_not_nil pu.boot_at(0,1)
     assert_equal DummyBoots, pu.boot_at(0,1).class
     assert_nil pu.boot_at(0,0)
+  end
+
+  def test_boots_saved_in_class_definition
+    pu = PuzzleWithBoots.new
+
+    expected = ["class PuzzleWithBoots < Puzzle",
+                " dim 2,2",
+                ' row "--"',
+                ' row "IO"',
+                '',
+                ' named_cells do',
+                '  named_cell :foo, 0, 0',
+                ' end',
+                '',
+                ' boots do',
+                '  boot 0,1,PuzzleStoryTest::DummyBoots',
+                ' end',
+           'end'].join("\n") + "\n"
+
+    assert_equal expected, pu.serialize("PuzzleWithBoots")
+
   end
 
   def test_boots_are_dropped_somewhere
