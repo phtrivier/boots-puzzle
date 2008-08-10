@@ -29,6 +29,46 @@ class Editor < Shoes
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
 
+    # Load the page
+
+  # Main page
+  def index
+    @cells = []
+
+    @new_type = Wall
+
+    # TODO : move both in a proper structure (a nice array ;) )
+    @left_tool_img =  nil
+    @left_tool_type = nil
+    @right_tool_img = nil
+    @right_tool_type = nil
+
+    if (ARGV[1] != nil and ARGV[2] != nil)
+      @file_name = ARGV[1]
+      @puzzle_class = ARGV[2]
+      @puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
+        alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
+              "\n A new one will be created.")
+        init_new_puzzle
+      end
+    else
+      init_new_puzzle
+    end
+
+    puts @puzzle.w
+    puts @puzzle.h
+    puts @puzzle.cell(2,3).class
+
+    show_editor
+  end
+
+  def init_new_puzzle
+    # TODO : Create a dialog to ask ...
+    @puzzle_class = "FooPuzzle"
+    @file_name = "foo_puzzle.rb"
+    @puzzle = Puzzle.empty(10, 10)
+  end
+
   # i,j : position of the cell
   # t : type of cell at time of creation
   def create_cell_image(i, j, t)
@@ -85,47 +125,6 @@ class Editor < Shoes
     end
   end
 
-  # Load the page
-
-  # Main page
-  def index
-
-    @cells = []
-
-    @new_type = Wall
-
-    # TODO : move both in a proper structure (a nice array ;) )
-    @left_tool_img =  nil
-    @left_tool_type = nil
-    @right_tool_img = nil
-    @right_tool_type = nil
-
-    if (ARGV[1] != nil and ARGV[2] != nil)
-      @file_name = ARGV[1]
-      @puzzle_class = ARGV[2]
-      @puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
-        alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
-              "\n A new one will be created.")
-        init_new_puzzle
-      end
-    else
-      init_new_puzzle
-    end
-
-    puts @puzzle.w
-    puts @puzzle.h
-    puts @puzzle.cell(2,3).class
-
-    show_editor
-  end
-
-  def init_new_puzzle
-    # TODO : Create a dialog to ask ...
-    @puzzle_class = "FooPuzzle"
-    @file_name = "foo_puzzle.rb"
-    @puzzle = Puzzle.empty(10, 10)
-  end
-
   def cell_button(klass)
 
     stack :width => "50%" do
@@ -150,111 +149,121 @@ class Editor < Shoes
           @right_tool_img.show
           @right_tool_type = klass
         end
-
       end
-
     end
-
   end
 
+    # Main page
   def show_editor
     flow do
       stack :width => '20%' do
-        border black, :strokewidth => 1
-
-        para "Available tools"
-
-        stack do
-          border black, :strokewidth => 1
-          # TODO : Make this more generic by
-          # Loading all the sub-classes of Cell
-          # and cutting them in three (quite easy, actually !!)
-          flow :margin_top => '5px', :margin_left => '5px' do
-            cell_button(In)
-            cell_button(Out)
-          end
-
-          flow :margin_top => '5px', :margin_left => '5px' do
-            cell_button(Wall)
-            cell_button(Walkable)
-          end
-
-        end
-
-        para "Selected tools"
-        stack do
-          border black, :strokewidth => 1
-          para "Left"
-          @left_tool_type = Wall
-          @left_tool_img = image @left_tool_type.new.src
-          para "Right"
-          @right_tool_type = Walkable
-          @right_tool_img = image @right_tool_type.new.src
-        end
-
+        build_palette_panel
       end
 
       stack :width => '50%' do
-        border black, :strokewidth => 1
-
-        @puzzle.h.times do |i|
-          # debugs "adding a row ? "
-          # This is only the images ...
-          @cells[i] = []
-          flow :margin => 5 do
-            @puzzle.w.times do |j|
-
-              # debugs "adding a cell ?"
-              create_cell_image(i,j, @puzzle.cell(i,j).class)
-
-            end
-
-          end
-
-        end
-
+        build_puzzle_grid_panel
       end
 
       stack :width => '30%' do
-        border black, :strokewidth => 1
-
-        para "Named cells"
-
-        flow do
-          flow :width => "40%" do
-            para "Position"
-          end
-          flow :width => "40%" do
-            para "Name"
-          end
-
-        end
-
-        create_named_cells_list
-
+        build_named_cells_panel
       end
     end
 
     flow do
-      button "save" do
-        begin
-          save_puzzle
-        rescue RuntimeError => e
-          alert "Error while saving : #{e}"
-        end
+      build_controls_panel
+    end
+  end
+
+
+  # Builds a palette of available tools
+  def build_palette_panel
+    border black, :strokewidth => 1
+
+    para "Available tools"
+
+    stack do
+      border black, :strokewidth => 1
+      # TODO : Make this more generic by
+      # Loading all the sub-classes of Cell
+      # and cutting them in three (quite easy, actually !!)
+      flow :margin_top => '5px', :margin_left => '5px' do
+        cell_button(In)
+        cell_button(Out)
       end
 
-      button "name cell" do
-        toggle_named_cells
+      flow :margin_top => '5px', :margin_left => '5px' do
+        cell_button(Wall)
+        cell_button(Walkable)
       end
 
-      @named_cell_status = para ""
-      @named_cells_on = false
+    end
 
+    para "Selected tools"
+    stack do
+      border black, :strokewidth => 1
+      para "Left"
+      @left_tool_type = Wall
+      @left_tool_img = image @left_tool_type.new.src
+      para "Right"
+      @right_tool_type = Walkable
+      @right_tool_img = image @right_tool_type.new.src
     end
 
   end
 
+  def build_puzzle_grid_panel
+    border black, :strokewidth => 1
+
+    @puzzle.h.times do |i|
+      # debugs "adding a row ? "
+      # This is only the images ...
+      @cells[i] = []
+      flow :margin => 5 do
+        @puzzle.w.times do |j|
+
+          # debugs "adding a cell ?"
+          create_cell_image(i,j, @puzzle.cell(i,j).class)
+        end
+      end
+    end
+  end
+
+  def build_named_cells_panel
+    border black, :strokewidth => 1
+
+    para "Named cells"
+
+    flow do
+      flow :width => "40%" do
+        para "Position"
+      end
+      flow :width => "40%" do
+        para "Name"
+      end
+
+    end
+
+    create_named_cells_list
+  end
+
+  def build_controls_panel
+    button "save" do
+      begin
+        save_puzzle
+      rescue RuntimeError => e
+        alert "Error while saving : #{e}"
+      end
+    end
+
+    button "name cell" do
+      toggle_named_cells
+    end
+
+    @named_cell_status = para ""
+    @named_cells_on = false
+  end
+
+  # Utilities
   def toggle_named_cells
     if (@named_cells_on)
       @named_cells_on = false
@@ -264,7 +273,6 @@ class Editor < Shoes
       @named_cell_status.text = "Click a cell to name it"
       @named_cell_status.hide
       @named_cell_status.show
-
     end
   end
 
