@@ -1,24 +1,25 @@
 * Game Engine
-** DONE Make it posible to 'remove' named cells
-** TODO Make it posible to position pairs of boots in the puzzles
-** TODO Add quotes / dialogs / other persons ?
-** TODO Make it possible to inherit the rows between puzzles
+** TODO [#A] Forbid droping on a location that already has a pair of boots on it
+** TODO Make it easier to add cell types on the go (in the editor ?)
+** TODO [#C] Add the notion of levels ( = puzzle + story), campains, etc...
 ** TODO Add the story system
+*** TODO [#B] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
+*** TODO [#C] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
 *** TODO 'X' are considered special cells (no cell is created ... or maybe a MockCell (just so that nothing bad happens ?)
-*** TODO it is forbidden to set IN and OUT as special cells ... or should it ?
-** TODO Forbid setting in / out twice
+** TODO Forbid setting in / out twice using set_cell
+** TODO Add quotes associated to a puzzle
+** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
 ** saving / loading
 *** DONE saving
-**** DONE saving the named_cells (handling strings propertly, making sure things are symbols ..)
-**** TODO Saving the shoes position
-** DONE Make it posible to delete named points
-** DONE Add the concept of 'tools' in the editor
-** TODO Add tools to put boots in the puzzle
-** TODO ask for the dimensions, the name of the file, the name of the puzzle ...
+**** TODO whatever comes next ...
+** TODO [#A] Add tools to put boots in the puzzle
+** TODO [#B] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
    Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
 ** TODO handle 'dirty' mode (to known when you need to save stuff ...)
 ** TODO Externalize strings (good exercise :))
+** TODO Add a way to define new cell types (loading an image, etc...)
+** TODO Add a tool to set the quote for a puzzle
 * Test Editor
 ** recording
 ** adding assertions
