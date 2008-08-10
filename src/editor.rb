@@ -29,8 +29,6 @@ class Editor < Shoes
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
 
-    # Load the page
-
   # Main page
   def index
     @cells = []
@@ -43,6 +41,11 @@ class Editor < Shoes
     @right_tool_img = nil
     @right_tool_type = nil
 
+    load_or_init_puzzle
+    show_editor
+  end
+
+  def load_or_init_puzzle
     if (ARGV[1] != nil and ARGV[2] != nil)
       @file_name = ARGV[1]
       @puzzle_class = ARGV[2]
@@ -54,12 +57,6 @@ class Editor < Shoes
     else
       init_new_puzzle
     end
-
-    puts @puzzle.w
-    puts @puzzle.h
-    puts @puzzle.cell(2,3).class
-
-    show_editor
   end
 
   def init_new_puzzle
@@ -69,91 +66,7 @@ class Editor < Shoes
     @puzzle = Puzzle.empty(10, 10)
   end
 
-  # i,j : position of the cell
-  # t : type of cell at time of creation
-  def create_cell_image(i, j, t)
-    stack :width => '40px' do
-      b = border black, :strokewidth => 1
-
-      img = image t.new.src
-
-      @cells[i][j] = EditorCell.new(t, img)
-
-      click do |b, l, t|
-
-        if (@named_cells_on)
-
-          name = ask("Name of the cell ?")
-          @puzzle.named_cell(name.to_sym, i,j)
-          toggle_named_cells
-          update_named_cells_list
-
-        else
-
-          debug "Clicked on #{i}, #{j} ... original type was #{t}"
-          if (b == LEFT_BUTTON)
-            @new_type = @left_tool_type
-          elsif (b == RIGHT_BUTTON)
-            @new_type = @right_tool_type
-          end
-          update_editor_cell(i,j,@new_type)
-
-        end
-
-      end
-
-    end
-  end
-
-  def update_editor_cell(i,j,t)
-    debug "Updating cell at #{i},#{j} - type to be applied : #{t}"
-    @puzzle.set_cell(i,j, t.new)
-    # TODO : CLEAN THE STRUCT, THERE SHOULD BE ONLY IMAGE ?
-    img = @cells[i][j].img # Replace if with a list of images ...
-    img.path = t.new.src
-    debug "New image path : #{img.path}"
-    img.hide
-    img.show
-  end
-
-  # Save the puzzle (rudimentory, for the moment ...)
-  def save_puzzle
-    res = @puzzle.serialize(@puzzle_class)
-    debug res
-    File.open(@file_name, "w+") do |f|
-      f << res
-    end
-  end
-
-  def cell_button(klass)
-
-    stack :width => "50%" do
-      image klass.new.src
-
-      click do |b,l,t|
-
-        debug "Value of b : #{b}"
-        debug "Is it left ? #{b == LEFT_BUTTON}. Is it 1 ? #{b == 1}.}"
-        debug "Is it right ? #{b == RIGHT_BUTTON}. Is it 3 ? #{b == 3}.}"
-
-        if (b == LEFT_BUTTON)
-          debug "left, new path : #{klass.new.src}"
-          @left_tool_img.path = klass.new.src
-          @left_tool_img.hide
-          @left_tool_img.show
-          @left_tool_type = klass
-        elsif (b == RIGHT_BUTTON)
-          debug "right, new path : #{klass.new.src}"
-          @right_tool_img.path = klass.new.src
-          @right_tool_img.hide
-          @right_tool_img.show
-          @right_tool_type = klass
-        end
-      end
-    end
-  end
-
-    # Main page
+  # Main page
   def show_editor
     flow do
       stack :width => '20%' do
@@ -263,7 +176,19 @@ class Editor < Shoes
     @named_cells_on = false
   end
 
-  # Utilities
+  # ----------------------------------------------------
+  # Callbacks
+
+  # Save the puzzle
+  def save_puzzle
+    res = @puzzle.serialize(@puzzle_class)
+    debug res
+    File.open(@file_name, "w+") do |f|
+      f << res
+    end
+  end
+
+
   def toggle_named_cells
     if (@named_cells_on)
       @named_cells_on = false
@@ -282,6 +207,7 @@ class Editor < Shoes
     update_named_cells_list
   end
 
+  # Update the list of named cells
   def update_named_cells_list
     @named_cells_list.clear
     @puzzle.named_cells.each do |name, pos|
@@ -303,6 +229,86 @@ class Editor < Shoes
       end
     end
   end
+
+  # Create an image for a cell, on which one can click to change its type
+  # i,j : position of the cell
+  # t : type of cell at time of creation
+  def create_cell_image(i, j, t)
+    stack :width => '40px' do
+      b = border black, :strokewidth => 1
+
+      img = image t.new.src
+
+      @cells[i][j] = EditorCell.new(t, img)
+
+      click do |b, l, t|
+
+        if (@named_cells_on)
+
+          name = ask("Name of the cell ?")
+          @puzzle.named_cell(name.to_sym, i,j)
+          toggle_named_cells
+          update_named_cells_list
+
+        else
+
+          debug "Clicked on #{i}, #{j} ... original type was #{t}"
+          if (b == LEFT_BUTTON)
+            @new_type = @left_tool_type
+          elsif (b == RIGHT_BUTTON)
+            @new_type = @right_tool_type
+          end
+          update_editor_cell(i,j,@new_type)
+
+        end
+
+      end
+
+    end
+  end
+
+  # Update a cell in the grid
+  def update_editor_cell(i,j,t)
+    # TODO : MOVE THIS TO THE NOTION OF A TOOL
+
+    debug "Updating cell at #{i},#{j} - type to be applied : #{t}"
+    @puzzle.set_cell(i,j, t.new)
+    # TODO : CLEAN THE STRUCT, THERE SHOULD BE ONLY IMAGE ?
+    img = @cells[i][j].img # Replace if with a list of images ...
+    img.path = t.new.src
+    debug "New image path : #{img.path}"
+    img.hide
+    img.show
+  end
+
+  # A button to toggle the current tool
+  def cell_button(klass)
+    stack :width => "50%" do
+      image klass.new.src
+
+      click do |b,l,t|
+
+        debug "Value of b : #{b}"
+        debug "Is it left ? #{b == LEFT_BUTTON}. Is it 1 ? #{b == 1}.}"
+        debug "Is it right ? #{b == RIGHT_BUTTON}. Is it 3 ? #{b == 3}.}"
+
+        if (b == LEFT_BUTTON)
+          debug "left, new path : #{klass.new.src}"
+          @left_tool_img.path = klass.new.src
+          @left_tool_img.hide
+          @left_tool_img.show
+          @left_tool_type = klass
+        elsif (b == RIGHT_BUTTON)
+          debug "right, new path : #{klass.new.src}"
+          @right_tool_img.path = klass.new.src
+          @right_tool_img.hide
+          @right_tool_img.show
+          @right_tool_type = klass
+        end
+      end
+    end
+  end
+
 
 end
 
