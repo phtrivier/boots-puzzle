@@ -68,12 +68,12 @@ class Player
     @current_boots_index == 0
   end
 
-   def pos
-     [@i, @j]
-   end
+  def pos
+    [@i, @j]
+  end
 
-   def move!(pos)
-     @i,@j = pos
-   end
+  def move!(pos)
+    @i,@j = pos
+  end
 
 end
