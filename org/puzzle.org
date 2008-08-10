@@ -7,9 +7,6 @@
 *** TODO 'X' are considered special cells (no cell is created ... or maybe a MockCell (just so that nothing bad happens ?)
 *** TODO it is forbidden to set IN and OUT as special cells ... or should it ?
 * Puzzle Editor
-** TODO ask for the dimensions, the name of the file, the name of the puzzle ...
-   Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
-
 ** saving / loading
 *** DONE saving
 **** DONE saving the named_cells (handling strings propertly, making sure things are symbols ..)
@@ -17,6 +14,8 @@
 ** TODO Make it posible to delete named points
 ** TODO Add the concept of 'tools' in the editor
 ** TODO Add tools to put boots in the puzzle
+** TODO ask for the dimensions, the name of the file, the name of the puzzle ...
+   Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
 ** TODO handle 'dirty' mode (to known when you need to save stuff ...)
 * Test Editor
 ** recording
