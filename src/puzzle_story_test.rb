@@ -187,4 +187,28 @@ class PuzzleStoryTest < Test::Unit::TestCase
   def bad(msg)
     assert false, msg
   end
+
+  class DummyBoots < BareFeet
+  end
+
+  def test_add_boots_on_puzzle
+    pu = PuzzleWithStory.new
+
+    pu.boot 0,1,DummyBoots
+
+    assert_nil pu.boot_at(0,0)
+    assert_equal DummyBoots, pu.boot_at(0,1).class
+
+    pu.remove_boot 0,1
+    assert_nil pu.boot_at(0,1)
+
+    begin
+      pu.remove_boot 0,0
+      bad("No boot here")
+    rescue NoBootError => e
+      assert_equal "No boots at position 0,0", e.message
+    end
+
+  end
+
 end

@@ -136,6 +136,7 @@ class Puzzle
 
     @cells = []
     @named_cells = { }
+    @boots = { }
 
     init_dimensions
 
@@ -386,6 +387,20 @@ class Puzzle
      rescue LoadError, NameError => e
        error_block.call(file_name, klass_name, e)
      end
+  end
+
+  def boot(i,j,klass)
+    @boots[ [i,j] ] = klass.new
+  end
+
+  def boot_at(i,j)
+    @boots[ [i,j] ]
+  end
+
+  def remove_boot(i,j)
+    @boots.delete( [i,j] ) do |key|
+      raise NoBootError.new("No boots at position #{i[0]},#{i[1]}")
+    end
   end
 
 end

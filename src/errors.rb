@@ -34,3 +34,6 @@ end
 
 class NoCellError < RuntimeError
 end
+
+class NoBootError < RuntimeError
+end
