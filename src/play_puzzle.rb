@@ -75,6 +75,11 @@ def usage
 end
 
 # Actions for the game UI
+
+# Subclasses should define :
+# triggered? when the action should be activated
+# released? when the action is done and should be considered finished
+# act! what to do
 class Action
 
   def initialize(w)
@@ -91,31 +96,50 @@ class Action
     end
   end
 
-  def act!
-    # To define
+end
+
+class SingleKeyAction < Action
+  def initialize(w, key)
+    super(w)
+    @k = key
   end
 
   def triggered?
-    # To define
+    @w.button_down?(@k)
   end
 
   def released?
-    # To define
+    !@w.button_down?(@k)
   end
 
 end
 
-class NextBootsAction < Action
-  def triggered?
-    @w.button_down?(Gosu::Button::KbTab)
+class NextBootsAction < SingleKeyAction
+  def act!
+    @w.puzzle.player.next_boots!
   end
+end
 
-  def released?
-    !@w.button_down?(Gosu::Button::KbTab)
+class MoveAction < SingleKeyAction
+  def initialize(w, k, dir)
+    super(w,k)
+    @dir = dir
   end
 
   def act!
-    @w.puzzle.player.next_boots!
+    @w.puzzle.try_move!(@dir)
+  end
+end
+
+class PickBootsAction < SingleKeyAction
+  def act!
+    @w.puzzle.try_pick!
+  end
+end
+
+class DropBootsAction < SingleKeyAction
+  def act!
+    @w.puzzle.try_drop!
   end
 end
 
@@ -143,54 +167,27 @@ class GameWindow < Gosu::Window
 
     @puzzle.enters_player!
 
-#    @background_image = Gosu::Image.new(self, "media/Space.png", true)
-
-#    @player = Player.new(self)
-#    @player.warp(320, 240)
-
-#    @star_anim = Gosu::Image::load_tiles(self, "media/Star.png", 25, 25, false)
-#    @stars = Array.new
-
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
     @images = { }
 
     @player_img = Gosu::Image.new(self, "img/player.png", false)
 
-    @keys = {
-      :up => [Gosu::Button::KbUp, Gosu::Button::GpUp],
-      :down => [Gosu::Button::KbDown, Gosu::Button::GpDown],
-      :right => [Gosu::Button::KbRight, Gosu::Button::GpRight],
-      :left => [Gosu::Button::KbLeft, Gosu::Button::GpLeft],
+    @actions = {  :next_boots => NextBootsAction.new(self, Gosu::Button::KbTab) ,
+      :up => MoveAction.new(self, Gosu::Button::KbUp, :up),
+      :down => MoveAction.new(self, Gosu::Button::KbDown, :down),
+      :right => MoveAction.new(self, Gosu::Button::KbRight, :right),
+      :left => MoveAction.new(self, Gosu::Button::KbLeft, :left),
+      :pick_boots => PickBootsAction.new(self, Gosu::Button::KbSpace),
+      :drop_boots => DropBootsAction.new(self, Gosu::Button::KbLeftControl)
     }
 
-    @keys_down = { :up => false, :down => false, :right => false, :left => false }
-
-    @actions = {  :next_boots => NextBootsAction.new(self) }
   end
 
   def update
-    [:up, :down, :right, :left].each do |dir|
-
-      keys = @keys[dir]
-
-      if (button_down? keys[0] or button_down? keys[1]) and !@keys_down[dir]
-        @puzzle.try_move!(dir)
-        @keys_down[dir] = true
-      elsif (!button_down? keys[0] and !button_down? keys[1] and @keys_down[dir])
-         @keys_down[dir] = false
-      end
-
-    end
-
-    if (button_down?(Gosu::Button::KbSpace))
-      @puzzle.try_pick!
-    end
-
     @actions.each do |name, action|
       action.evaluate
     end
-
   end
 
   def draw
@@ -253,20 +250,24 @@ class GameWindow < Gosu::Window
   end
 
   def draw_ui
-
     draw_boots_ui
     # draw_message_ui
     # draw_keys_ui
-
   end
 
+  # Draw the part of the UI where the current boot is displayed
   def draw_boots_ui
-    @boots_ui_x0 = 300
+    @boots_ui_x0 = 580
     @boots_ui_y0 = 30
+    interval = 25
 
     x = @boots_ui_x0
     y = @boots_ui_y0
 
+    # Draw a nice line around everything
+    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*3) + (interval*2) + 10, Gosu::Color.new(0xffffffff))
+
+    # Draw each boots, surrounding the selected one
     @puzzle.player.each_boots do |boot, selected|
 
       boot_image = image(boot.src)
@@ -275,30 +276,29 @@ class GameWindow < Gosu::Window
       if (selected)
 
         # Draw a quad around the selected one ...
-        color = Gosu::Color.new(0xff00ff00)
-
-        draw_rectangle(x-5, y-5, x+@s+5, y+@s+5, color)
+        draw_rectangle(x-5, y-5, x+@s+5, y+@s+5, Gosu::Color.new(0xffff0000))
 
       end
 
-      y = y + @s + 25
+      y = y + @s + interval
 
     end
 
   end
 
+  # Draw a rectangle
+  # Point order is as follow :
   # O x1,y1 --- O #x2,y1
   # |           |
   # O x1,y2 --- O x2,y2
   def draw_rectangle(x1,y1,x2,y2,color)
-
     draw_line(x1,y1,color,x2,y1,color,ZOrder::UI)
     draw_line(x2,y1,color,x2,y2,color,ZOrder::UI)
     draw_line(x2,y2,color,x1,y2,color,ZOrder::UI)
     draw_line(x1,y2,color,x1,y1,color,ZOrder::UI)
-
   end
 
+  # Load an image from its source ... potentially leaky
   def image(src)
     Gosu::Image.new(self, src, false)
   end
