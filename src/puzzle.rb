@@ -336,7 +336,8 @@ class Puzzle
       res << "\n"
       res << " named_cells do\n"
       @named_cells.each do |name, pos|
-        res << "  named_cell #{name.to_symb}, #{pos[0]}, #{pos[1]}\n"
+        sym = name.to_sym.inspect
+        res << "  named_cell #{sym}, #{pos[0]}, #{pos[1]}\n"
       end
       res << " end\n"
     end

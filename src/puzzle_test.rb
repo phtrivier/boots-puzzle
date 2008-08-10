@@ -412,10 +412,10 @@ class PuzzleTest < Test::Unit::TestCase
            ' row "IO"',
            '',
            ' named_cells do',
-           '  named_cell :bar, 0 ,0',
+           '  named_cell :bar, 0, 0',
            '  named_cell :foo, 0, 1',
            ' end',
-           'end\n'].join("\n")
+           'end'].join("\n") + "\n"
 
     assert_equal ex, pu.serialize("PuzzleWithStory")
 
