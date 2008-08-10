@@ -1,40 +1,21 @@
 * Game Engine
-** DONE Cut down images for every kind of cells
-*** DONE in
-*** DONE out
-*** DONE walkable
-*** DONE wall
-** DONE Add an image source to cells, and put images somewhere they can be loaded
-   If nothing is said, the image is look for in a file that has the name of the class with lower case(no caml case for the moment)
-** DONE In the puzzle application, load the images instead of drawing a rectangle
-** DONE Add the 'walk' function (it does something when you walk on a Cell)
-** DONE Add the story system
-*** DONE Puzzle has a function named_cell(i,j,name), and cell_by_name so that a cell can be retrieved by its name
-    (internally, only the position is stored, it will be easier)
-*** DONE story_event(:toto, Walkable) changes the special cell with a new cell, created from a base class, and it is given the content of what happens on walk
-
-     special_cell(:toto, Walkable) do
-       foo bar baz
-     end
-
-*** TODO 'X' are considered special cells (no cell is created ... or maybe a MockCell (just so that nothing bad happens ?)
-*** TODO it is forbidden to set IN and OUT as special cells ... or should it ?
-
+** TODO Make it posible to 'remove' named cells
+** TODO Make it posible to position pairs of boots in the puzzles
 ** TODO Add quotes / dialogs / other persons ?
 ** TODO Make it possible to inherit the rows between puzzles
+** TODO Add the story system
+*** TODO 'X' are considered special cells (no cell is created ... or maybe a MockCell (just so that nothing bad happens ?)
+*** TODO it is forbidden to set IN and OUT as special cells ... or should it ?
 * Puzzle Editor
 ** TODO ask for the dimensions, the name of the file, the name of the puzzle ...
    Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
-** DONE Make up a grid of cells (empty at the beginning)
-** DONE add a block of tools (one for each known cells)
-** DONE add a group of selected tools holder
-** DONE setting with the mouse
 ** saving / loading
 *** TODO saving
 **** TODO saving the named_cells (handling strings propertly, making sure things are symbols ..)
-*** DONE loading
-** triggers
-** handle 'dirty' mode (to known when you need to save stuff ...)
+** TODO Make it posible to delete named points
+** TODO Add the concept of 'tools' in the editor
+** TODO Add tools to put boots in the puzzle
+** TODO handle 'dirty' mode (to known when you need to save stuff ...)
 * Test Editor
 ** recording
 ** adding assertions
@@ -45,4 +26,8 @@
 ** THIS ONE IS MADE TO FAIL, MAKE MISTAKE, AND THROW AWAY
    Only to make it better, that is ... :P
 * General
-** TODO inline help
+** TODO inline help (in the editor ? in the game ?)
+* Misc
+** web site ... thing about how to distribute, etc..
+** continuous build ?
+** test coverage tools ?
