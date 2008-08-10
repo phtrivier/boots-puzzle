@@ -44,7 +44,7 @@ class Editor < Shoes
         if (@named_cells_on)
 
           name = ask("Name of the cell ?")
-          @puzzle.named_cell(name, i,j)
+          @puzzle.named_cell(name.to_sym, i,j)
           toggle_named_cells
           update_named_cells_list
 

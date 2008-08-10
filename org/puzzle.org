@@ -9,9 +9,11 @@
 * Puzzle Editor
 ** TODO ask for the dimensions, the name of the file, the name of the puzzle ...
    Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
+
 ** saving / loading
-*** TODO saving
-**** TODO saving the named_cells (handling strings propertly, making sure things are symbols ..)
+*** DONE saving
+**** DONE saving the named_cells (handling strings propertly, making sure things are symbols ..)
+**** TODO Saving the shoes position
 ** TODO Make it posible to delete named points
 ** TODO Add the concept of 'tools' in the editor
 ** TODO Add tools to put boots in the puzzle
