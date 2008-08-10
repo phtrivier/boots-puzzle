@@ -123,4 +123,6 @@ class PlayerTest < Test::Unit::TestCase
     assert_equal(b3, @p.boots_in_right_hand)
   end
 
+  # TODO : You cannot swap with bare foots
+
 end

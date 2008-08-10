@@ -422,5 +422,25 @@ class Puzzle
     end
   end
 
+  def try_pick!
+    if (@player.free_hand?)
+      i,j = @player.pos
+      b = boot_at(i,j)
+      if (b != nil)
+        @player.pick!(b)
+        remove_boot(i,j)
+      end
+    end
+  end
+
+  def try_drop!(side)
+    b = @player.boots_in_hand(side)
+    if (b != nil)
+      # Have the player drop the boot, than put it back
+      @player.drop!(side)
+      i,j = @player.pos
+      boot(i,j, b.class)
+    end
+  end
 end
 

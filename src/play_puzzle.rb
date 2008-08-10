@@ -48,14 +48,18 @@ module SimplePuzzleStory
 end
 
 class SimplePuzzle < Puzzle
-  dim 3,3
-  row "###"
-  row "I##"
-  row "--O"
+  dim 4,3
+  row "###O"
+  row "I##-"
+  row "----"
 
   named_cells do
     named_cell :hello, 2, 0
     named_cell :almost_the_end, 2, 1
+  end
+
+  boots do
+    boot 2,1, DoubleBoots
   end
 
   story SimplePuzzleStory
@@ -140,51 +144,47 @@ class GameWindow < Gosu::Window
 
     @puzzle.each_cell do |i,j,c|
       draw_cell(i,j,c)
+
+      b = @puzzle.boot_at(i,j)
+      if (b!=nil)
+        draw_boot(i,j,c)
+      end
+
     end
 
     draw_player
 
   end
 
+  def to_screen_coords(i,j)
+    x = @x0 + j * @s
+    y = @y0 + i * @s
+    [x,y]
+  end
+
   def draw_player
     i,j = @puzzle.player.pos
 
-    x = @x0 + j * @s
-    y = @y0 + i * @s
+    x,y = to_screen_coords(i,j)
 
     @player_img.draw(x,y, ZOrder::UI)
-
-#     color = Gosu::Color.new(0xff00ffff)
-
-#     draw_quad( x , y , color,
-#                   x + ps, y, color,
-#                   x, y + ps, color,
-#                   x + ps, y+ ps, color,
-#                   ZOrder::UI)
-
   end
 
   def draw_cell(i,j,c)
 
-      x = @x0 + j * @s
-      y = @y0 + i * @s
-
-      # TODO : GET THE COLOR
-      #color = get_color(c.color_name)
-#       color = get_color(c)
-
-      # DRAW A SQUARE OF THE COLOR, OF THE PROPER SIZE, ETC...
-#      drawQuad (double x1, double y1, Color c1, double x2, double y2, Color c2, double x3, double y3, Color c3, double x4, double y4, Color c4, ZPos z, AlphaMode mode=amDefault)
-      #puts "Drawing cell : #{i},#{j}, #{c}"
-
-#       draw_quad( x, y, color,
-#                   x + @s, y , color,
-#                   x, y + @s, color,
-#                   x + @s, y+ @s, color,
-#                   ZOrder::UI)
+    x,y = to_screen_coords(i,j)
 
     i = get_image(c)
     i.draw(x,y, ZOrder::UI)
+
+  end
+
+  def draw_boot(i,j,c)
+
+    x,y = to_screen_coords(i,j)
+
+    img = Gosu::Image.new(self, "img/double_boots.png", false)
+    img.draw(x,y, ZOrder::UI)
 
   end
 

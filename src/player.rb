@@ -37,6 +37,10 @@ class Player
     @boots[:left]
   end
 
+  def boots_in_hand(side)
+    @boots[side]
+  end
+
   def free_hand?
     @boots[:right] == nil || @boots[:left] == nil
   end

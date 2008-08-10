@@ -42,7 +42,6 @@ end
 # Default boots for the player,
 # which walks one cell at a time.
 class BareFeet < Boots
-
   def new_position( puzzle, dir)
     i,j = puzzle.player.pos
     case dir
@@ -52,5 +51,16 @@ class BareFeet < Boots
       when :right then [i, j+1]
     end
   end
+end
 
+class DoubleBoots < Boots
+  def new_position( puzzle, dir)
+    i,j = puzzle.player.pos
+    case dir
+      when :up then [i-2, j]
+      when :down then [i+2, j]
+      when :left then [i, j-2]
+      when :right then [i, j+2]
+    end
+  end
 end

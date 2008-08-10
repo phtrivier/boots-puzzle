@@ -254,9 +254,34 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
   end
 
-  def test_boots_are_dropped_somewhere
-    # TODO
+  def test_boots_are_picked_somewhere_and_drop_somewhere
+    pu = PuzzleWithBoots.new
+    pu.enters_player!
+    assert_not_nil pu.boot_at(0,1)
+    assert_nil pu.player.boots_in_right_hand
+    assert_nil pu.player.boots_in_left_hand
+    pu.try_move!(:up)
+    pu.try_pick!
+    assert_nil pu.player.boots_in_right_hand
+    assert_nil pu.player.boots_in_left_hand
+    pu.try_move!(:right)
+    pu.try_pick!
+    assert_not_nil pu.player.boots_in_right_hand
+    assert_nil pu.player.boots_in_left_hand
+    assert_nil pu.boot_at(0,1)
+    pu.try_pick!
+    assert_not_nil pu.player.boots_in_right_hand
+    assert_nil pu.player.boots_in_left_hand
+    assert_nil pu.boot_at(0,1)
+    pu.try_drop!(:right)
+    assert_nil pu.player.boots_in_right_hand
+    assert_nil pu.player.boots_in_left_hand
+    assert_not_nil pu.boot_at(0,1)
+
   end
+
+  # TODO : You cannot drop when there is something
+
 
 
 end
