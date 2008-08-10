@@ -194,7 +194,7 @@ class Editor < Shoes
 
       end
 
-      stack :width => '60%' do
+      stack :width => '50%' do
         border black, :strokewidth => 1
 
         @puzzle.h.times do |i|
@@ -215,18 +215,19 @@ class Editor < Shoes
 
       end
 
-      stack :width => '20%' do
+      stack :width => '30%' do
         border black, :strokewidth => 1
 
         para "Named cells"
 
         flow do
-          flow :width => "50%" do
+          flow :width => "40%" do
             para "Position"
           end
-          flow :width => "50%" do
+          flow :width => "40%" do
             para "Name"
           end
+
         end
 
         create_named_cells_list
@@ -278,11 +279,17 @@ class Editor < Shoes
     @puzzle.named_cells.each do |name, pos|
       @named_cells_list.append do
         flow do
-          flow :width => "50%" do
+          flow :width => "40%" do
             para "[#{pos[0]},#{pos[1]}]"
           end
-          flow :width => "50%" do
+          flow :width => "40%" do
             para name
+          end
+          flow :width => "10%" do
+            button "X" do
+              @puzzle.unname_cell(name)
+              update_named_cells_list
+            end
           end
         end
       end
@@ -291,4 +298,4 @@ class Editor < Shoes
 
 end
 
-Editor.app :title => "Puzzle editor", :width => 800
+Editor.app :title => "Puzzle editor", :width => 1000
