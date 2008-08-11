@@ -34,9 +34,6 @@ class Puzzle
   # The player, nul until 'enters_player!' is called
   attr_reader :player
 
-  # Entry and exits
-  attr_reader :in, :out
-
   # Class methods to make definition of a puzzle
   # DSL-like
 
@@ -140,8 +137,6 @@ class Puzzle
 
     init_dimensions
 
-    init_in_out
-
     if (respond_to?(:init_named_cells))
       init_named_cells
     end
@@ -155,43 +150,21 @@ class Puzzle
     end
   end
 
-  # Init the position of entry and exit
-  def init_in_out
-    @in = @out = [nil,nil]
-
-    each_cell do |i,j,c|
-      if (c.class == In)
-        @in = [i,j]
-      elsif (c.class == Out)
-        @out = [i,j]
-      end
-    end
-
-  end
-
   # TODO : MAKE SURE THAT SETTING AN IN / OUT TWICE RAISES AN ERROR
   # 'Manual' accessor for in and out
-#   def in
-#     if (@in != [nil, nil])
-#       @in
-#     else
-#       find_cell_by_type(In)
-#     end
-#   end
+  def in
+     find_cell_by_type(In)
+  end
 
-#   def out
-#     if (@out != [nil, nil])
-#       @out
-#     else
-#       find_cell_by_type(Out)
-#     end
-#   end
+  def out
+    find_cell_by_type(Out)
+  end
 
   def find_cell_by_type(type)
     res = [nil, nil]
     each_cell do |i,j,c|
       if (c.class == type)
-        res = c
+        res = [i,j]
         break
       end
     end
@@ -228,7 +201,21 @@ class Puzzle
     @cells[i][j]
   end
 
+  def check_duplicate_in_out(i,j,c)
+    check_duplicate_extremity(i,j,c, In, self.in, "Attempt to add a duplicate entry")
+    check_duplicate_extremity(i,j,c, Out, self.out, "Attempt to add a duplicate exit")
+  end
+
+  def check_duplicate_extremity(i,j,c, klass, ext, msg)
+    if (c.class == klass)
+      if (ext != [nil, nil] and [i,j] != ext)
+        raise RuntimeError.new(msg)
+      end
+    end
+  end
+
   def set_cell(i,j,c)
+    check_duplicate_in_out(i,j,c)
     @cells[i][j] = c
   end
 
@@ -258,12 +245,12 @@ class Puzzle
   # the puzzle
   def enters_player!
 
-    if (@in == [nil,nil])
+    if (self.in == [nil,nil])
       raise NoEntry.new("No entry in this puzzle !")
     end
 
     @player = Player.new
-    @player.move!(@in)
+    @player.move!(self.in)
   end
 
   # Try and move the player to another position.
@@ -326,7 +313,7 @@ class Puzzle
   def set_cell_by_name(name, c)
     if (@named_cells.has_key?(name))
       i,j = @named_cells[name]
-      @cells[i][j] = c
+      set_cell(i,j,c)
     else
        raise NoCellError.new("No cell named #{name} in puzzle")
     end

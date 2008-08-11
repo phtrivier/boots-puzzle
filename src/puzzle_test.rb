@@ -281,4 +281,54 @@ class PuzzleTest < Test::Unit::TestCase
 
   end
 
+  #    row "#I"
+  #    row "O-"
+  def test_adding_an_entry_cell_twice_causes_errors
+    pu = TestPuzzle.new
+    assert pu.in != [nil, nil]
+    begin
+      pu.set_cell(0,0, In.new)
+      bad("Should not be possible to set another entry")
+    rescue RuntimeError => e
+      assert "Attempt to add a duplicate entry", e.message
+    end
+    i,j = pu.in
+    pu.set_cell(0,1, In.new)
+    assert pu.in == [0,1]
+  end
+
+  def test_adding_an_exit_cell_twice_causes_errors
+    pu = TestPuzzle.new
+    assert pu.out != [nil, nil]
+    begin
+      pu.set_cell(0,0, Out.new)
+      bad("Should not be possible to set another exit")
+    rescue RuntimeError => e
+      assert "Attempt to add a duplicate exit", e.message
+    end
+    i,j = pu.out
+    pu.set_cell(1,0, Out.new)
+    assert pu.out == [1,0]
+  end
+
+  def test_setting_in
+    pu = TestPuzzle.new
+    pu.set_cell(0,1,Walkable.new)
+    assert [nil, nil] == pu.in
+    pu.set_cell(0,1,In.new)
+    assert [0,1] == pu.in
+  end
+
+  def test_setting_out
+    pu = TestPuzzle.new
+    pu.set_cell(1,0,Walkable.new)
+    assert [nil, nil] == pu.out
+    pu.set_cell(1,0,Out.new)
+    assert [1,0] == pu.out
+  end
+
+
+  def bad(msg)
+    assert false, msg
+  end
 end

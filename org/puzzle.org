@@ -1,5 +1,4 @@
 * Game Engine
-** TODO [#B] Forbid setting in / out twice using set_cell
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
