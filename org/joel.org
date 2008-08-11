@@ -1,0 +1,27 @@
+* The Joel Test
+** DONE 1. Do you use source control?
+   +1. In a word : git
+** TODO 2. Can you make a build in one step?
+   0. No simple way to build things, since there is no way to build
+** TODO 3. Do you make daily builds?
+   0. No.
+** TODO 4. Do you have a bug database?
+   +0.5. Org mode file is not the same
+** DONE 5. Do you fix bugs before writing new code?
+   +1. Although there is no bug database, that is
+** TODO 6. Do you have an up-to-date schedule?
+   0. Relevant ?
+** TODO 7. Do you have a spec?
+   0. The spec is what I want to do.
+** DONE 8. Do programmers have quiet working conditions?
+   +1.
+** DONE 9. Do you use the best tools money can buy?
+   +1. At least what MY money can buy.
+** TODO 10. Do you have testers?
+   0. Will happen at some point, hopefully ;)
+** 11. Do new candidates write code during their interview?
+   Irrelevant
+** TODO 12. Do you do hallway usability testing?
+   0. Will do
+
+Current score : 4.5 / 11
