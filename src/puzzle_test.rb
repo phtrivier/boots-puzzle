@@ -289,7 +289,7 @@ class PuzzleTest < Test::Unit::TestCase
     begin
       pu.set_cell(0,0, In.new)
       bad("Should not be possible to set another entry")
-    rescue RuntimeError => e
+    rescue ExitError => e
       assert "Attempt to add a duplicate entry", e.message
     end
     i,j = pu.in
@@ -303,7 +303,7 @@ class PuzzleTest < Test::Unit::TestCase
     begin
       pu.set_cell(0,0, Out.new)
       bad("Should not be possible to set another exit")
-    rescue RuntimeError => e
+    rescue ExitError => e
       assert "Attempt to add a duplicate exit", e.message
     end
     i,j = pu.out

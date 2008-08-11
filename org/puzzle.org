@@ -14,7 +14,6 @@
 ** saving / loading
 *** DONE saving
 **** TODO whatever comes next ...
-** TODO [#A] Add tools to put boots in the puzzle
 ** TODO [#B] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
    Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
 ** TODO handle 'dirty' mode (to known when you need to save stuff ...)

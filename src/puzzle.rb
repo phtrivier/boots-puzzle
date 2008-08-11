@@ -209,7 +209,7 @@ class Puzzle
   def check_duplicate_extremity(i,j,c, klass, ext, msg)
     if (c.class == klass)
       if (ext != [nil, nil] and [i,j] != ext)
-        raise RuntimeError.new(msg)
+        raise ExitError.new(msg)
       end
     end
   end

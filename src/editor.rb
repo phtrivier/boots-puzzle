@@ -42,35 +42,33 @@ class CellTool
 end
 
 # TODO : MAKE A TOOL ONLY FOR IN AND OUT
-# class GateTool < Struct.new(:name, :type)
-#   def act(editor, i, j)
-#     pu = editor.puzzle
-#     g = gate(pu)
-#     puts g
-#     if (g!= nil andg[0] != nil and g[1] != nil)
-#       editor.alert("This puzzle already has #{@name} in cell #{pu.in} ; remove the old one before adding a new one.")
-#     else
-#       editor.update_editor_cell(i,j,@type)
-#     end
-#   end
+class GateTool < Struct.new(:name, :type)
+  def act(editor, i, j)
+    begin
+      editor.update_editor_cell(i,j,@type)
+    rescue ExitError => e
+      alert("This puzzle already has #{@name}.Remove it first.")
+    end
+  end
 
-#   def src
-#     @type.new.src
-#   end
+  def src
+    @type.new.src
+  end
+end
 
-# end
+class InTool < GateTool
+  def initialize
+    @name = "an entry"
+    @type = In
+  end
+end
 
-# class InTool < GateTool
-#   def initialize
-#     @name = "an entry"
-#     @type = In
-#   end
-
-#   def gate(puzzle)
-#     puzzle.in
-#   end
-# end
-
+class OutTool < GateTool
+  def initialize
+    @name = "an exit"
+    @type = Out
+  end
+end
 
 # A location for a selected tool
 class ToolSlot
@@ -167,9 +165,8 @@ class Editor < Shoes
       # Loading all the sub-classes of Cell
       # and cutting them in three (quite easy, actually !!)
       flow :margin_top => '5px', :margin_left => '5px' do
-        cell_tool_button(CellTool.new(In))
-#        cell_tool_button(InTool.new())
-        cell_tool_button(CellTool.new(Out))
+        cell_tool_button(InTool.new())
+        cell_tool_button(OutTool.new())
       end
 
       flow :margin_top => '5px', :margin_left => '5px' do

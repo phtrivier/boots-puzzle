@@ -37,3 +37,6 @@ end
 
 class NoBootError < RuntimeError
 end
+
+class ExitError < RuntimeError
+end
