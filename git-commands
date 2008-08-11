@@ -1,0 +1,7 @@
+* ssh-agent
+eval 'ssh-agent'
+ssh-add $PATH TO KEY
+* Pull
+git pull git@github.com:phtrivier/boots-puzzle.git master
+* Push
+git push
