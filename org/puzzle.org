@@ -30,7 +30,10 @@
 ** THIS ONE IS MADE TO FAIL, MAKE MISTAKE, AND THROW AWAY
    Only to make it better, that is ... :P
 * General
-** TODO inline help (in the editor ? in the game ?)
+** TODO Use the gosu lib from the system if it exists (installed through gem?)
+** TODO Build an installer for shoes app ?
+** TODO Distribute as a gem ?
+** TODO inline help
 * Misc
 ** web site ... thing about how to distribute, etc..
 ** continuous build ?
