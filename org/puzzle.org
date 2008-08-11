@@ -1,12 +1,14 @@
 * Game Engine
-** TODO [#A] Forbid droping on a location that already has a pair of boots on it
-** TODO Make it easier to add cell types on the go (in the editor ?)
-** TODO [#C] Add the notion of levels ( = puzzle + story), campains, etc...
-** TODO Add the story system
-*** TODO [#B] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
+** TODO [#B] Forbid setting in / out twice using set_cell
+** TODO [#C] Add the campain / level / puzzle system
+*** TODO A campaign loads the various plugin required, and the various levels
+*** TODO A level consist of a puzzle and a puzzle story
+** TODO [#C] Add the plugin system
+*** TODO A plugin has (potentially) : cells type, boots type, story element modules
+*** TODO A plugin can be required by a puzzle / a campaign ?
+** TODO Complete the story system
+*** TODO [#C] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
 *** TODO [#C] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
-*** TODO 'X' are considered special cells (no cell is created ... or maybe a MockCell (just so that nothing bad happens ?)
-** TODO Forbid setting in / out twice using set_cell
 ** TODO Add quotes associated to a puzzle
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor

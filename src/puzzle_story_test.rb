@@ -276,8 +276,22 @@ class PuzzleStoryTest < Test::Unit::TestCase
     assert_not_nil pu.boot_at(0,1)
   end
 
-  # TODO : You cannot drop when there is something
-
+  def test_boots_cannot_be_dropped_where_there_is_already_something
+    pu = PuzzleWithBoots.new
+    b1 = Boots.new
+    pu.enters_player!
+    pu.player.pick!(b1)
+    pu.try_move!(:up)
+    pu.try_move!(:right)
+    pu.player.next_boots!
+    assert_equal 2, pu.player.boots.size
+    assert pu.player.boots.member?(b1)
+    assert_not_nil pu.boot_at(0,1)
+    pu.try_drop!
+    assert_equal 2, pu.player.boots.size
+    assert_not_nil pu.boot_at(0,1)
+    assert pu.player.boots.member?(b1)
+  end
 
 
 end

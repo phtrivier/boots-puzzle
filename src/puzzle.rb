@@ -435,12 +435,15 @@ class Puzzle
 
   def try_drop!()
     if (not @player.bare_feet?)
-      # Have the player drop the boot, than put it back
-      # on the maze
-      b = @player.current_boots
-      @player.drop!
       i,j = @player.pos
-      boot(i,j, b.class)
+      # Only drop if there is nothing on the ground
+      if (boot_at(i,j) == nil)
+        # Have the player drop the boot, than put it back
+        # on the maze
+        b = @player.current_boots
+        @player.drop!
+        boot(i,j, b.class)
+      end
     end
   end
 end

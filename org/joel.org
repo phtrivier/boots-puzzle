@@ -23,5 +23,4 @@
    Irrelevant
 ** TODO 12. Do you do hallway usability testing?
    0. Will do
-
-Current score : 4.5 / 11
+** Current score : 4.5 / 11
