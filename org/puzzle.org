@@ -19,7 +19,9 @@
 ** TODO [#B] Move the 'name cell' button to an actual tool
 ** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
 
+
    Do this in a dialog, rather than three stuff .. and have the dialog be
+** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
 ** TODO handle 'dirty' mode (to known when you need to save stuff ...)
 ** TODO Have multiple colors for different named cells (use several icons,with different colors, opened in orders)
 *** TODO Make the various icons (5?)
