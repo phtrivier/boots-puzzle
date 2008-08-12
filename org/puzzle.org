@@ -1,11 +1,12 @@
 * Game Engine
+** TODO [#A] Prevent setting a non-walkable cell on something that contains a pair of boots
+** TODO [#B] Fix the transparency of boots images
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
 ** TODO [#C] Add the plugin system
 *** TODO A plugin has (potentially) : cells type, boots type, story element modules
 *** TODO A plugin can be required by a puzzle / a campaign ?
-** TODO Fix the transparency of boots images
 ** TODO Complete the story system
 *** TODO [#C] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
 *** TODO [#C] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
@@ -13,14 +14,19 @@
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
 ** TODO [#B] Add tools to add double_boots somewhere on the puzzle
-*** TODO [#B] Handle case where the cell is not walkable
-*** TODO [#B] Handle case where there is already a pair of boots on the cell
-** TODO [#B] Add tools to remove the pair of boots somewhere on the puzzle
+*** DONE [#B] Handle case where the cell is not walkable
+*** TODO [#B] Handle setting a non-walkable cell on a cell that contains a pair of boots
+** TODO [#B] Move the 'name cell' button to an actual tool
 ** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
-   Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
+
+   Do this in a dialog, rather than three stuff .. and have the dialog be
 ** TODO handle 'dirty' mode (to known when you need to save stuff ...)
+** TODO Have multiple colors for different named cells (use several icons,with different colors, opened in orders)
+*** TODO Make the various icons (5?)
+*** TODO When setting, use each of them, in turn
+*** TODO Add the icon in the list of named cells
 ** TODO Externalize strings (good exercise :))
-** TODO Add a way to define new cell types (loading an image, etc...)
+** TODO Add a way to define new cell types (loading an image, etc...) from a plugin
 ** TODO Add a tool to set the quote for a puzzle
 * Test Editor
 ** recording
