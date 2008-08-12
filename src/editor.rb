@@ -20,7 +20,7 @@
 
 require 'puzzle'
 
-class EditorCell < Struct.new(:type, :img)
+class EditorCell < Struct.new(:type, :img, :boot_img, :name_img)
 end
 
 # A tool that act on a cell by changing its type
@@ -37,7 +37,7 @@ class CellTool
   end
 
   def act(editor, i,j)
-    editor.update_editor_cell(i,j,@type)
+    editor.change_editor_cell(i,j,@type)
   end
 end
 
@@ -45,7 +45,7 @@ end
 class GateTool < Struct.new(:name, :type)
   def act(editor, i, j)
     begin
-      editor.update_editor_cell(i,j,@type)
+      editor.change_editor_cell(i,j,@type)
     rescue ExitError => e
       alert("This puzzle already has #{@name}.Remove it first.")
     end
@@ -67,6 +67,35 @@ class OutTool < GateTool
   def initialize
     @name = "an exit"
     @type = Out
+  end
+end
+
+class BootsTool < Struct.new(:type)
+  def initialize(type)
+    @type = type
+  end
+
+  def src
+    @type.new.src
+  end
+
+  def act(editor, i,j)
+    begin
+      editor.puzzle.boot(i,j,@type)
+      editor.update_editor_cell(i,j)
+    rescue CellError => e
+      alert("You cannot put a pair of boots on a non walkable cell")
+    end
+  end
+end
+
+class ResetBootsTool
+  def src
+    "img/reset_boots.png"
+  end
+  def act(editor, i,j)
+    editor.puzzle.boot(i,j,nil)
+    editor.update_editor_cell(i,j)
   end
 end
 
@@ -93,6 +122,8 @@ class Editor < Shoes
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
+  Transparent = "img/transparent.png"
+  NamedCell = "img/named_cell.png"
 
   attr_reader :puzzle
 
@@ -138,11 +169,11 @@ class Editor < Shoes
         build_palette_panel
       end
 
-      stack :width => '50%' do
+      stack :width => '60%' do
         build_puzzle_grid_panel
       end
 
-      stack :width => '30%' do
+      stack :width => '20%' do
         build_named_cells_panel
       end
     end
@@ -159,7 +190,7 @@ class Editor < Shoes
 
     para "Available tools"
 
-    stack do
+    stack :width => "90%" do
       border black, :strokewidth => 1
       # TODO : Make this more generic by
       # Loading all the sub-classes of Cell
@@ -176,14 +207,27 @@ class Editor < Shoes
 
     end
 
-    para "Selected tools"
-    stack do
+    para "Available boots"
+    stack :width => "90%" do
       border black, :strokewidth => 1
-      para "Left"
-      @tool_slots[:left] = init_tool_slot(Wall)
+      flow :margin_top => '5px', :margin_left => '5px' do
+        cell_tool_button(BootsTool.new(DoubleBoots))
+        cell_tool_button(ResetBootsTool.new())
+      end
+    end
 
-      para "Right"
-      @tool_slots[:right] = init_tool_slot(Walkable)
+    para "Selected tools"
+    flow :width => "90%" do
+      border black, :strokewidth => 1
+      stack :width => '50%' do
+        para "Left"
+        @tool_slots[:left] = init_tool_slot(Wall)
+      end
+
+      stack :width => '50%' do
+        para "Right"
+        @tool_slots[:right] = init_tool_slot(Walkable)
+      end
 
     end
 
@@ -206,9 +250,9 @@ class Editor < Shoes
       @cells[i] = []
       flow :margin => 5 do
         @puzzle.w.times do |j|
-
           # debugs "adding a cell ?"
           create_cell_image(i,j, @puzzle.cell(i,j).class)
+          update_editor_cell(i,j)
         end
       end
     end
@@ -283,6 +327,13 @@ class Editor < Shoes
   # Update the list of named cells
   def update_named_cells_list
     @named_cells_list.clear
+
+    @cells.each do |line|
+      line.each do |c|
+        c.name_img.path = Transparent
+      end
+    end
+
     @puzzle.named_cells.each do |name, pos|
       @named_cells_list.append do
         flow do
@@ -299,6 +350,8 @@ class Editor < Shoes
             end
           end
         end
+        i,j = pos
+        @cells[i][j].name_img.path = NamedCell
       end
     end
   end
@@ -307,12 +360,18 @@ class Editor < Shoes
   # i,j : position of the cell
   # t : type of cell at time of creation
   def create_cell_image(i, j, t)
-    stack :width => '40px' do
+    flow :width => '40px' do
       b = border black, :strokewidth => 1
 
       img = image t.new.src
 
-      @cells[i][j] = EditorCell.new(t, img)
+      name_img = image Transparent
+      name_img.move(0,0)
+
+      boot_img = image Transparent
+      boot_img.move(0,0)
+
+      @cells[i][j] = EditorCell.new(t, img, boot_img, name_img)
 
       click do |b, l, t|
 
@@ -341,13 +400,28 @@ class Editor < Shoes
   end
 
   # Update a cell in the grid
-  def update_editor_cell(i,j,t)
+  def change_editor_cell(i,j,t)
     debug "Updating cell at #{i},#{j} - type to be applied : #{t}"
     @puzzle.set_cell(i,j, t.new)
     # TODO : CLEAN THE STRUCT, THERE SHOULD BE ONLY IMAGE ?
     img = @cells[i][j].img # Replace if with a list of images ...
     img.path = t.new.src
-    debug "New image path : #{img.path}"
+    update_editor_cell(i,j)
+  end
+
+  def update_editor_cell(i,j)
+    # Update main part of the cell
+    img = @cells[i][j].img
+    img.hide
+    img.show
+    # Update extra part of the cell (boots?)
+    b = @puzzle.boot_at(i,j)
+    img = @cells[i][j].boot_img
+    if ( b != nil)
+      img.path = b.src
+    else
+      img.path = Transparent
+    end
     img.hide
     img.show
   end

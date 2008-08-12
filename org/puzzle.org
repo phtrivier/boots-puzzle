@@ -5,6 +5,7 @@
 ** TODO [#C] Add the plugin system
 *** TODO A plugin has (potentially) : cells type, boots type, story element modules
 *** TODO A plugin can be required by a puzzle / a campaign ?
+** TODO Fix the transparency of boots images
 ** TODO Complete the story system
 *** TODO [#C] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
 *** TODO [#C] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...

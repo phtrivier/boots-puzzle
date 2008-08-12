@@ -394,10 +394,6 @@ class Puzzle
     if (klass != nil)
       if (not cell(i,j).walkable?)
         raise CellError.new("Attempt to add cell on non walkable")
-      elsif ( cell(i,j).class == In)
-        raise CellError.new("Attempt to add cell on entry")
-      elsif ( cell(i,j).class == Out)
-        raise CellError.new("Attempt to add cell on exit")
       end
       new_boots = klass.new
     end
