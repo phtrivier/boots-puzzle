@@ -164,7 +164,20 @@ class PuzzleStoryTest < Test::Unit::TestCase
            ' end',
            'end'].join("\n") + "\n"
 
-    assert_equal ex, pu.serialize("PuzzleWithStory")
+    ex2 =  ["class PuzzleWithStory < Puzzle",
+           " dim 2,2",
+           ' row "--"',
+           ' row "IO"',
+           '',
+           ' named_cells do',
+           '  named_cell :foo, 0, 1',
+           '  named_cell :bar, 0, 0',
+           ' end',
+           'end'].join("\n") + "\n"
+
+
+
+    assert ex == pu.serialize("PuzzleWithStory") || ex2 == pu.serialize("PuzzleWithStory")
 
   end
 
