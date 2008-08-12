@@ -306,5 +306,11 @@ class PuzzleStoryTest < Test::Unit::TestCase
     assert pu.player.boots.member?(b1)
   end
 
+  def test_boots_can_be_reset
+    pu = PuzzleWithBoots.new
+    assert_equal DummyBoots, pu.boot_at(0,1).class
+    pu.boot 0, 1, nil
+    assert_nil pu.boot_at(0,1)
+  end
 
 end

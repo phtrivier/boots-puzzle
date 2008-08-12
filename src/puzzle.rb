@@ -390,7 +390,11 @@ class Puzzle
   end
 
   def boot(i,j,klass)
-    @boots[ [i,j] ] = klass.new
+    new_boots = nil
+    if (klass != nil)
+      new_boots = klass.new
+    end
+    @boots[ [i,j] ] = new_boots
   end
 
   def boot_at(i,j)

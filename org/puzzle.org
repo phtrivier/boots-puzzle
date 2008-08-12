@@ -1,4 +1,5 @@
 * Game Engine
+** TODO [#A] You should not be allowed to add boots on a non-walkable cell
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
@@ -11,10 +12,11 @@
 ** TODO Add quotes associated to a puzzle
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
-** saving / loading
-*** DONE saving
-**** TODO whatever comes next ...
-** TODO [#B] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
+** TODO [#B] Add tools to add double_boots somewhere on the puzzle
+*** TODO [#B] Handle case where the cell is not walkable
+*** TODO [#B] Handle case where there is already a pair of boots on the cell
+** TODO [#B] Add tools to remove the pair of boots somewhere on the puzzle
+** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
    Do this in a dialog, rather than three stuff .. and have the dialog be nice !!
 ** TODO handle 'dirty' mode (to known when you need to save stuff ...)
 ** TODO Externalize strings (good exercise :))
