@@ -1,5 +1,4 @@
 * Game Engine
-** TODO [#A] You should not be allowed to add boots on a non-walkable cell
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story

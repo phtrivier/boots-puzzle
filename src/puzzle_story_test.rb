@@ -324,4 +324,25 @@ class PuzzleStoryTest < Test::Unit::TestCase
     end
   end
 
+  def test_boots_cannot_be_added_on_entry
+    pu = PuzzleWithBoots.new
+    i,j = pu.in
+    begin
+      pu.boot i,j, DummyBoots
+      bad "Should not be possible to put boots on entry"
+    rescue CellError => e
+      assert "Attempt to add cell on entry", e.message
+    end
+
+    i,j = pu.out
+    begin
+      pu.boot i,j, DummyBoots
+      bad "Should not be possible to put boots on exit"
+    rescue CellError => e
+      assert "Attempt to add cell on exit", e.message
+    end
+
+
+  end
+
 end
