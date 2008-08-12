@@ -40,3 +40,6 @@ end
 
 class ExitError < RuntimeError
 end
+
+class CellError < RuntimeError
+end

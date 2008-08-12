@@ -313,4 +313,15 @@ class PuzzleStoryTest < Test::Unit::TestCase
     assert_nil pu.boot_at(0,1)
   end
 
+  def test_boots_cannot_be_added_on_non_walkable
+    pu = PuzzleWithBoots.new
+    pu.set_cell 0,0, Wall.new
+    begin
+      pu.boot 0,0, DummyBoots
+      bad "Should not be possible to put boots on non walkable"
+    rescue CellError => e
+      assert "Attempt to add cell on non walkable", e.message
+    end
+  end
+
 end

@@ -392,6 +392,9 @@ class Puzzle
   def boot(i,j,klass)
     new_boots = nil
     if (klass != nil)
+      if (not cell(i,j).walkable?)
+        raise CellError.new("Attempt to add cell on non walkable")
+      end
       new_boots = klass.new
     end
     @boots[ [i,j] ] = new_boots
