@@ -1,5 +1,4 @@
 * Game Engine
-** TODO [#B] Fix the transparency of boots images
 ** TODO Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
 *** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
@@ -22,13 +21,15 @@
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
 ** TODO [#A] Have multiple colors for different named cells (use several icons,with different colors, opened in orders)
-*** TODO Make the various icons (5?)
-*** TODO When setting, use each of them, in turn
-*** TODO Add the icon in the list of named cells
-** TODO handle 'dirty' mode (to known when you need to save stuff ...)
+*** DONE Make the various icons (5?)
+*** DONE When setting, use each of them, in turn
+*** DONE Add the icon in the list of named cells
+*** TODO Modify the puzzle model so that named cells are returned in the order they were added, so
+*** that the colors of the named cells do not change all the time ...
+** TODO [#B] handle 'dirty' mode (to known when you need to save stuff ...)
 ** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
-** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
-   Do this in a dialog, rather than three stuff .. and have the dialog be
+** TODO At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
+   -> Level editor ?
 ** TODO Externalize strings (good exercise :))
 ** TODO Add a way to define new cell types (loading an image, etc...) from a plugin -> level_editor ?
 ** TODO Add a tool to set the quote for a puzzle

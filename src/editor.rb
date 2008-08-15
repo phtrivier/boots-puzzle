@@ -62,6 +62,9 @@ class Editor < Shoes
 
     @tool_slots = { }
 
+    @named_cell_icons = NameCellTool::Icons
+    @named_cell_icon_index = 0
+
     load_or_init_puzzle
     show_editor
   end
@@ -245,10 +248,16 @@ class Editor < Shoes
       end
     end
 
+    @named_cell_icon_index = 0
+
     @puzzle.named_cells.each do |name, pos|
+
+      icon = next_named_cell_icon
+
       @named_cells_list.append do
         flow do
           flow :width => "40%" do
+             image icon
             para "[#{pos[0]},#{pos[1]}]"
           end
           flow :width => "40%" do
@@ -262,9 +271,15 @@ class Editor < Shoes
           end
         end
         i,j = pos
-        @cells[i][j].name_img.path = NameCellTool::Icon
+        @cells[i][j].name_img.path = icon
       end
     end
+  end
+
+  def next_named_cell_icon
+    res = @named_cell_icons[@named_cell_icon_index]
+    @named_cell_icon_index = (@named_cell_icon_index + 1) % @named_cell_icons.size
+    res
   end
 
   # Create an image for a cell, on which one can click to change its type

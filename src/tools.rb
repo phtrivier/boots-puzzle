@@ -100,7 +100,10 @@ end
 
 class NameCellTool
 
-  Icon = "img/named_cell.png"
+  Icon = "img/named_cell_0.png"
+  Icons = (0..5).collect do |i|
+    "img/named_cell_#{i}.png"
+  end
 
   def src
     Icon
