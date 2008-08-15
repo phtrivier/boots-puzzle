@@ -20,87 +20,9 @@
 
 require 'puzzle'
 
+require 'tools'
+
 class EditorCell < Struct.new(:type, :img, :boot_img, :name_img)
-end
-
-# A tool that act on a cell by changing its type
-# by contract, Tools should provide :
-#  src : a method to get the path to an image for the tool
-#  act : the method to call when the tool is applied to the editor
-class CellTool
-  def initialize(type)
-    @type = type
-  end
-
-  def src
-    @type.new.src
-  end
-
-  def act(editor, i,j)
-    begin
-      editor.change_editor_cell(i,j,@type)
-    rescue CellError => e
-      alert(e.message)
-    end
-  end
-end
-
-# TODO : MAKE A TOOL ONLY FOR IN AND OUT
-class GateTool < Struct.new(:name, :type)
-  def act(editor, i, j)
-    begin
-      editor.change_editor_cell(i,j,@type)
-    rescue ExitError => e
-      alert("This puzzle already has #{@name}.Remove it first.")
-    end
-  end
-
-  def src
-    @type.new.src
-  end
-end
-
-class InTool < GateTool
-  def initialize
-    @name = "an entry"
-    @type = In
-  end
-end
-
-class OutTool < GateTool
-  def initialize
-    @name = "an exit"
-    @type = Out
-  end
-end
-
-class BootsTool < Struct.new(:type)
-  def initialize(type)
-    @type = type
-  end
-
-  def src
-    @type.new.src
-  end
-
-  def act(editor, i,j)
-    begin
-      editor.puzzle.boot(i,j,@type)
-      editor.update_editor_cell(i,j)
-    rescue CellError => e
-      alert("You cannot put a pair of boots on a non walkable cell")
-    end
-  end
-end
-
-class ResetBootsTool
-  def src
-    "img/reset_boots.png"
-  end
-  def act(editor, i,j)
-    editor.puzzle.boot(i,j,nil)
-    editor.update_editor_cell(i,j)
-  end
 end
 
 # A location for a selected tool
@@ -127,7 +49,6 @@ class Editor < Shoes
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
   Transparent = "img/transparent.png"
-  NamedCell = "img/named_cell.png"
 
   attr_reader :puzzle
 
@@ -209,6 +130,11 @@ class Editor < Shoes
         cell_tool_button(CellTool.new(Walkable))
       end
 
+      flow :margin_top => '5px', :margin_left => '5px' do
+        cell_tool_button(NameCellTool.new)
+      end
+
+
     end
 
     para "Available boots"
@@ -289,12 +215,6 @@ class Editor < Shoes
       end
     end
 
-    button "name cell" do
-      toggle_named_cells
-    end
-
-    @named_cell_status = para ""
-    @named_cells_on = false
   end
 
   # ----------------------------------------------------
@@ -306,19 +226,6 @@ class Editor < Shoes
     debug res
     File.open(@file_name, "w+") do |f|
       f << res
-    end
-  end
-
-
-  def toggle_named_cells
-    if (@named_cells_on)
-      @named_cells_on = false
-      @named_cell_status.hide
-    else
-      @named_cells_on = true
-      @named_cell_status.text = "Click a cell to name it"
-      @named_cell_status.hide
-      @named_cell_status.show
     end
   end
 
@@ -355,7 +262,7 @@ class Editor < Shoes
           end
         end
         i,j = pos
-        @cells[i][j].name_img.path = NamedCell
+        @cells[i][j].name_img.path = NameCellTool::Icon
       end
     end
   end
@@ -379,23 +286,12 @@ class Editor < Shoes
 
       click do |b, l, t|
 
-        if (@named_cells_on)
+        debug "Clicked on #{i}, #{j} ... original type was #{t}"
 
-          name = ask("Name of the cell ?")
-          @puzzle.named_cell(name.to_sym, i,j)
-          toggle_named_cells
-          update_named_cells_list
-
-        else
-
-          debug "Clicked on #{i}, #{j} ... original type was #{t}"
-
-          if (b == LEFT_BUTTON)
-            @tool_slots[:left].tool.act(self, i,j)
-          elsif (b == RIGHT_BUTTON)
-            @tool_slots[:right].tool.act(self, i,j)
-          end
-
+        if (b == LEFT_BUTTON)
+          @tool_slots[:left].tool.act(self, i,j)
+        elsif (b == RIGHT_BUTTON)
+          @tool_slots[:right].tool.act(self, i,j)
         end
 
       end

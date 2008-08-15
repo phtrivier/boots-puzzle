@@ -9,7 +9,6 @@
 *** TODO transformer le placement des boots en initialiseur
 *** TODO changer la syntaxe des rows et transformer la creation des cases en un initializeur
 *** TODO changer la sauvegarde des rows (pour faire apparaitre rows do ...)
-
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
@@ -22,19 +21,16 @@
 ** TODO Add quotes associated to a puzzle
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
-** TODO [#B] Move the 'name cell' button to an actual tool
-** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
-
-
-   Do this in a dialog, rather than three stuff .. and have the dialog be
-** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
-** TODO handle 'dirty' mode (to known when you need to save stuff ...)
-** TODO Have multiple colors for different named cells (use several icons,with different colors, opened in orders)
+** TODO [#A] Have multiple colors for different named cells (use several icons,with different colors, opened in orders)
 *** TODO Make the various icons (5?)
 *** TODO When setting, use each of them, in turn
 *** TODO Add the icon in the list of named cells
+** TODO handle 'dirty' mode (to known when you need to save stuff ...)
+** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
+** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
+   Do this in a dialog, rather than three stuff .. and have the dialog be
 ** TODO Externalize strings (good exercise :))
-** TODO Add a way to define new cell types (loading an image, etc...) from a plugin
+** TODO Add a way to define new cell types (loading an image, etc...) from a plugin -> level_editor ?
 ** TODO Add a tool to set the quote for a puzzle
 * Test Editor
 ** recording

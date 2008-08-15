@@ -1,6 +1,6 @@
 # Boots Puzzle - puzzle.rb
 #
-# Puzzme class
+# Puzzle class
 #
 # Copyright (C) 2008 Pierre-Henri Trivier
 #
