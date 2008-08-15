@@ -37,7 +37,11 @@ class CellTool
   end
 
   def act(editor, i,j)
-    editor.change_editor_cell(i,j,@type)
+    begin
+      editor.change_editor_cell(i,j,@type)
+    rescue CellError => e
+      alert(e.message)
+    end
   end
 end
 

@@ -270,7 +270,7 @@ class PuzzleTest < Test::Unit::TestCase
   def test_walking_on_a_cell_calls_its_corresponding_walk_method
     pu = TestPuzzle.new
     c = mock()
-    c.expects(:walkable?).returns(true)
+    c.expects(:walkable?).returns(true).times(2)
     c.expects(:walk!).with(pu)
 
     pu.set_cell(1,1,c)

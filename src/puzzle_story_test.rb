@@ -335,4 +335,15 @@ class PuzzleStoryTest < Test::Unit::TestCase
     assert_equal DummyBoots, pu.boot_at(i,j).class
   end
 
+  def test_non_walkable_cell_cannot_be_placed_on_something_with_boots
+    pu = PuzzleWithBoots.new
+    assert_not_nil pu.boot_at(0,1)
+    begin
+      pu.set_cell(0,1,Wall.new)
+      bad("Should not be possible to put a non walkable on something that has boots")
+    rescue CellError => e
+      assert_equal("Attempt to set a non walkable cell at position 0,1 that contains boots", e.message)
+    end
+  end
+
 end

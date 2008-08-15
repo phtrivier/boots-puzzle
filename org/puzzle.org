@@ -1,6 +1,15 @@
 * Game Engine
-** TODO [#A] Prevent setting a non-walkable cell on something that contains a pair of boots
 ** TODO [#B] Fix the transparency of boots images
+** TODO Introduce the notion of 'initializer'
+*** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
+*** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
+*** reference l'initializer dans la classe (ajoute une liste à la classe, ie une variable globale sur la classe elle meme, avec un set_instance_variable, au besoin ... )
+*** TODO dans le constructeur, appeller tous les initializer dans l'ordre
+*** TODO transformer la creation des named_cells en initialiseur
+*** TODO transformer le placement des boots en initialiseur
+*** TODO changer la syntaxe des rows et transformer la creation des cases en un initializeur
+*** TODO changer la sauvegarde des rows (pour faire apparaitre rows do ...)
+
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
@@ -13,9 +22,6 @@
 ** TODO Add quotes associated to a puzzle
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
-** TODO [#B] Add tools to add double_boots somewhere on the puzzle
-*** DONE [#B] Handle case where the cell is not walkable
-*** TODO [#B] Handle setting a non-walkable cell on a cell that contains a pair of boots
 ** TODO [#B] Move the 'name cell' button to an actual tool
 ** TODO [#C] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
 
@@ -45,6 +51,10 @@
 ** TODO Distribute as a gem ?
 ** TODO inline help
 * Misc
+** TODO Move Rakefile to top level (git-move ?)
+** TODO separate tests and main sources
+** TODO separate editor sources and the rest
+** TODO seperate things using plugins, anyway ...
 ** web site ... thing about how to distribute, etc..
 ** continuous build ?
 ** test coverage tools ?

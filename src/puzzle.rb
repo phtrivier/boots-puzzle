@@ -214,9 +214,20 @@ class Puzzle
     end
   end
 
+  def check_boots_on_non_walkable(i,j,c)
+    if (!c.walkable? and boot_at?(i,j))
+      raise CellError.new("Attempt to set a non walkable cell at position #{i},#{j} that contains boots")
+    end
+  end
+
   def set_cell(i,j,c)
     check_duplicate_in_out(i,j,c)
+    check_boots_on_non_walkable(i,j,c)
     @cells[i][j] = c
+  end
+
+  def boot_at?(i,j)
+    boot_at(i,j) != nil
   end
 
   # Iterate over the cells
