@@ -50,17 +50,37 @@ class Cell
     end
   end
 
+  @@types_by_letter = { }
+  @@letters_by_type = { }
+
+  def self.letter(l)
+    k = self
+    @@types_by_letter[l] = k
+    @@letters_by_type[k] = l
+  end
+
+  def self.type_by_letter(l)
+    @@types_by_letter[l]
+  end
+
+  def self.letter_by_type(type)
+    @@letters_by_type[type]
+  end
 end
 
 class Wall < Cell
+  letter "#"
 end
 
 class Walkable < Cell
   walkable
+  letter "-"
 end
 
 class In < Walkable
+  letter "I"
 end
 
 class Out < Walkable
+  letter "O"
 end

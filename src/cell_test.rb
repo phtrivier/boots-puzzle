@@ -84,4 +84,18 @@ class CellTest < Test::Unit::TestCase
     assert_equal "img/in.png", In.new.src
   end
 
+  class CellWithLetter < Cell
+    letter "Y"
+  end
+
+  def test_cells_register_their_letters
+
+    assert_equal CellWithLetter, Cell.type_by_letter("Y")
+    assert_equal "Y", Cell.letter_by_type(CellWithLetter)
+
+    assert_equal "I", Cell.letter_by_type(In)
+    assert_equal "O", Cell.letter_by_type(Out)
+  end
+
+
 end

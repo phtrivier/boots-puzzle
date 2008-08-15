@@ -93,7 +93,7 @@ class ResetBootsTool
     "img/reset_boots.png"
   end
   def act(editor, i,j)
-    editor.puzzle.boot(i,j,nil)
+    editor.puzzle.remove_boot(i,j)
     editor.update_editor_cell(i,j)
   end
 end

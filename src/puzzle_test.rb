@@ -31,6 +31,10 @@ class PuzzleTest < Test::Unit::TestCase
     assert_equal(j,l, "Column index should be equals")
   end
 
+  def bad(msg)
+    assert false, msg
+  end
+
   # -----------------------
 
   class NoDimPuzzle < Puzzle
@@ -348,8 +352,24 @@ class PuzzleTest < Test::Unit::TestCase
     assert [1,0] == pu.out
   end
 
-
-  def bad(msg)
-    assert false, msg
+  class ParentPuzzle < Puzzle
+    dim 2,2
+    rows do
+      row "--"
+      row "IO"
+    end
   end
+
+  class SonPuzzle < ParentPuzzle
+    named_cells do
+      named_cell :entry, 0,0
+    end
+  end
+
+  def test_puzzle_can_inherit_rows
+    pu = SonPuzzle.new
+    assert_equal Walkable, pu.cell(0,0).class
+    assert_equal pu.cell(0,0), pu.cell_by_name(:entry)
+  end
+
 end

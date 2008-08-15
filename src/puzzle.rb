@@ -52,18 +52,14 @@ class Puzzle
   # The rows will have to respect those dimensions.
   def self.dim(w,h)
     self.instance_eval do
-
-      define_method(:w) do
-        w
-      end
-
-      define_method(:h) do
-         h
+      define_method :init_dimensions do
+        @w = w
+        @h = h
       end
     end
   end
 
-   def self.rows(&block)
+  def self.rows(&block)
     self.instance_eval do
       define_method "init_rows", block
     end
@@ -79,14 +75,11 @@ class Puzzle
   #  # for a wall
   # Puzzle can define a method 'extend_cell', which creates
   # other type of cells from a single char.
-
   def row(txt)
-    @empty_puzzle = false
     @cells << parse_row(txt)
   end
 
   # Parse a row of cells defined by 'row'
-  # TODO : MOVE THAT TO A PARSER ON ITS OWN
   def parse_row(txt)
     res = []
 
@@ -96,19 +89,18 @@ class Puzzle
 
     txt.each_byte do |b|
       c = b.chr
-      # TODO : OOfy this ...
-      case c
-        when "#" then res << Wall.new
-        when "I" then res << In.new
-        when "O" then res << Out.new
-        when "-" then res << Walkable.new
+
+      klass = Cell.type_by_letter(c)
+      if (klass != nil)
+        res << klass.new
+      else
+        if (respond_to?(:extend_cell))
+          res << extend_cell(c)
         else
-           if (respond_to?(:extend_cell))
-              res << extend_cell(c)
-           else
-             raise BadCellCharError.new(c)
-           end
+          raise BadCellCharError.new(c)
+        end
       end
+
     end
 
     res
@@ -125,7 +117,6 @@ class Puzzle
   end
 
   def call_initers
-
     @@initers.each do |name|
       initer_method_name = "init_#{name}"
       if (respond_to?(initer_method_name))
@@ -149,17 +140,20 @@ class Puzzle
     end
 
     @cells = []
-    @empty_puzzle = true
     @named_cells = Dictionary.new
     @boots = { }
 
     call_initers
 
+    check_dimensions
+
   end
 
-  # Order is important : init_rows must be called before init_dimensions
-  initer(:rows)
+  # Order is important
+  # If dim has been called on the class, init_dimensions
+  # will initialize @h and @w
   initer(:dimensions)
+  initer(:rows)
 
   def in
      find_cell_by_type(In)
@@ -181,18 +175,31 @@ class Puzzle
   end
 
   # Init the dimension of the puzzle
+#   def init_dimensions
+
+#     if (@empty_puzzle)
+#       @h.times do |i|
+#         @cells[i] = []
+#       end
+#     else
+#       if @cells.size != @h
+#         raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
+#       end
+#     end
+
+#   end
+
+  # NOTE : THIS IS THE DEFAULT ONE
   def init_dimensions
-
-    if (@empty_puzzle)
-      @h.times do |i|
-        @cells[i] = []
-      end
-    else
-      if @cells.size != @h
-        raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
-      end
+    @h.times do |i|
+      @cells[i] = []
     end
+  end
 
+  def check_dimensions
+    if @cells.size != @h
+      raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
+    end
   end
 
   # A cell by its position
@@ -362,25 +369,18 @@ class Puzzle
     res = "class #{class_name} < Puzzle\n"
     res << " dim #{@w},#{@h}\n"
 
-    # TODO : Really, make this more extensible, OO and all
-    # It must be easy to add code in the Cell class to do
-    # the output for me ... without breaking a lot ...
     res << " rows do\n"
     @cells.each do |line|
       res << "  row \""
       line.each do |c|
-        if (c.class == Wall)
-          res << "#"
+
+        l = Cell.letter_by_type(c.class)
+        if (l==nil)
+          raise CellError.new("Don't know how to serialize #{c} (type : #{c.class})")
+        else
+          res << l
         end
-        if (c.class == Walkable)
-          res << "-"
-        end
-        if (c.class == In)
-          res << "I"
-        end
-        if (c.class == Out)
-          res << "O"
-        end
+
       end
       res << "\"\n"
     end

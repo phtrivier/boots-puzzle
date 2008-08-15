@@ -1,16 +1,13 @@
 * Game Engine
-** TODO [#A] Improve saving / parsing by asking the cells what letter they are ... (have a factory, that is ?)
-*** TODO Saving : delegate naming to the cell, or the parser
-*** TODO Loading : have a parser ...
-** TODO [#C] Add the campain / level / puzzle system
+** TODO [#B] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
-** TODO [#C] Add the plugin system
+** TODO [#B] Add the plugin system
 *** TODO A plugin has (potentially) : cells type, boots type, story element modules
 *** TODO A plugin can be required by a puzzle / a campaign ?
 ** TODO Complete the story system
-*** TODO [#C] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
-*** TODO [#C] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
+*** TODO [#B] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
+*** TODO [#B] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
 ** TODO [#LATER] Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
 *** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
@@ -25,9 +22,8 @@
 *** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
 
 ** TODO Add quotes associated to a puzzle
-** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
-** TODO [#B] handle 'dirty' mode (to known when you need to save stuff ...)
+** TODO [#A] handle 'dirty' mode (to known when you need to save stuff ...)
 ** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
 ** TODO At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
    -> Level editor ?
