@@ -50,5 +50,4 @@
 ** TODO separate editor sources and the rest
 ** TODO seperate things using plugins, anyway ...
 ** web site ... thing about how to distribute, etc..
-** continuous build ?
 ** test coverage tools ?
