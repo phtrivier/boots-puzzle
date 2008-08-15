@@ -1,5 +1,4 @@
 * Game Engine
-** TODO [#B] Fix transparency on double_boots.png
 ** TODO [#A] Improve saving / parsing by asking the cells what letter they are ... (have a factory, that is ?)
 *** TODO Saving : delegate naming to the cell, or the parser
 *** TODO Loading : have a parser ...
