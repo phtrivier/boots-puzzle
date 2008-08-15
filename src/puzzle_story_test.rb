@@ -29,8 +29,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
   class SpecialPuzzle < Puzzle
     dim 2,2
-    row "--"
-    row "IO"
+    rows do
+      row "--"
+      row "IO"
+    end
 
     named_cells do
       named_cell :bar, 0 ,0
@@ -67,8 +69,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
   class PuzzleWithStory < SpecialPuzzle
     dim 2,2
-    row "--"
-    row "IO"
+    rows do
+      row "--"
+      row "IO"
+    end
 
     named_cells do
       named_cell :bar, 0 ,0
@@ -109,8 +113,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
   class NonSymetricPuzzle < Puzzle
     dim 3,2
-    row "I--"
-    row "--O"
+    rows do
+      row "I--"
+      row "--O"
+    end
   end
 
   def test_walking_outside_of_a_symetric_puzzle_is_not_possible
@@ -140,8 +146,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
     pu = NonSymetricPuzzle.new
     expected = ["class NonSymetricPuzzle < Puzzle",
                 " dim 3,2",
-                ' row "I--"',
-                ' row "--O"',
+                ' rows do',
+                '  row "I--"',
+                '  row "--O"',
+                ' end',
                 "end\n"
                 ].join("\n")
 
@@ -155,8 +163,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
     ex =  ["class PuzzleWithStory < Puzzle",
            " dim 2,2",
-           ' row "--"',
-           ' row "IO"',
+           ' rows do',
+           '  row "--"',
+           '  row "IO"',
+           ' end',
            '',
            ' named_cells do',
            '  named_cell :bar, 0, 0',
@@ -166,8 +176,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
     ex2 =  ["class PuzzleWithStory < Puzzle",
            " dim 2,2",
-           ' row "--"',
-           ' row "IO"',
+           ' rows do',
+           '  row "--"',
+           '  row "IO"',
+           ' end',
            '',
            ' named_cells do',
            '  named_cell :foo, 0, 1',
@@ -227,8 +239,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
   class PuzzleWithBoots < Puzzle
     dim 2,2
 
-    row "--"
-    row "IO"
+    rows do
+      row "--"
+      row "IO"
+    end
 
     named_cells do
       named_cell :foo,0,0
@@ -251,8 +265,10 @@ class PuzzleStoryTest < Test::Unit::TestCase
 
     expected = ["class PuzzleWithBoots < Puzzle",
                 " dim 2,2",
-                ' row "--"',
-                ' row "IO"',
+                ' rows do',
+                '  row "--"',
+                '  row "IO"',
+                ' end',
                 '',
                 ' named_cells do',
                 '  named_cell :foo, 0, 0',

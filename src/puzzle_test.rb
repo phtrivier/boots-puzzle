@@ -38,9 +38,11 @@ class PuzzleTest < Test::Unit::TestCase
   end
 
   class DimPuzzle < Puzzle
-      dim 1,2
+    dim 1,2
+    rows do
       row "#"
       row "#"
+    end
   end
 
   def test_reads_dimension
@@ -60,8 +62,10 @@ class PuzzleTest < Test::Unit::TestCase
 
   class RowsPuzzle < Puzzle
     dim 3,2
-    row "###"
-    row "I-O"
+    rows do
+      row "###"
+      row "I-O"
+    end
   end
 
   def test_reads_rows
@@ -80,7 +84,10 @@ class PuzzleTest < Test::Unit::TestCase
 
   class ExtendingCellTypePuzzle < Puzzle
     dim 2,1
-    row "@@"
+
+    rows do
+      row "@@"
+    end
 
     def extend_cell(c)
        res = nil
@@ -99,7 +106,11 @@ class PuzzleTest < Test::Unit::TestCase
 
   class InvalidCharPuzzle < Puzzle
     dim 1,1
-    row "%"
+
+    rows do
+      row "%"
+    end
+
   end
 
   def test_invalid_cell_definition_with_no_extension_cause_errors
@@ -113,8 +124,10 @@ class PuzzleTest < Test::Unit::TestCase
 
   class BadDimensionPuzzle < Puzzle
     dim 3,2
-    row "##"
-    row "##"
+    rows do
+      row "##"
+      row "##"
+    end
   end
 
   def test_checks_dimension_width
@@ -128,7 +141,9 @@ class PuzzleTest < Test::Unit::TestCase
 
   class BadDimensionPuzzle2 < Puzzle
     dim 3,2
-    row "###"
+    rows do
+      row "###"
+    end
   end
 
   def test_checks_dimension_height
@@ -142,8 +157,10 @@ class PuzzleTest < Test::Unit::TestCase
 
   class PuzzleIter < Puzzle
     dim 2,2
-    row "#I"
-    row "-O"
+    rows do
+      row "#I"
+      row "-O"
+    end
   end
 
   def test_iterate_over_cells
@@ -174,8 +191,10 @@ class PuzzleTest < Test::Unit::TestCase
 
   class NoInOut < Puzzle
     dim 2, 2
-    row "##"
-    row "--"
+    rows do
+      row "##"
+      row "--"
+    end
   end
 
   def test_returns_nil_nil_if_no_in_out
@@ -189,8 +208,10 @@ class PuzzleTest < Test::Unit::TestCase
 
   class TestPuzzle < Puzzle
     dim 2,2
+    rows do
     row "#I"
     row "O-"
+      end
   end
 
   def test_knows_whether_a_position_is_walkable

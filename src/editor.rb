@@ -19,7 +19,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
 require 'puzzle'
-
 require 'tools'
 
 class EditorCell < Struct.new(:type, :img, :boot_img, :name_img)

@@ -18,10 +18,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-
 require 'cell'
 require 'errors'
 require 'player'
+
+require 'rubygems'
+require 'dictionary'
 
 class Puzzle
 
@@ -31,11 +33,20 @@ class Puzzle
   attr_accessor :cells
   attr_reader :named_cells
 
-  # The player, nul until 'enters_player!' is called
+  # The player, nil until 'enters_player!' is called
   attr_reader :player
+
+  # Meta class accessor
+  def self.meta
+    class << self
+      self
+    end
+  end
 
   # Class methods to make definition of a puzzle
   # DSL-like
+  # ----
+  # Rows management
 
   # Sets the size of the puzzle.
   # The rows will have to respect those dimensions.
@@ -52,6 +63,12 @@ class Puzzle
     end
   end
 
+   def self.rows(&block)
+    self.instance_eval do
+      define_method "init_rows", block
+    end
+  end
+
   # Add a row to the puzzle.
   # Argument is a string of characters, each character
   # corresponding to a cell.
@@ -62,35 +79,14 @@ class Puzzle
   #  # for a wall
   # Puzzle can define a method 'extend_cell', which creates
   # other type of cells from a single char.
-  def self.row(txt)
 
-    self.instance_eval do
-
-      if (!instance_variable_defined?(:@c_cells))
-        instance_variable_set(:@c_cells, [])
-      end
-
-      @c_cells << txt
-
-    end
-
-  end
-
-  def self.c_cells
-    if (!instance_variable_defined?(:@c_cells))
-      nil
-    else
-      instance_variable_get(:@c_cells)
-    end
-  end
-
-  def self.meta
-    class << self
-      self
-    end
+  def row(txt)
+    @empty_puzzle = false
+    @cells << parse_row(txt)
   end
 
   # Parse a row of cells defined by 'row'
+  # TODO : MOVE THAT TO A PARSER ON ITS OWN
   def parse_row(txt)
     res = []
 
@@ -118,6 +114,27 @@ class Puzzle
     res
   end
 
+  # ------------------------------
+  # Initers registers themselves using 'initer :name'.
+  # Then in the end of the constructor, a method 'init_#{name}' will
+  # be called if available
+  @@initers = []
+
+  def self.initer(name)
+    @@initers << name
+  end
+
+  def call_initers
+
+    @@initers.each do |name|
+      initer_method_name = "init_#{name}"
+      if (respond_to?(initer_method_name))
+        send initer_method_name
+      end
+    end
+  end
+
+  # -------------------------------
   # Constructor without argument
   # Dimensions are provided by the parent class,
   # provided 'dim' has been called on them
@@ -132,14 +149,17 @@ class Puzzle
     end
 
     @cells = []
-    @named_cells = { }
+    @empty_puzzle = true
+    @named_cells = Dictionary.new
     @boots = { }
-
-    init_dimensions
 
     call_initers
 
   end
+
+  # Order is important : init_rows must be called before init_dimensions
+  initer(:rows)
+  initer(:dimensions)
 
   def in
      find_cell_by_type(In)
@@ -163,23 +183,13 @@ class Puzzle
   # Init the dimension of the puzzle
   def init_dimensions
 
-    # If a parent class exists with the description,
-    # use it to build the puzzle.
-    if (self.class.c_cells != nil)
-      self.class.c_cells.each do |txt|
-        @cells << parse_row(txt)
-      end
-
-      if @cells.size != @h
-        raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
-      end
-
-    else
-
-      # Let the array have proper dimensions no matter what
-      # (usefull for Puzzle.empty)
+    if (@empty_puzzle)
       @h.times do |i|
         @cells[i] = []
+      end
+    else
+      if @cells.size != @h
+        raise BadDimension.new("Bad puzzle ; found #{@cells.size} row(s), expecting #{h}")
       end
     end
 
@@ -209,6 +219,7 @@ class Puzzle
     end
   end
 
+  # Set a cell of the puzzle
   def set_cell(i,j,c)
     check_duplicate_in_out(i,j,c)
     check_boots_on_non_walkable(i,j,c)
@@ -256,26 +267,6 @@ class Puzzle
     @player.current_boots.try_move!(self, dir)
   end
 
-  # ------------------------------
-  # Initers registers themselves using 'initer :name'.
-  # Then in the end of the constructor, a method 'init_#{name}' will
-  # be called if available
-  @@initers = []
-
-  def self.initer(name)
-    @@initers << name
-  end
-
-  def call_initers
-
-    @@initers.each do |name|
-      initer_method_name = "init_#{name}"
-      if (respond_to?(initer_method_name))
-        send initer_method_name
-      end
-    end
-  end
-
   # ---
   # All puzzles class should have a 'init_named_cells' called if possible)
   initer(:named_cells)
@@ -317,9 +308,13 @@ class Puzzle
   # Undefine a named cell
   # Throws an error if no cell exists with this name
   def unname_cell(name)
-    @named_cells.delete(name) do |not_found_name|
-      raise NoCellError.new("No cell named #{not_found_name} in puzzle")
+
+    if (@named_cells.has_key?(name))
+      @named_cells.delete(name)
+    else
+      raise NoCellError.new("No cell named #{name} in puzzle")
     end
+
   end
 
   # ---
@@ -370,8 +365,9 @@ class Puzzle
     # TODO : Really, make this more extensible, OO and all
     # It must be easy to add code in the Cell class to do
     # the output for me ... without breaking a lot ...
+    res << " rows do\n"
     @cells.each do |line|
-      res << " row \""
+      res << "  row \""
       line.each do |c|
         if (c.class == Wall)
           res << "#"
@@ -388,6 +384,7 @@ class Puzzle
       end
       res << "\"\n"
     end
+    res << " end\n"
 
     if (!@named_cells.empty?)
       res << "\n"

@@ -1,13 +1,8 @@
 * Game Engine
-** TODO Introduce the notion of 'initializer'
-*** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
-*** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
-*** reference l'initializer dans la classe (ajoute une liste à la classe, ie une variable globale sur la classe elle meme, avec un set_instance_variable, au besoin ... )
-*** TODO dans le constructeur, appeller tous les initializer dans l'ordre
-*** TODO transformer la creation des named_cells en initialiseur
-*** TODO transformer le placement des boots en initialiseur
-*** TODO changer la syntaxe des rows et transformer la creation des cases en un initializeur
-*** TODO changer la sauvegarde des rows (pour faire apparaitre rows do ...)
+** TODO [#B] Fix transparency on double_boots.png
+** TODO [#A] Improve saving / parsing by asking the cells what letter they are ... (have a factory, that is ?)
+*** TODO Saving : delegate naming to the cell, or the parser
+*** TODO Loading : have a parser ...
 ** TODO [#C] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
 *** TODO A level consist of a puzzle and a puzzle story
@@ -17,15 +12,22 @@
 ** TODO Complete the story system
 *** TODO [#C] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
 *** TODO [#C] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
+** TODO [#LATER] Introduce the notion of 'initializer'
+*** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
+*** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
+*** reference l'initializer dans la classe (ajoute une liste à la classe, ie une variable globale sur la classe elle meme, avec un set_instance_variable, au besoin ... )
+*** Note : ca a l'air vraiment trop dur, et pas forcement indispensable ; pour l'instant
+*** je laisse les initializeur ecrits "a la pogne" (ca va finir en gros eval, non?), et je ne fais
+*** que referencer la liste des methodes d'init a appeller ...
+*** DONE dans le constructeur, appeller tous les initializer dans l'ordre
+*** DONE transformer la creation des named_cells en initialiseur
+*** DONE transformer le placement des boots en initialiseur
+*** DONE changer la syntaxe des rows et transformer la creation des cases en un initializeur
+*** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
+
 ** TODO Add quotes associated to a puzzle
 ** TODO Make it possible to inherit the rows between puzzles
 * Puzzle Editor
-** TODO [#A] Have multiple colors for different named cells (use several icons,with different colors, opened in orders)
-*** DONE Make the various icons (5?)
-*** DONE When setting, use each of them, in turn
-*** DONE Add the icon in the list of named cells
-*** TODO Modify the puzzle model so that named cells are returned in the order they were added, so
-*** that the colors of the named cells do not change all the time ...
 ** TODO [#B] handle 'dirty' mode (to known when you need to save stuff ...)
 ** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
 ** TODO At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
