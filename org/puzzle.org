@@ -48,6 +48,5 @@
 ** TODO Move Rakefile to top level (git-move ?)
 ** TODO separate tests and main sources
 ** TODO separate editor sources and the rest
-** TODO seperate things using plugins, anyway ...
-** web site ... thing about how to distribute, etc..
+** TODO separate things using plugins, anyway ...
 ** test coverage tools ?
