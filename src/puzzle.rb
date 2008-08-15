@@ -137,21 +137,10 @@ class Puzzle
 
     init_dimensions
 
-    if (respond_to?(:init_named_cells))
-      init_named_cells
-    end
+    call_initers
 
-    if (respond_to?(:init_story))
-      init_story
-    end
-
-    if (respond_to?(:init_boots))
-      init_boots
-    end
   end
 
-  # TODO : MAKE SURE THAT SETTING AN IN / OUT TWICE RAISES AN ERROR
-  # 'Manual' accessor for in and out
   def in
      find_cell_by_type(In)
   end
@@ -226,10 +215,6 @@ class Puzzle
     @cells[i][j] = c
   end
 
-  def boot_at?(i,j)
-    boot_at(i,j) != nil
-  end
-
   # Iterate over the cells
   # Yields the position of each cell (two ints) and the
   # cell itself
@@ -271,12 +256,45 @@ class Puzzle
     @player.current_boots.try_move!(self, dir)
   end
 
+  # ------------------------------
+  # Initers registers themselves using 'initer :name'.
+  # Then in the end of the constructor, a method 'init_#{name}' will
+  # be called if available
+  @@initers = []
+
+  def self.initer(name)
+    @@initers << name
+  end
+
+  def call_initers
+
+    @@initers.each do |name|
+      initer_method_name = "init_#{name}"
+      if (respond_to?(initer_method_name))
+        send initer_method_name
+      end
+    end
+  end
+
+  # ---
+  # All puzzles class should have a 'init_named_cells' called if possible)
+  initer(:named_cells)
+
+  # Wrapper for the method to declare named_cells
   def self.named_cells(&block)
     self.instance_eval do
       define_method(:init_named_cells, block)
     end
   end
 
+  # Define a named cell (should be called in
+  # a block passed to 'named_cells').
+  def named_cell(name, i, j)
+    @named_cells[name] = [i,j]
+  end
+
+  # Retrive a cell by its name.
+  # nil if there is no cell with the given name.
   def cell_by_name(name)
     res = nil
     if (@named_cells.has_key?(name))
@@ -286,9 +304,14 @@ class Puzzle
     res
   end
 
-  # Defined a named cell
-  def named_cell(name, i, j)
-    @named_cells[name] = [i,j]
+  # Replace a named cell.
+  def set_cell_by_name(name, c)
+    if (@named_cells.has_key?(name))
+      i,j = @named_cells[name]
+      set_cell(i,j,c)
+    else
+       raise NoCellError.new("No cell named #{name} in puzzle")
+    end
   end
 
   # Undefine a named cell
@@ -298,6 +321,10 @@ class Puzzle
       raise NoCellError.new("No cell named #{not_found_name} in puzzle")
     end
   end
+
+  # ---
+  # 'init_story' should be called if possible
+  initer(:story)
 
   # Indicate which story should be loaded
   def self.story(story_name)
@@ -320,15 +347,8 @@ class Puzzle
     set_cell_by_name(name, cell)
   end
 
-  # Replace a named cell.
-  def set_cell_by_name(name, c)
-    if (@named_cells.has_key?(name))
-      i,j = @named_cells[name]
-      set_cell(i,j,c)
-    else
-       raise NoCellError.new("No cell named #{name} in puzzle")
-    end
-  end
+
+  # --------------------------------
 
   # Convinient method to create an empty puzzle
   def self.empty(w,h)
@@ -341,6 +361,7 @@ class Puzzle
     pu
   end
 
+  # Serialze a puzzle
   def serialize(class_name)
 
     res = "class #{class_name} < Puzzle\n"
@@ -391,6 +412,11 @@ class Puzzle
     res
   end
 
+  # Try and load a puzzle from a file
+  # file_name : rb file to load
+  # klass_name : puzzle class
+  # error_block : what to do if an error happens. The error block is passed
+  #  the file name, class name, and the actual error.
   def self.load(file_name, klass_name, &error_block)
      begin
        require file_name
@@ -399,6 +425,10 @@ class Puzzle
        error_block.call(file_name, klass_name, e)
      end
   end
+
+  # ------------------------------------
+  # 'init_boots' should be called if possible
+  initer(:boots)
 
   def boot(i,j,klass)
     new_boots = nil
@@ -411,8 +441,15 @@ class Puzzle
     @boots[ [i,j] ] = new_boots
   end
 
+  # Get the boot at a given position.
+  # nil if there is none.
   def boot_at(i,j)
     @boots[ [i,j] ]
+  end
+
+  # Is there a boot at a given position ?
+  def boot_at?(i,j)
+    boot_at(i,j) != nil
   end
 
   def remove_boot(i,j)
@@ -451,5 +488,6 @@ class Puzzle
       end
     end
   end
+
 end
 
