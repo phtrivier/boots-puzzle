@@ -34,6 +34,13 @@ end
 
 require 'puzzle'
 
+require 'plugins'
+
+# Init the plugin
+Plugins.init("src/plugins")
+Plugins.read_manifests
+Plugins.need("water")
+
 module SimplePuzzleStory
   def init_story
     story_event(:trap, Walkable) do |puzzle|
@@ -49,12 +56,13 @@ module SimplePuzzleStory
 end
 
 class SimplePuzzle < Puzzle
-  dim 4,3
+  dim 4,4
 
   rows do
     row "###O"
     row "I##-"
     row "----"
+    row "~~~~"
   end
 
   named_cells do
