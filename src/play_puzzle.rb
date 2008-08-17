@@ -157,8 +157,8 @@ class GameWindow < Gosu::Window
     super(640, 480, false)
     self.caption = "Puzzle Game"
 
-    if (ARGV[0] != nil && ARGV[1] != nil)
-      @puzzle = Puzzle.load(ARGV[0], ARGV[1]) do |file_name, klass_name, e|
+    if (ARGV[1] != nil && ARGV[2] != nil)
+      @puzzle = Puzzle.load(ARGV[1], ARGV[2]) do |file_name, klass_name, e|
         puts "Unable to load puzzle #{klass_name} from file #{file_name}, #{e}"
         usage
         exit(-1)

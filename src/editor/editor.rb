@@ -18,14 +18,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
+$LOAD_PATH << "../core"
+
 require 'puzzle'
 require 'tools'
+
+module ImagePath
+  def to_image_path(src)
+    "../core/#{src}"
+  end
+end
 
 class EditorCell < Struct.new(:type, :img, :boot_img, :name_img)
 end
 
 # A location for a selected tool
 class ToolSlot
+  include ImagePath
+
   attr_reader :img
   attr_reader :tool
 
@@ -36,36 +46,39 @@ class ToolSlot
 
   def set_tool(tool)
     @tool = tool
-    @img.path = tool.src
+    @img.path = to_image_path(tool.src)
     @img.hide
     @img.show
   end
 end
 
 class Editor < Shoes
+
+  include ImagePath
+
   url '/', :index
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
-  Transparent = "img/transparent.png"
+  Transparent = "../core/img/transparent.png"
 
   attr_reader :puzzle
 
-  # ----------------------------------------
+   # ----------------------------------------
 
   # Main page
   def index
-    @cells = []
+     @cells = []
 
-    @new_type = Wall
+     @new_type = Wall
 
-    @tool_slots = { }
+     @tool_slots = { }
 
-    @named_cell_icons = NameCellTool::Icons
-    @named_cell_icon_index = 0
+     @named_cell_icons = NameCellTool::Icons
+     @named_cell_icon_index = 0
 
-    load_or_init_puzzle
-    show_editor
+     load_or_init_puzzle
+     show_editor
   end
 
   def load_or_init_puzzle
@@ -139,15 +152,14 @@ class Editor < Shoes
         cell_tool_button(OutTool.new())
       end
 
-      flow :margin_top => '5px', :margin_left => '5px' do
-        cell_tool_button(CellTool.new(Wall))
-        cell_tool_button(CellTool.new(Walkable))
-      end
+       flow :margin_top => '5px', :margin_left => '5px' do
+         cell_tool_button(CellTool.new(Wall))
+         cell_tool_button(CellTool.new(Walkable))
+       end
 
-      flow :margin_top => '5px', :margin_left => '5px' do
-        cell_tool_button(NameCellTool.new)
-      end
-
+       flow :margin_top => '5px', :margin_left => '5px' do
+         cell_tool_button(NameCellTool.new)
+       end
 
     end
 
@@ -180,7 +192,7 @@ class Editor < Shoes
   def init_tool_slot(type)
     # This works because I am creating CellTool ...
     tool = CellTool.new(type)
-    img = image tool.src
+    img = image to_image_path(tool.src)
     tool_slot = ToolSlot.new(tool, img)
     tool_slot
   end
@@ -269,7 +281,7 @@ class Editor < Shoes
       @named_cells_list.append do
         flow do
           flow :width => "40%" do
-             image icon
+             image to_image_path(icon)
             para "[#{pos[0]},#{pos[1]}]"
           end
           flow :width => "40%" do
@@ -283,7 +295,7 @@ class Editor < Shoes
           end
         end
         i,j = pos
-        @cells[i][j].name_img.path = icon
+        @cells[i][j].name_img.path = to_image_path(icon)
       end
     end
   end
@@ -301,7 +313,7 @@ class Editor < Shoes
     flow :width => '40px' do
       b = border black, :strokewidth => 1
 
-      img = image t.new.src
+      img = image to_image_path(t.new.src)
 
       name_img = image Transparent
       name_img.move(0,0)
@@ -344,7 +356,7 @@ class Editor < Shoes
     @puzzle.set_cell(i,j, t.new)
     # TODO : CLEAN THE STRUCT, THERE SHOULD BE ONLY IMAGE ?
     img = @cells[i][j].img # Replace if with a list of images ...
-    img.path = t.new.src
+    img.path = to_image_path(t.new.src)
     update_editor_cell(i,j)
   end
 
@@ -357,7 +369,7 @@ class Editor < Shoes
     b = @puzzle.boot_at(i,j)
     img = @cells[i][j].boot_img
     if ( b != nil)
-      img.path = b.src
+      img.path = to_image_path(b.src)
     else
       img.path = Transparent
     end
@@ -368,7 +380,7 @@ class Editor < Shoes
   # A button to toggle the current tool
   def cell_tool_button(tool)
     stack :width => "50%" do
-      image tool.src
+      image "../core/#{tool.src}"
 
       click do |b,l,t|
         if (b == LEFT_BUTTON)
