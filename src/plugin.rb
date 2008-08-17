@@ -20,7 +20,7 @@
 
 class Plugin
 
-  ElementTypes = [:patches, :cells, :boots, :tools]
+  ElementTypes = [:patches, :cells, :boots, :stories, :tools]
 
   attr_reader :name
   attr_accessor :status

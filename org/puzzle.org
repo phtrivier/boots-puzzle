@@ -1,6 +1,7 @@
 * Game Engine
 ** TODO [#A] Add the plugin system
-*** TODO A plugin has (potentially) : cells type, boots type, story element modules
+*** DONE A plugin has (potentially) : cells type, boots type, story element modules, tools, patches
+*** DONE A plugin can be manifested with a manifest file, its elements loaded as relevant
 *** TODO A plugin can be required by a puzzle / a campaign ?
 ** TODO [#B] Add the campain / level / puzzle system
 *** TODO A campaign loads the various plugin required, and the various levels
