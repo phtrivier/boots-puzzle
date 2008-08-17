@@ -90,7 +90,7 @@ end
 
 class ResetBootsTool
   def src
-    "img/reset_boots.png"
+    "../editor/img/reset_boots.png"
   end
   def act(editor, i,j)
     editor.puzzle.remove_boot(i,j)
@@ -100,9 +100,9 @@ end
 
 class NameCellTool
 
-  Icon = "img/named_cell_0.png"
+  Icon = "../editor/img/named_cell_0.png"
   Icons = (0..5).collect do |i|
-    "img/named_cell_#{i}.png"
+    "../editor/img/named_cell_#{i}.png"
   end
 
   def src

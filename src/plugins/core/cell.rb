@@ -35,7 +35,7 @@ class Cell
   end
 
   def src
-    "img/#{self.class.name.downcase}.png"
+    "core/img/#{self.class.name.downcase}.png"
   end
 
   # Make something happen when

@@ -308,7 +308,7 @@ class GameWindow < Gosu::Window
 
   # Locate the image (it must be available globally ?)
   def to_image_path(src)
-    "src/core/#{src}"
+    "src/plugins/#{src}"
   end
 
   def get_image(cell)

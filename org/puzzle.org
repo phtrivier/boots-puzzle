@@ -28,7 +28,7 @@
 ** Add a background around the UI
 ** Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
-** TODO
+** TODO Fix the place where images are loaded from (not necessarily the core !)
 ** TODO [#B] Adventure system
 *** TODO Load an adventure file
 **** Adventure editing

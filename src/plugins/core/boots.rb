@@ -56,7 +56,7 @@ class BareFeet < Boots
   end
 
   def src
-     "img/bare_feet.png"
+     "core/img/bare_feet.png"
   end
 end
 
@@ -72,7 +72,7 @@ class DoubleBoots < Boots
   end
 
   def src
-    "img/double_boots.png"
+    "core/img/double_boots.png"
   end
 
 end

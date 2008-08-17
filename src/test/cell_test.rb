@@ -80,8 +80,8 @@ class CellTest < Test::Unit::TestCase
   end
 
   def test_image_src_is_taken_from_class_name
-    assert_equal "img/walkable.png", Walkable.new.src
-    assert_equal "img/in.png", In.new.src
+    assert_equal "core/img/walkable.png", Walkable.new.src
+    assert_equal "core/img/in.png", In.new.src
   end
 
   class CellWithLetter < Cell

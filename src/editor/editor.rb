@@ -18,14 +18,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-$LOAD_PATH << "../core"
+$LOAD_PATH << "../plugins/core"
 
 require 'puzzle'
 require 'tools'
 
 module ImagePath
   def to_image_path(src)
-    "../core/#{src}"
+    "../plugins/#{src}"
   end
 end
 
@@ -60,7 +60,7 @@ class Editor < Shoes
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
-  Transparent = "../core/img/transparent.png"
+  Transparent = "img/transparent.png"
 
   attr_reader :puzzle
 
@@ -380,7 +380,9 @@ class Editor < Shoes
   # A button to toggle the current tool
   def cell_tool_button(tool)
     stack :width => "50%" do
-      image "../core/#{tool.src}"
+      debug "Source : #{tool.src}"
+      debug "Image path : #{to_image_path(tool.src)}"
+      image to_image_path(tool.src)
 
       click do |b,l,t|
         if (b == LEFT_BUTTON)
