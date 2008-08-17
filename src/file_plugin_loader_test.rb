@@ -24,13 +24,14 @@ require 'file_plugin_loader'
 class FilePluginLoaderTest < Test::Unit::TestCase
 
   def setup
-    @l = FilePluginLoader.new("testdir/file_plugin_loader_test/plugins")
+    @base = "testdir/file_plugin_loader_test/plugins"
+    @l = FilePluginLoader.new("#{@base}")
   end
 
   def test_inspect_a_plugin_by_its_name
-    assert_equal "testdir/plugins/a", @l.plugin_dir("a")
-    assert_equal "testdir/plugins/a/cells", @l.plugin_elem_dir("a", :cells)
-    assert_equal ["testdir/plugins/a/cells/a_cell.rb"], @l.plugin_element_filenames("a", :cells)
+    assert_equal "#{@base}/a", @l.plugin_dir("a")
+    assert_equal "#{@base}/a/cells", @l.plugin_elem_dir("a", :cells)
+    assert_equal ["#{@base}/a/cells/a_cell.rb"], @l.plugin_element_filenames("a", :cells)
 
     assert @l.has_element?("a", :cells)
     assert @l.has_element?("a", :boots)

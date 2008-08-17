@@ -29,6 +29,14 @@ class Plugins
     @@manager = PluginManager.new(FilePluginLoader.new(@@root))
   end
 
+  def self.manifested?(name)
+    @@manager.manifested?(name)
+  end
+
+  def self.loaded?(name)
+    @@manager.loaded?(name)
+  end
+
   def self.manifest(name, deps = [])
     @@manager.manifest!(name, deps)
   end
@@ -41,7 +49,8 @@ class Plugins
 
   def self.read_manifests()
     Dir["#{@@root}/*/manifest.rb"].each do |filename|
-      require filename
+      # Manifests are reloaded each time (usefull for tests)
+      load filename
     end
   end
 

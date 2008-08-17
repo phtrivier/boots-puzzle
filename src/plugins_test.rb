@@ -19,19 +19,64 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
 require 'plugins'
-require 'test/unit'
+require 'bp_test_case'
 
-class PluginsTest < Test::Unit::TestCase
+class PluginsTest < BPTestCase
+
+  def setup
+    Plugins.init("testdir/plugins_test/plugins")
+    Plugins.read_manifests
+  end
 
   def test_can_load_manifest_file_for_a_plugin
-
+    assert Plugins.manifested?("b")
+    assert Plugins.manifested?("c")
   end
 
   def test_loads_plugin_if_needed
+    assert Plugins.manifested?("b")
+    assert Plugins.manifested?("c")
+    Plugins.need("b")
+    assert Plugins.loaded?("b")
+  end
+
+  def test_recursively_loads_plugin_if_needed
+    assert Plugins.manifested?("b")
+    assert Plugins.manifested?("c")
+    Plugins.need("c")
+    assert Plugins.loaded?("b")
+    assert Plugins.loaded?("c")
+  end
+
+  def test_unneed_plugin_is_not_loaded
+    # "d" is not required by any one
+    assert Plugins.manifested?("d")
+    Plugins.need("c")
+    assert !Plugins.loaded?("d")
+
+    c = CBoots.new
+    assert_not_nil c
+    assert_equal [3, 3] , c.new_position(nil, nil)
+
+    begin
+      d = DBoots.new
+      bad "Should not be possible to create something that has not been loaded"
+    rescue NameError => e
+      assert_equal "uninitialized constant PluginsTest::DBoots", e.message
+    end
 
   end
 
-  def test_recursively_loads_plugin_if_required
+  def test_sloppyness_forgiving_message
+    begin
+      Plugin.manifest("toto")
+      bad("No such method")
+    rescue RuntimeError => e
+      assert_equal "Manifest syntax error for plugin toto : use Plugins.manifest (with an 's') instead of Plugin.manifest in toto/manifest.rb.", e.message
+    end
+
   end
+
+  # Test needing several at a time
 
 end

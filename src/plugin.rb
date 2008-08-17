@@ -31,6 +31,12 @@ class Plugin
     @dependencies = dependencies
     @status = :unmanifested
   end
+
+  # Sloppyness forgiving error message
+  def self.manifest(name)
+    raise RuntimeError.new("Manifest syntax error for plugin #{name} : use Plugins.manifest (with an 's') instead of Plugin.manifest in #{name}/manifest.rb.")
+  end
+
 end
 
 class PluginError < RuntimeError
