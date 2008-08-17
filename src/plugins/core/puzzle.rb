@@ -328,6 +328,7 @@ class Puzzle
   # 'init_story' should be called if possible
   initer(:story)
 
+
   # Indicate which story should be loaded
   def self.story(story_name)
     include story_name
