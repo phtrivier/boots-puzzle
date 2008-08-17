@@ -22,23 +22,7 @@
 # by contract, Tools should provide :
 #  src : a method to get the path to an image for the tool
 #  act : the method to call when the tool is applied to the editor
-class CellTool
-  def initialize(type)
-    @type = type
-  end
-
-  def src
-    @type.new.src
-  end
-
-  def act(editor, i,j)
-    begin
-      editor.change_editor_cell(i,j,@type)
-    rescue CellError => e
-      alert(e.message)
-    end
-  end
-end
+require 'tools_register'
 
 # TODO : MAKE A TOOL ONLY FOR IN AND OUT
 class GateTool < Struct.new(:name, :type)

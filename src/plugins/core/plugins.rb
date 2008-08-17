@@ -21,7 +21,10 @@
 require 'plugin_manager'
 require 'file_plugin_loader'
 
-# TO BE TESTED
+# Some plugins will want to register tools, so
+# this needs to be loaded
+require 'tools_registry'
+
 class Plugins
 
   def self.init(root = "plugins")

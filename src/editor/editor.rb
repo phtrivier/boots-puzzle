@@ -23,6 +23,16 @@ $LOAD_PATH << "../plugins/core"
 require 'puzzle'
 require 'tools'
 
+# ----------------------
+# Init the plugins > This will be done in the adventure aftewards ?
+require 'plugins'
+
+Plugins.init("../plugins")
+Plugins.read_manifests
+# This would be done from the adventure !
+Plugins.need("water")
+# ----------------------
+
 module ImagePath
   def to_image_path(src)
     "../plugins/#{src}"
@@ -135,6 +145,28 @@ class Editor < Shoes
 
   end
 
+  def make_cell_tools_line(tools, length)
+    buffer = []
+    tools.each do |tool|
+      if (buffer.size < length)
+        buffer << tool
+      else
+        build_available_tool_line(buffer)
+        buffer = [tool]
+      end
+    end
+    if (!buffer.empty?)
+      build_available_tool_line(buffer)
+    end
+  end
+
+  def build_available_tool_line(tools)
+    flow :margin_top =>'5px', :margin_left => '5px' do
+      tools.each do |tool|
+        cell_tool_button(tool)
+      end
+    end
+  end
 
   # Builds a palette of available tools
   def build_palette_panel
@@ -144,33 +176,40 @@ class Editor < Shoes
 
     stack :width => "90%" do
       border black, :strokewidth => 1
-      # TODO : Make this more generic by
-      # Loading all the sub-classes of Cell
-      # and cutting them in three (quite easy, actually !!)
-      flow :margin_top => '5px', :margin_left => '5px' do
-        cell_tool_button(InTool.new())
-        cell_tool_button(OutTool.new())
+
+      tools = [InTool.new, OutTool.new,
+               CellTool.new(Wall), CellTool.new(Walkable),
+               NameCellTool.new]
+
+      ToolsRegistry.registered_cell_tools.each do |k|
+        tools << k.new
       end
 
-       flow :margin_top => '5px', :margin_left => '5px' do
-         cell_tool_button(CellTool.new(Wall))
-         cell_tool_button(CellTool.new(Walkable))
-       end
-
-       flow :margin_top => '5px', :margin_left => '5px' do
-         cell_tool_button(NameCellTool.new)
-       end
+      make_cell_tools_line(tools, 3)
 
     end
+
+    debug ToolsRegistry.registered_cell_tools
 
     para "Available boots"
     stack :width => "90%" do
       border black, :strokewidth => 1
-      flow :margin_top => '5px', :margin_left => '5px' do
-        cell_tool_button(BootsTool.new(DoubleBoots))
-        cell_tool_button(ResetBootsTool.new())
+
+      tools = [BootsTool.new(DoubleBoots),
+               ResetBootsTool.new]
+      ToolsRegistry.registered_boots_tools.each do |k|
+        tools << k.new
       end
+
+      make_cell_tools_line(tools, 3)
+
+#       flow :margin_top => '5px', :margin_left => '5px' do
+#         cell_tool_button(BootsTool.new(DoubleBoots))
+#         cell_tool_button(ResetBootsTool.new())
+#       end
     end
+
+    debug ToolsRegistry.registered_boots_tools
 
     para "Selected tools"
     flow :width => "90%" do
@@ -379,7 +418,7 @@ class Editor < Shoes
 
   # A button to toggle the current tool
   def cell_tool_button(tool)
-    stack :width => "50%" do
+    stack :width => "30%" do
       debug "Source : #{tool.src}"
       debug "Image path : #{to_image_path(tool.src)}"
       image to_image_path(tool.src)

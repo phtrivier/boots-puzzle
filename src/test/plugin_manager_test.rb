@@ -117,8 +117,7 @@ class PluginManagerTest < BPTestCase
     assert @pm.loaded?("toto")
   end
 
-  def test_loads_dependencies_using_the_file_loaded
-
+  def test_loads_dependencies_using_the_file_loader
     file_loader = mock()
 
     Plugin::ElementTypes.each do |type|
@@ -131,6 +130,6 @@ class PluginManagerTest < BPTestCase
     assert !@pm.loaded?("toto")
     @pm.load!("toto")
     assert @pm.loaded?("toto")
-
   end
+
 end
