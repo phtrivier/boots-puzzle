@@ -19,13 +19,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-require 'test/unit'
-require 'rubygems'
-require 'mocha'
-
 require 'puzzle'
+require 'bp_test_case'
 
-class PuzzleStoryTest < Test::Unit::TestCase
+class PuzzleStoryTest < BPTestCase
 
   class SpecialPuzzle < Puzzle
     dim 2,2
@@ -207,10 +204,6 @@ class PuzzleStoryTest < Test::Unit::TestCase
       assert_equal "No cell named baz in puzzle", e.message
     end
 
-  end
-
-  def bad(msg)
-    assert false, msg
   end
 
   class DummyBoots < BareFeet

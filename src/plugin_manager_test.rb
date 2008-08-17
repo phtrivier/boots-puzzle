@@ -19,13 +19,9 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
 require 'plugin_manager'
-require 'mocha'
+require 'bp_test_case'
 
-class PluginManagerTest < Test::Unit::TestCase
-
-  def bad(msg)
-    assert false, msg
-  end
+class PluginManagerTest < BPTestCase
 
   def setup
     @pm = PluginManager.new

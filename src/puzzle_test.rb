@@ -18,24 +18,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-require 'test/unit'
-require 'rubygems'
-require 'mocha'
-
 require 'puzzle'
+require 'bp_test_case'
 
-class PuzzleTest < Test::Unit::TestCase
-
-  def assert_point_equal(i,j,k,l)
-    assert_equal(i,k, "Line index should be equals")
-    assert_equal(j,l, "Column index should be equals")
-  end
-
-  def bad(msg)
-    assert false, msg
-  end
-
-  # -----------------------
+class PuzzleTest < BPTestCase
 
   class NoDimPuzzle < Puzzle
 
