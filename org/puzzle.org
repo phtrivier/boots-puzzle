@@ -1,5 +1,5 @@
 * Game Engine
-** TODO [#B] Add the plugin system
+** TODO [#A] Add the plugin system
 *** TODO A plugin has (potentially) : cells type, boots type, story element modules
 *** TODO A plugin can be required by a puzzle / a campaign ?
 ** TODO [#B] Add the campain / level / puzzle system
@@ -52,6 +52,9 @@
 ** TODO Distribute as a gem ?
 ** TODO inline help
 * Misc
+** TODO [#B] Serious Logging (for now, it is silly)(log4r ...)
+** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
+** , le bandeau, et la declaration de la classe (je suis un feignasse)
 ** TODO Move Rakefile to top level (git-move ?)
 ** TODO separate tests and main sources
 ** TODO separate editor sources and the rest

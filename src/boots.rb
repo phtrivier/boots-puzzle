@@ -37,7 +37,7 @@ class Boots
   end
 
   def src
-    raise RuntimeError("Should not instanciate Boots and call src. Subclass it.")
+    raise RuntimeError.new("Should not instanciate Boots and call src. Subclass it.")
   end
 end
 
