@@ -1,14 +1,11 @@
 * Game Engine
-** TODO [#A] Add the plugin system
-*** DONE A plugin has (potentially) : cells type, boots type, story element modules, tools, patches
-*** DONE A plugin can be manifested with a manifest file, its elements loaded as relevant
-*** TODO A plugin can be required by a puzzle / a campaign ?
-** TODO [#B] Add the campain / level / puzzle system
-*** TODO A campaign loads the various plugin required, and the various levels
-*** TODO A level consist of a puzzle and a puzzle story
-** TODO Complete the story system
-*** TODO [#B] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
-*** TODO [#B] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
+** TODO [#B] Add the adventure system
+*** TODO An adventure references plugins and levels
+*** TODO A level references puzzle and story
+** TODO [#B] Make it possible to play an adventure
+*** TODO Load the adventure, all plugins, play the first level
+*** TODO When you reach the end of a level, go to next level
+*** TODO When you reach the end of an adventure, have a nice thing happen !!
 ** TODO [#LATER] Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
 *** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
@@ -22,15 +19,23 @@
 *** DONE changer la syntaxe des rows et transformer la creation des cases en un initializeur
 *** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
 
-** TODO Add quotes associated to a puzzle
+** TODO Add quotes associated to a level (displayed between levels)
 * Puzzle Editor
-** TODO [#C] Undo ?
-** TODO [#C] Continuous saving
-** TODO [#B] Use the level editor to link a puzzle to a story (create the story if it does not exists?)
-** TODO [#B] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
-   -> Level editor ?
+** TODO [#B] Adventure system
+*** TODO Load an adventure file
+**** Adventure editing
+***** TODO Create an adventure : ask puzzle dimensions, name, file_name
+***** TODO Add / Remove levels (ask Puzzle and story file / name ?)
+***** TODO Add / remove required plugins
+***** TODO Indicate the location of plugins ? (using adventures / plugins by default ...)
+**** Level editing
+***** TODO link a level to a story and a puzzle
+***** TODO edit the puzzle
+*** TODO [#B] Load the tools from all plugins in an adventure
+** TODO [#D] Undo ?
+** TODO [#D] Continuous saving
+*** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))
-** TODO Add a way to define new cell types (loading an image, etc...) from a plugin -> level_editor ?
 ** TODO Add a tool to set the quote for a puzzle
 * Plugins
 ** TODO swimming : water cells, palms
@@ -53,11 +58,12 @@
 ** TODO Distribute as a gem ?
 ** TODO inline help
 * Misc
+** TODO [#A] File reorganisation
+*** TODO Move Rakefile to top level (git-move ?)
+*** TODO separate tests and main sources
+*** TODO separate editor sources and the rest
+*** TODO separate things using plugins, anyway ...
 ** TODO [#B] Serious Logging (for now, it is silly)(log4r ...)
 ** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
 ** , le bandeau, et la declaration de la classe (je suis un feignasse)
-** TODO Move Rakefile to top level (git-move ?)
-** TODO separate tests and main sources
-** TODO separate editor sources and the rest
-** TODO separate things using plugins, anyway ...
 ** test coverage tools ?
