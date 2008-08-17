@@ -2,12 +2,14 @@ require "yaml"
 
 class Adventure
 
-  attr_reader :name, :plugins, :levels
+  attr_reader :name, :plugins, :levels, :prefix
 
   def initialize
     @name = nil
     @plugins = []
     @levels = []
+    @prefix = ""
+    @current_index = -1
   end
 
   def load!(yaml)
@@ -16,6 +18,7 @@ class Adventure
 
     @name = struct["adventure"]["name"]
     @plugins = struct["adventure"]["plugins"]
+    @prefix = struct["adventure"]["prefix"]
     struct["adventure"]["levels"].each do |l|
       levels << Level.new(l["puzzle"], l["name"])
     end
@@ -25,6 +28,7 @@ class Adventure
   def save
 
     adv = { "name" => @name,
+      "prefix" => @prefix,
       "plugins" => @plugins,
       "levels" => []
     }
@@ -40,5 +44,25 @@ class Adventure
 
   end
 
+  def has_next_level?
+    @current_index < (@levels.size-1)
+  end
+
+  def next_level!
+    @current_index = @current_index + 1
+  end
+
+  def current_level
+    if (@current_index == -1 || @levels.empty?)
+      nil
+    else
+      @levels[@current_index]
+    end
+  end
+
+  def load_next_level!
+    next_level!
+    current_level.load!(@prefix)
+  end
 
 end
