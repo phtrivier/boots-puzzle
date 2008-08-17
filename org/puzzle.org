@@ -1,4 +1,8 @@
 * Game Engine
+** TODO Images from plugins in editor and UI
+   Find a way for the editor and the UI to locate imgs that are in plugins / core in
+   a relativerly elegant way (not everything is in 'core' ... maybe the plugin system can
+   help locate images (and I add 'core' to the 'core' images ?)
 ** TODO [#B] Add the adventure system
 *** TODO An adventure references plugins and levels
 *** TODO A level references puzzle and story
@@ -20,7 +24,11 @@
 *** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
 
 ** TODO Add quotes associated to a level (displayed between levels)
+* Game UI
+** Add a background around the UI
+** Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
+** TODO
 ** TODO [#B] Adventure system
 *** TODO Load an adventure file
 **** Adventure editing
@@ -43,28 +51,21 @@
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
+** TODO tunnel plugin (move from a place to another)
 * Test Editor
 ** recording
 ** adding assertions
 ** saving / loading
 * Scenario, Game, Ideas ...
-** No scenario
-** Only puzzles
-** THIS ONE IS MADE TO FAIL, MAKE MISTAKE, AND THROW AWAY
-   Only to make it better, that is ... :P
 * General
 ** TODO Use the gosu lib from the system if it exists (installed through gem?)
 ** TODO Build an installer for shoes app ?
 ** TODO Distribute as a gem ?
 ** TODO inline help
 * Misc
-** TODO [#A] File reorganisation
-*** DONE separate tests and main sources
-*** DONE separate editor sources and the rest
-*** DONE Have rake test run
-*** TODO Have rake run the editor ...
-*** TODO Have rake run the player
+** TODO Have rake run the editor => Not possible at the moment (Baaaad shoes)
 ** TODO [#B] Serious Logging (for now, it is silly)(log4r ...)
 ** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
 ** , le bandeau, et la declaration de la classe (je suis un feignasse)
 ** test coverage tools ?
+
