@@ -50,9 +50,12 @@ end
 
 class SimplePuzzle < Puzzle
   dim 4,3
-  row "###O"
-  row "I##-"
-  row "----"
+
+  rows do
+    row "###O"
+    row "I##-"
+    row "----"
+  end
 
   named_cells do
     named_cell :begin,2,0
@@ -171,7 +174,7 @@ class GameWindow < Gosu::Window
 
     @images = { }
 
-    @player_img = Gosu::Image.new(self, "img/player.png", false)
+    @player_img = Gosu::Image.new(self, to_image_path("img/player.png"), false)
 
     @actions = {  :next_boots => NextBootsAction.new(self, Gosu::Button::KbTab) ,
       :up => MoveAction.new(self, Gosu::Button::KbUp, :up),
@@ -244,7 +247,7 @@ class GameWindow < Gosu::Window
 
     x,y = to_screen_coords(i,j)
 
-    img = Gosu::Image.new(self, b.src, false)
+    img = image(b.src)
     img.draw(x,y, ZOrder::UI)
 
   end
@@ -300,12 +303,17 @@ class GameWindow < Gosu::Window
 
   # Load an image from its source ... potentially leaky
   def image(src)
-    Gosu::Image.new(self, src, false)
+    Gosu::Image.new(self, to_image_path(src), false)
+  end
+
+  # Locate the image (it must be available globally ?)
+  def to_image_path(src)
+    "src/core/#{src}"
   end
 
   def get_image(cell)
     if (not @images.has_key?(cell.src))
-      @images[cell.src] = Gosu::Image.new(self, cell.src, false)
+      @images[cell.src] = image(cell.src)
     end
     res = @images[cell.src]
 
@@ -320,5 +328,7 @@ class GameWindow < Gosu::Window
 
 end
 
-w = GameWindow.new
-w.show
+def play
+  w = GameWindow.new
+  w.show
+end
