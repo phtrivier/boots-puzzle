@@ -78,5 +78,16 @@ class PluginsTest < BPTestCase
   end
 
   # Test needing several at a time
+  def test_needing_several_plugins_without_array
+    Plugins.need("b", "c")
+    assert Plugins.loaded?("b")
+    assert Plugins.loaded?("c")
+  end
+
+  def test_needing_several_plugins_with_array
+    Plugins.need(["b", "c"])
+    assert Plugins.loaded?("b")
+    assert Plugins.loaded?("c")
+  end
 
 end

@@ -41,9 +41,23 @@ class Plugins
     @@manager.manifest!(name, deps)
   end
 
-  def self.need(name)
-    if (!@@manager.loaded?(name))
-      @@manager.load!(name)
+  # Declare that you need plugins to be loaded
+  # args : a list (or an array) of plugin names
+  def self.need(*args)
+    if (args != nil)
+
+      names = nil
+      if (args[0].class == Array)
+        names = args[0]
+      else
+        names = args
+      end
+
+      names.each  do |name|
+        if (!@@manager.loaded?(name))
+          @@manager.load!(name)
+        end
+      end
     end
   end
 
