@@ -36,47 +36,47 @@ require 'puzzle'
 
 require 'plugins'
 
-# Init the plugin
+# Init the plugin system
 Plugins.init("src/plugins")
 Plugins.read_manifests
-Plugins.need("water")
+# Plugins.need("water")
 
-module SimplePuzzleStory
-  def init_story
-    story_event(:trap, Walkable) do |puzzle|
-      # Add a way to know if the event occured already ...
-      if (puzzle.cell_by_name(:begin).class != Wall)
-        puzzle.set_cell_by_name(:begin, Wall.new)
-        puzzle.set_cell_by_name(:end, Wall.new)
-        # TODO : ADD A ZONE WITH MESSAGES
-        puts "Ho no, the exit is locked now !!"
-      end
-    end
-  end
-end
+# module SimplePuzzleStory
+#   def init_story
+#     story_event(:trap, Walkable) do |puzzle|
+#       # Add a way to know if the event occured already ...
+#       if (puzzle.cell_by_name(:begin).class != Wall)
+#         puzzle.set_cell_by_name(:begin, Wall.new)
+#         puzzle.set_cell_by_name(:end, Wall.new)
+#         # TODO : ADD A ZONE WITH MESSAGES
+#         puts "Ho no, the exit is locked now !!"
+#       end
+#     end
+#   end
+# end
 
-class SimplePuzzle < Puzzle
-  dim 4,4
+# class SimplePuzzle < Puzzle
+#   dim 4,4
 
-  rows do
-    row "###O"
-    row "I##-"
-    row "----"
-    row "~~~~"
-  end
+#   rows do
+#     row "###O"
+#     row "I##-"
+#     row "----"
+#     row "~~~~"
+#   end
 
-  named_cells do
-    named_cell :begin,2,0
-    named_cell :trap, 2, 1
-    named_cell :end, 1, 3
-  end
+#   named_cells do
+#     named_cell :begin,2,0
+#     named_cell :trap, 2, 1
+#     named_cell :end, 1, 3
+#   end
 
-  boots do
-    boot 2,3, DoubleBoots
-  end
+#   boots do
+#     boot 2,3, DoubleBoots
+#   end
 
-  story SimplePuzzleStory
-end
+#   story SimplePuzzleStory
+# end
 
 # TODO : add a better HELP
 def usage
@@ -154,6 +154,8 @@ class DropBootsAction < SingleKeyAction
   end
 end
 
+require 'adventure'
+
 # --------------------------------------------
 # Game UI
 
@@ -165,15 +167,25 @@ class GameWindow < Gosu::Window
     super(640, 480, false)
     self.caption = "Puzzle Game"
 
+    @adventure = nil
+
     if (ARGV[1] != nil && ARGV[2] != nil)
       @puzzle = Puzzle.load(ARGV[1], ARGV[2]) do |file_name, klass_name, e|
         puts "Unable to load puzzle #{klass_name} from file #{file_name}, #{e}"
         usage
         exit(-1)
       end
-
     else
-      @puzzle = SimplePuzzle.new
+
+      @adventure = Adventure.new
+      @adventure.load!(File.open("src/adventures/foobar/adventure.yml"))
+      @adventure.load_plugins!
+
+      if (@adventure.has_next_level?)
+        @adventure.load_next_level!
+        @puzzle = @adventure.current_level.puzzle
+      end
+
     end
 
     @puzzle.enters_player!
@@ -196,9 +208,25 @@ class GameWindow < Gosu::Window
   end
 
   def update
+    # Move
     @actions.each do |name, action|
       action.evaluate
     end
+
+    # Change level if required
+    if (@adventure.current_level.finished?)
+      puts "Congratulations, you finished this level !!"
+      if (@adventure.has_next_level?)
+        @adventure.load_next_level!
+        @puzzle = @adventure.current_level.puzzle
+        @puzzle.enters_player!
+      else
+        puts "Congratulations, you finished this adventure !!"
+        puts "Thanks for playing !!"
+        exit(0)
+      end
+    end
+
   end
 
   def draw

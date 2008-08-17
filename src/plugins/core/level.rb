@@ -39,10 +39,12 @@ class Level
 
   def load!(prefix)
     begin
+      puts "Trying story at #{story_file_path(prefix)}"
       require story_file_path(prefix)
     rescue LoadError => e
     end
-   require puzzle_file_path(prefix)
+    puts "Trying puzzle at #{puzzle_file_path(prefix)}"
+    require puzzle_file_path(prefix)
     # Ugly isn't it ?
     instance_eval("@puzzle = #{@puzzle_class_name}.new")
   end

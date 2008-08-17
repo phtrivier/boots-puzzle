@@ -1,5 +1,7 @@
 require "yaml"
 
+require "level"
+
 class Adventure
 
   attr_reader :name, :plugins, :levels, :prefix
@@ -13,7 +15,6 @@ class Adventure
   end
 
   def load!(yaml)
-
     struct = YAML.load(yaml)
 
     @name = struct["adventure"]["name"]
@@ -22,11 +23,9 @@ class Adventure
     struct["adventure"]["levels"].each do |l|
       levels << Level.new(l["puzzle"], l["name"])
     end
-
   end
 
   def save
-
     adv = { "name" => @name,
       "prefix" => @prefix,
       "plugins" => @plugins,
@@ -41,7 +40,6 @@ class Adventure
     end
 
     { "adventure" => adv}.to_yaml
-
   end
 
   def has_next_level?
@@ -63,6 +61,10 @@ class Adventure
   def load_next_level!
     next_level!
     current_level.load!(@prefix)
+  end
+
+  def load_plugins!
+    Plugins.need(@plugins)
   end
 
 end
