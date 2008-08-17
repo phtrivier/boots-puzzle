@@ -1,15 +1,5 @@
 * Game Engine
-** TODO Images from plugins in editor and UI
-   Find a way for the editor and the UI to locate imgs that are in plugins / core in
-   a relativerly elegant way (not everything is in 'core' ... maybe the plugin system can
-   help locate images (and I add 'core' to the 'core' images ?)
-** TODO [#B] Add the adventure system
-*** TODO An adventure references plugins and levels
-*** TODO A level references puzzle and story
-** TODO [#B] Make it possible to play an adventure
-*** TODO Load the adventure, all plugins, play the first level
-*** TODO When you reach the end of a level, go to next level
-*** TODO When you reach the end of an adventure, have a nice thing happen !!
+** TODO Find a way to 'guess' how levels should be named from their files (see in rails how they do ...)
 ** TODO [#LATER] Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
 *** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
@@ -23,12 +13,14 @@
 *** DONE changer la syntaxe des rows et transformer la creation des cases en un initializeur
 *** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
 
+** TODO Improve story system to add a flag telling if the event has already occured
+** TODO Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
 ** TODO Add quotes associated to a level (displayed between levels)
 * Game UI
 ** Add a background around the UI
 ** Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
-** TODO [#B] Adventure system
+** TODO [#A] Adventure system
 *** TODO Load an adventure file
 **** Adventure editing
 ***** TODO Create an adventure : ask puzzle dimensions, name, file_name
@@ -38,9 +30,9 @@
 **** Level editing
 ***** TODO link a level to a story and a puzzle
 ***** TODO edit the puzzle
-*** TODO [#B] Load the tools from all plugins in an adventure
-** TODO [#D] Undo ?
-** TODO [#D] Continuous saving
+*** TODO [#A] Load the tools from all plugins in an adventure
+** TODO [#C] Undo ?
+** TODO [#C] Continuous saving
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))
 ** TODO Add a tool to set the quote for a puzzle
@@ -55,17 +47,23 @@
 ** recording
 ** adding assertions
 ** saving / loading
-* Scenario, Game, Ideas ...
+* Scenario
+** Write a great, funny, complicated, hard, intriguing GAME !!!!
 * General
 ** TODO Use the gosu lib from the system if it exists (installed through gem?)
 ** TODO Build an installer for shoes app ?
 ** TODO Distribute as a gem ?
 ** TODO inline help
 * Misc
-** TODO Have rake be happier with passing arguments to play
+** TODO [#C] Write documentation
+*** TODO Puzzle syntax
+*** TODO Story syntax
+*** TODO Adventure files
+*** TODO Document caveats, issues, problems, etc...
+** TODO Have rake be happier with passing arguments to play (relative path to the adventure file ?)
 ** TODO Have rake run the editor => Not possible at the moment (Baaaad shoes)
 ** TODO [#B] Serious Logging (for now, it is silly)(log4r ...)
 ** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
 ** , le bandeau, et la declaration de la classe (je suis un feignasse)
 ** test coverage tools ?
-
+** TODO Blog about it !
