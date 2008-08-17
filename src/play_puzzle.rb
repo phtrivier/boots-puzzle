@@ -174,7 +174,7 @@ class GameWindow < Gosu::Window
 
     @images = { }
 
-    @player_img = Gosu::Image.new(self, to_image_path("img/player.png"), false)
+    @player_img = Gosu::Image.new(self, to_image_path("core/img/player.png"), false)
 
     @actions = {  :next_boots => NextBootsAction.new(self, Gosu::Button::KbTab) ,
       :up => MoveAction.new(self, Gosu::Button::KbUp, :up),
