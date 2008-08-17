@@ -28,7 +28,6 @@
 ** Add a background around the UI
 ** Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
-** TODO Fix the place where images are loaded from (not necessarily the core !)
 ** TODO [#B] Adventure system
 *** TODO Load an adventure file
 **** Adventure editing
@@ -63,6 +62,7 @@
 ** TODO Distribute as a gem ?
 ** TODO inline help
 * Misc
+** TODO Have rake be happier with passing arguments to play
 ** TODO Have rake run the editor => Not possible at the moment (Baaaad shoes)
 ** TODO [#B] Serious Logging (for now, it is silly)(log4r ...)
 ** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
