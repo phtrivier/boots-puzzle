@@ -17,3 +17,8 @@ class BPTestCase < Test::Unit::TestCase
   end
 
 end
+
+# Top level addition, to make it possible to require something in the core
+def require_core(name)
+  require "../core/#{name}"
+end

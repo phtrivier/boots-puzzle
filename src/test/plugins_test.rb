@@ -24,7 +24,7 @@ require 'bp_test_case'
 class PluginsTest < BPTestCase
 
   def setup
-    Plugins.init("testdir/plugins_test/plugins")
+    Plugins.init("src/test/testdir/plugins_test/plugins")
     Plugins.read_manifests
   end
 

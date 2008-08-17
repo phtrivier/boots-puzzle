@@ -24,7 +24,7 @@ require 'file_plugin_loader'
 class FilePluginLoaderTest < Test::Unit::TestCase
 
   def setup
-    @base = "testdir/file_plugin_loader_test/plugins"
+    @base = "src/test/testdir/file_plugin_loader_test/plugins"
     @l = FilePluginLoader.new("#{@base}")
   end
 
