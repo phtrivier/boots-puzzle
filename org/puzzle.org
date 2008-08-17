@@ -59,10 +59,9 @@
 ** TODO inline help
 * Misc
 ** TODO [#A] File reorganisation
-*** TODO Move Rakefile to top level (git-move ?)
-*** TODO separate tests and main sources
-*** TODO separate editor sources and the rest
-*** TODO separate things using plugins, anyway ...
+*** DONE separate tests and main sources
+*** DONE separate editor sources and the rest
+*** TODO Have rake test run
 ** TODO [#B] Serious Logging (for now, it is silly)(log4r ...)
 ** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
 ** , le bandeau, et la declaration de la classe (je suis un feignasse)

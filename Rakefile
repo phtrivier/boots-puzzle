@@ -5,7 +5,7 @@ task :default => [:test]
 
 desc "Run basic tests"
 Rake::TestTask.new("test") do |t|
-  t.pattern = '*_test.rb'
+  t.pattern = 'src/test/*_test.rb'
   t.verbose = true
   t.warning = true
 end
