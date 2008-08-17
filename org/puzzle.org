@@ -1,10 +1,10 @@
 * Game Engine
-** TODO [#B] Add the campain / level / puzzle system
-*** TODO A campaign loads the various plugin required, and the various levels
-*** TODO A level consist of a puzzle and a puzzle story
 ** TODO [#B] Add the plugin system
 *** TODO A plugin has (potentially) : cells type, boots type, story element modules
 *** TODO A plugin can be required by a puzzle / a campaign ?
+** TODO [#B] Add the campain / level / puzzle system
+*** TODO A campaign loads the various plugin required, and the various levels
+*** TODO A level consist of a puzzle and a puzzle story
 ** TODO Complete the story system
 *** TODO [#B] Add a parameter to 'story_event' callbacks, telling whether the event has already been triggered
 *** TODO [#B] Add a way to define which files should be loaded (so that stories / cells, etc...) make sense ...
@@ -23,13 +23,20 @@
 
 ** TODO Add quotes associated to a puzzle
 * Puzzle Editor
-** TODO [#A] handle 'dirty' mode (to known when you need to save stuff ...)
-** TODO Use the level editor to link a puzzle to a story (create the story if it does not exists?)
-** TODO At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
+** TODO [#C] Undo ?
+** TODO [#C] Continuous saving
+** TODO [#B] Use the level editor to link a puzzle to a story (create the story if it does not exists?)
+** TODO [#B] At creation, ask for the dimensions, the name of the file, the name of the puzzle ...
    -> Level editor ?
 ** TODO Externalize strings (good exercise :))
 ** TODO Add a way to define new cell types (loading an image, etc...) from a plugin -> level_editor ?
 ** TODO Add a tool to set the quote for a puzzle
+* Plugins
+** TODO swimming : water cells, palms
+** TODO burning
+** TODO chess moves
+** TODO wall breaker
+** TODO purely decorative plugin (with funny kinds of walls, etc...)
 * Test Editor
 ** recording
 ** adding assertions

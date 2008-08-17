@@ -108,6 +108,18 @@ class Editor < Shoes
     flow do
       build_controls_panel
     end
+
+    keypress do |k|
+      if (k==:control_s)
+        save_puzzle
+      elsif (k==:control_q)
+        if (@dirty_state != "" and confirm("Save before quitting ?"))
+          save_puzzle
+        end
+        exit
+      end
+    end
+
   end
 
 
@@ -216,7 +228,7 @@ class Editor < Shoes
         alert "Error while saving : #{e}"
       end
     end
-
+    @dirty_state = para ""
   end
 
   # ----------------------------------------------------
@@ -229,6 +241,7 @@ class Editor < Shoes
     File.open(@file_name, "w+") do |f|
       f << res
     end
+    @dirty_state.text = ""
   end
 
   def create_named_cells_list
@@ -304,13 +317,25 @@ class Editor < Shoes
 
         if (b == LEFT_BUTTON)
           @tool_slots[:left].tool.act(self, i,j)
+          dirty(true)
         elsif (b == RIGHT_BUTTON)
           @tool_slots[:right].tool.act(self, i,j)
+          dirty(true)
         end
 
       end
 
     end
+  end
+
+  def dirty(state)
+    if (state)
+      @dirty_state.text = "(modified)"
+    else
+      @dirty_state.text = ""
+    end
+    @dirty_state.hide
+    @dirty_state.show
   end
 
   # Update a cell in the grid
