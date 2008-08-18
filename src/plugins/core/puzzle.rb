@@ -302,10 +302,22 @@ class Puzzle
     res
   end
 
+  # Get the position of a cell by its name
+  def cell_position_by_name(name)
+    res = nil
+    if (@named_cells.has_key?(name))
+      res = @named_cells[name]
+    end
+    res
+  end
+
   # Replace a named cell.
   def set_cell_by_name(name, c)
     if (@named_cells.has_key?(name))
+#      puts "Named cells : #{@named_cells.inspect}"
+#      puts "Named cells[#{name}] : #{@named_cells[name].inspect}"
       i,j = @named_cells[name]
+#      puts "#{i}, #{j}"
       set_cell(i,j,c)
     else
        raise NoCellError.new("No cell named #{name} in puzzle")

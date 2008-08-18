@@ -1,7 +1,15 @@
 class Level1Puzzle < Puzzle
-  dim 2,2
+  dim 4,3
   rows do
-    row "I-"
-    row "~O"
+    row "I-->"
+    row "#~~#"
+    row ">--O"
   end
+
+  named_cells do
+    named_cell :tunnel_top, 0, 3
+    named_cell :tunnel_bottom, 2,0
+  end
+
+  story Level1PuzzleStory
 end

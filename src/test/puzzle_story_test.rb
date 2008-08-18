@@ -41,6 +41,7 @@ class PuzzleStoryTest < BPTestCase
   def test_cell_can_be_referenced_and_located_by_name
     pu = SpecialPuzzle.new
     assert_equal pu.cell(0,0), pu.cell_by_name(:bar)
+    assert_equal [0,0], pu.cell_position_by_name(:bar)
     assert_equal pu.cell(0,1), pu.cell_by_name(:foo)
     assert_nil pu.cell_by_name(:baz)
   end

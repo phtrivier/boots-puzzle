@@ -3,6 +3,7 @@ adventure:
   prefix: "src/adventures/foobar/levels"
   plugins:
     - "water"
+    - "tunnel"
   levels:
     - puzzle: "level_1_puzzle"
       name: Level1Puzzle

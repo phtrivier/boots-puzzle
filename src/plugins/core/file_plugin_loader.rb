@@ -44,7 +44,7 @@ class FilePluginLoader
 
   def load_element(name, elem)
     plugin_element_filenames(name, elem).each do |filename|
-      require filename
+      load filename
     end
   end
 
