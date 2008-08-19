@@ -37,31 +37,54 @@ end
 
 Note that this might be possible since THIS works :
 
-class Foo
-
-  def self.for(name, &block)
-    new_klass = Foo.clone
-    new_klass.instance_eval do
-      define_method :init_foo, block
-    end
-    new_klass_name = name[0,1].upcase + name[1..-1] + "Foo"
-    Kernel.const_set(new_klass_name, new_klass)
-  end
-
-  def initialize
-    init_foo
-  end
-
-end
-
-Foo.for("toto") do
-  puts "TOTOT !!"
 end
 
 t = TotoFoo.new
 
 So get inspiration from this ...
 
+AND FROM THIS :
+class Bar
+
+  def self.bar(i)
+    self.instance_eval do
+      define_method :baz do
+        puts "BAAAAZ #{i}"
+      end
+    end
+  end
+
+  def self.for(name, &block)
+    new_klass = Bar.clone
+    block.call(new_klass)
+    new_klass_name = name[0,1].upcase + name[1..-1] + "Bar"
+    Kernel.const_set(new_klass_name, new_klass)
+  end
+
+  def self.fur(name, &block)
+    new_klass = Bar.clone
+    new_klass.instance_eval(&block)
+    new_klass_name = name[0,1].upcase + name[1..-1] + "Bar"
+    Kernel.const_set(new_klass_name, new_klass)
+  end
+
+
+end
+
+Bar.for("titi") do |b|
+  b.bar 3
+end
+
+Bar.fur("tutu") do
+  bar 4
+end
+
+
+b = TitiBar.new
+b.baz => 3
+
+c = TutuBar.new
+c.baz => 4
 ** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
 CellTool.for("water") > Definit un simple outil pour la classe WaterCell
 CellTool.for(WaterCell) > Definit un outil pour la classe WaterCell (autre syntaxe)
