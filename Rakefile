@@ -1,20 +1,39 @@
 require 'rake'
 require 'rake/testtask'
 
+require 'rubygems'
+require 'log4r'
+require 'log4r/yamlconfigurator'
+require 'log4r/outputter/datefileoutputter'
+
+include Log4r
+
+def log_config(conf)
+  cfg = YamlConfigurator
+  cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
+end
+
 task :default => [:test]
 
 desc "Run basic tests"
 Rake::TestTask.new("test") do |t|
+
   t.libs << ["./src/test", "./src/plugins/core"]
   t.pattern = 'src/test/*_test.rb'
-  t.verbose = true
-  t.warning = true
+  t.verbose = false
+  t.warning = false
+
 end
 
 desc "Run the game on a sample app"
 task :play => [:test] do |t|
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/plugins/core"
+
+  # Odly enough, seems like I can't get logging to work in RakeTestTask...
+  # TODO : PASS parameter to change the config ?
+  log_config("dev")
+
   require 'play_puzzle'
   play
 end

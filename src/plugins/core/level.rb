@@ -18,7 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
+require 'log4r'
+
 class Level
+
+  include Log4r
 
   attr_reader :puzzle_file, :puzzle_class_name
   attr_reader :puzzle
@@ -27,6 +31,7 @@ class Level
     @puzzle_file = file
     @puzzle_class_name = klass_name
     @puzzle = nil
+    @log = Logger.new 'bp::level'
   end
 
   def puzzle_file_path(prefix)
@@ -39,15 +44,15 @@ class Level
 
   def load!(prefix)
     begin
-      #puts "Trying story at #{story_file_path(prefix)}"
+      @log.info {  "Trying story at #{story_file_path(prefix)}" }
       require story_file_path(prefix)
     rescue LoadError => e
     end
-    #puts "Trying puzzle at #{puzzle_file_path(prefix)}"
+    @log.info {  "Trying puzzle at #{puzzle_file_path(prefix)}" }
     require puzzle_file_path(prefix)
     # Ugly isn't it ?
     cmd = "@puzzle = #{@puzzle_class_name}.new"
-    # puts "Cmd : #{cmd}"
+    @log.debug { "Cmd to load the class : #{cmd}" }
     instance_eval(cmd)
   end
 

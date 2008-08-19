@@ -3,6 +3,7 @@
 *** rake
 *** facets
 *** mocha (for the unit tests)
+*** log4r
 ** Other (might be possible to install by gem, too..)
 *** gosu (to play the game)
 *** shoes (to run the editor)
