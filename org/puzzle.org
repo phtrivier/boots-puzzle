@@ -35,6 +35,33 @@ Cell.define("sea") do
   img "sea_cell.png" => Definit la methode "src" qui va bien ("et est capable de virer le plugins/... au besoin ?)
 end
 
+Note that this might be possible since THIS works :
+
+class Foo
+
+  def self.for(name, &block)
+    new_klass = Foo.clone
+    new_klass.instance_eval do
+      define_method :init_foo, block
+    end
+    new_klass_name = name[0,1].upcase + name[1..-1] + "Foo"
+    Kernel.const_set(new_klass_name, new_klass)
+  end
+
+  def initialize
+    init_foo
+  end
+
+end
+
+Foo.for("toto") do
+  puts "TOTOT !!"
+end
+
+t = TotoFoo.new
+
+So get inspiration from this ...
+
 ** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
 CellTool.for("water") > Definit un simple outil pour la classe WaterCell
 CellTool.for(WaterCell) > Definit un outil pour la classe WaterCell (autre syntaxe)
