@@ -1,8 +1,60 @@
 * Game Engine
-** TODO Find a way to 'guess' how levels should be named from their files (see in rails how they do ...)
-** TODO Find a way to 'guess' the name of the story (depending on the name of the class, the file, etc...)
-** TODO Find a way to have to write less stuff to define a story module (only the name of the puzzle, and the content of the init method...)
-** TODO [#LATER] Introduce the notion of 'initializer'
+** TODO [#A] Conventions over Repetition
+*** TODO [#A] Let level 'guess' the name of a puzzle class from its file name
+*** TODO Handle the case where the file ends with 'rb' ;)
+*** TODO [#B] Move 'story' out of puzzle and let the level loads the story
+*** TODO [#B] Let level 'guess' the name of the story based on the file name / class name
+** TODO [#C] Find a way to have to write less stuff to define a story module (only the name of the puzzle, and the content of the init method...)
+Story.for("level_1_puzzle") do
+  tunnel :black, :white
+end
+
+-> C'est bien ca : ne jamais avoir a taper le nom d'une classe : uniquement le
+nom d'un puzzle (et ca cree les classes en fonction !!)
+voire :
+Story.for(Level1Puzzle) do
+  tunnel :black, :white
+end
+** TODO [#B] Maje it easier to declare Cell
+class WaterCell < Walkable
+   walkable
+   def src
+     "plugins/water/water_cell.png"
+   end
+end
+
+[water_cell.rb]
+Cell.define("water") do
+  walkable
+  img "water_cell.png" # Possible parceque j'ai le nom du plugin !
+end
+
+[sea_cell.rb ou sea.rb]
+Cell.define("sea") do
+  walkable
+  img "sea_cell.png" => Definit la methode "src" qui va bien ("et est capable de virer le plugins/... au besoin ?)
+end
+
+** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
+CellTool.for("water") > Definit un simple outil pour la classe WaterCell
+CellTool.for(WaterCell) > Definit un outil pour la classe WaterCell (autre syntaxe)
+?
+CellTool.for("water") do |editor, i,j|
+  # Behavior of the 'act' method AFTER CHANGING THE CELL !!
+end
+
+Note : CellTool.for ENREGISTRE LA CELLULE !!
+
+Et toujours en dernier recours ...
+def WaterCellTool < CellTool
+ def initialize
+  ...
+ end
+end
+ToolsRegistry.register(CellTool ...)
+** TODO [#C] Improve story system to add a flag telling if the event has already occured
+** TODO [#D] Add quotes associated to a level (displayed between levels)
+** TODO [#E] Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
 *** prend un block, et rajoute une methode 'init_named_cells' qui appelle ce block
 *** reference l'initializer dans la classe (ajoute une liste à la classe, ie une variable globale sur la classe elle meme, avec un set_instance_variable, au besoin ... )
@@ -14,10 +66,6 @@
 *** DONE transformer le placement des boots en initialiseur
 *** DONE changer la syntaxe des rows et transformer la creation des cases en un initializeur
 *** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
-
-** TODO Improve story system to add a flag telling if the event has already occured
-** TODO Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
-** TODO Add quotes associated to a level (displayed between levels)
 * Game UI
 ** Add a background around the UI
 ** Make the UI exstensible (addition to the plug-in system)
@@ -39,12 +87,18 @@
 ** TODO Externalize strings (good exercise :))
 ** TODO Add a tool to set the quote for a puzzle
 * Plugins
+** TODO [#B] Introduce a way to test plugins in isolation
 ** TODO swimming : water cells, palms
+*** TODO Palms
+*** TODO Define cells as 'swimmable' (and let the player walk on it only if it wears waterproof boots)
 ** TODO burning
+   (Same as swimming, but with waterproof)
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
 ** TODO tunnel plugin (move from a place to another)
+*** TODO Rename TunnelExtremityCell to TunnelCell
+*** TODO Add a tool that changes the class of the cell to TunnelCell, and name the cell if possible
 * Test Editor
 ** recording
 ** adding assertions
