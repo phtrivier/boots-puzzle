@@ -358,4 +358,35 @@ class PuzzleTest < BPTestCase
     assert_equal pu.cell(0,0), pu.cell_by_name(:entry)
   end
 
+  def test_puzzle_name_can_be_guessed_from_file_name
+    assert_equal 'FooBarPuzzle', Puzzle.name_for("foo_bar_puzzle")
+    assert_equal 'FooBarPuzzle', Puzzle.name_for("foo_bar_puzzle.rb")
+    assert_equal 'FooBarPuzzle', Puzzle.name_for("foo/bar/baz/foo_bar_puzzle.rb")
+  end
+
+  def test_loads_puzzle_from_file
+    file_name = "src/test/testdir/puzzle_test/loaded_puzzle.rb"
+    pu = Puzzle.load(file_name)
+    assert_not_nil pu
+    assert_equal LoadedPuzzle, pu.class
+
+    file_name = "src/test/testdir/puzzle_test/loaded_puzzle_with_odd_name.rb"
+    pu = Puzzle.load(file_name, "OddNamePuzzle")
+    assert_not_nil pu
+    assert_equal OddNamePuzzle, pu.class
+
+  end
+
+  def test_block_is_called_on_error_while_loading
+    called = false
+    file_name = "not_existing_puzzle"
+    pu = Puzzle.load(file_name) do |f,k,e|
+      assert_equal file_name, f
+      assert_equal "NotExistingPuzzle", k
+      called = true
+    end
+    assert called, "The error block should have been called"
+    assert_nil pu, "there should be nothing returned"
+  end
+
 end

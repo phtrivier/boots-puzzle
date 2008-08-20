@@ -424,17 +424,41 @@ class Puzzle
 
   # Try and load a puzzle from a file
   # file_name : rb file to load
-  # klass_name : puzzle class
+  # klass_name : puzzle class (optionnal, standard name will be used if omitted)
   # error_block : what to do if an error happens. The error block is passed
   #  the file name, class name, and the actual error.
-  def self.load(file_name, klass_name, &error_block)
-     begin
-       require file_name
-       @puzzle = Kernel.const_get(klass_name).new
-     rescue LoadError, NameError => e
-       error_block.call(file_name, klass_name, e)
-     end
+  def self.load(file_name, klass_name = nil, &error_block)
+    puzzle = nil
+    begin
+      klass_name = Puzzle.name_for(file_name) unless klass_name != nil
+      require file_name
+      puzzle = Kernel.const_get(klass_name).new
+    rescue LoadError, NameError => e
+      if block_given?
+        error_block.call(file_name, klass_name, e)
+      else
+        raise e
+      end
+    end
+    puzzle
   end
+
+  def self.name_for(file_name)
+    # Remove any path component, and
+    # any trailing spaces
+    striped = file_name.strip.split("/")[-1]
+    limit = -1
+    if (striped[-3..-1] == ".rb")
+      limit = -4
+    end
+    short_name = striped[0..limit]
+
+    tokens = short_name.split("_")
+    tokens.collect do |token|
+      token[0,1].upcase + token[1..-1]
+    end.join("")
+  end
+
 
   # ------------------------------------
   # 'init_boots' should be called if possible

@@ -92,13 +92,16 @@ class Editor < Shoes
   end
 
   def load_or_init_puzzle
-    if (ARGV[1] != nil and ARGV[2] != nil)
+    if (ARGV[1] != nil)
       @file_name = ARGV[1]
       @puzzle_class = ARGV[2]
-      @puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
+      loaded_puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
         alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
               "\n A new one will be created.")
         init_new_puzzle
+      end
+      if (loaded_puzzle != nil)
+        @puzzle = loaded_puzzle
       end
     else
       init_new_puzzle
@@ -110,6 +113,7 @@ class Editor < Shoes
     @puzzle_class = "FooPuzzle"
     @file_name = "foo_puzzle.rb"
     @puzzle = Puzzle.empty(10, 10)
+    debug("New Puzzle initialized : #{@puzzle}")
   end
 
   # Main page
@@ -238,7 +242,7 @@ class Editor < Shoes
 
   def build_puzzle_grid_panel
     border black, :strokewidth => 1
-
+    debug("Puzzle before grid_panel : #{@puzzle}")
     @puzzle.h.times do |i|
       # debugs "adding a row ? "
       # This is only the images ...

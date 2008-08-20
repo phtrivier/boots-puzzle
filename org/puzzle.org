@@ -1,5 +1,6 @@
 * Game Engine
 ** TODO [#A] Conventions over Repetition
+*** DONE Let a puzzle 'guess' its name based on the file name
 *** TODO [#A] Let level 'guess' the name of a puzzle class from its file name
 *** TODO Handle the case where the file ends with 'rb' ;)
 *** TODO [#B] Move 'story' out of puzzle and let the level loads the story

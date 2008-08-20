@@ -169,7 +169,7 @@ class GameWindow < Gosu::Window
 
     @adventure = nil
 
-    if (ARGV[1] != nil && ARGV[2] != nil)
+    if (ARGV[1] != nil)
       @puzzle = Puzzle.load(ARGV[1], ARGV[2]) do |file_name, klass_name, e|
         puts "Unable to load puzzle #{klass_name} from file #{file_name}, #{e}"
         usage
