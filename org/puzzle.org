@@ -1,8 +1,8 @@
 * Game Engine
 ** TODO [#A] Conventions over Repetition
 *** DONE Let a puzzle 'guess' its name based on the file name
-*** TODO [#A] Let level 'guess' the name of a puzzle class from its file name
-*** TODO Handle the case where the file ends with 'rb' ;)
+*** DONE [#A] Let level 'guess' the name of a puzzle class from its file name
+*** DONE Handle the case where the file ends with 'rb' ;)
 *** TODO [#B] Move 'story' out of puzzle and let the level loads the story
 *** TODO [#B] Let level 'guess' the name of the story based on the file name / class name
 ** TODO [#C] Find a way to have to write less stuff to define a story module (only the name of the puzzle, and the content of the init method...)
@@ -104,6 +104,7 @@ def WaterCellTool < CellTool
 end
 ToolsRegistry.register(CellTool ...)
 ** TODO [#C] Improve story system to add a flag telling if the event has already occured
+** TODO Add the concept of a notification (so that the GUI can display stuff...)
 ** TODO [#D] Add quotes associated to a level (displayed between levels)
 ** TODO [#E] Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :

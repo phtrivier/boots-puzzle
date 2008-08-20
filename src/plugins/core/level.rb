@@ -27,9 +27,13 @@ class Level
   attr_reader :puzzle_file, :puzzle_class_name
   attr_reader :puzzle
 
-  def initialize(file, klass_name)
+  def initialize(file, klass_name=nil)
     @puzzle_file = file
-    @puzzle_class_name = klass_name
+    if (klass_name != nil)
+      @puzzle_class_name = klass_name
+    else
+      @puzzle_class_name = Puzzle.name_for(file)
+    end
     @puzzle = nil
     @log = Logger.new 'bp::level'
   end

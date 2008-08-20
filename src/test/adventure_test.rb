@@ -15,9 +15,9 @@ adventure:
     - "titi"
   levels:
     - puzzle: "foo_puzzle"
-      name: "FooPuzzle"
     - puzzle: "bar_puzzle"
-      name: "BarPuzzle"
+    - puzzle: "baz_puzzle.rb"
+      name: "CustomBazPuzzle"
 EOF
 
     @a = Adventure.new
@@ -30,10 +30,12 @@ EOF
 
     assert_equal "adv", @a.name
     assert_equal 3, @a.plugins.size
-    assert_equal 2, @a.levels.size
+    assert_equal 3, @a.levels.size
     assert_equal "levels", @a.prefix
     assert_equal "foo_puzzle", @a.levels[0].puzzle_file
     assert_equal "FooPuzzle", @a.levels[0].puzzle_class_name
+    assert_equal "baz_puzzle.rb", @a.levels[2].puzzle_file
+    assert_equal "CustomBazPuzzle", @a.levels[2].puzzle_class_name
 
     @b = Adventure.new
     @b.load!(@a.save)
@@ -41,7 +43,7 @@ EOF
     assert_equal @a.name, @b.name
     assert_equal @a.plugins, @b.plugins
 
-    (0..1).each do |i|
+    (0..2).each do |i|
 
       al = @a.levels[i]
       bl = @b.levels[i]
@@ -65,6 +67,11 @@ EOF
     assert @a.has_next_level?
     @a.next_level!
     assert_equal "bar_puzzle", @a.current_level.puzzle_file
+
+    assert @a.has_next_level?
+    @a.next_level!
+    assert_equal "baz_puzzle.rb", @a.current_level.puzzle_file
+
 
     assert !@a.has_next_level?
   end
