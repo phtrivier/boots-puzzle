@@ -25,8 +25,16 @@ Rake::TestTask.new("test") do |t|
 
 end
 
+desc "Run plugins tests"
+Rake::TestTask.new("plugins_test") do |t|
+  t.libs << ["./src/test", "./src/test/plugins/**/*", "./src/plugins/core", "./src/plugins/**/*"]
+  t.pattern = "src/test/plugins/**/*_test.rb"
+  t.verbose = false
+  t.warning = false
+end
+
 desc "Run the game on a sample app"
-task :play => [:test] do |t|
+task :play => [:test, :plugins_test] do |t|
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/plugins/core"
 
