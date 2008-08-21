@@ -15,8 +15,11 @@ end
 
 task :default => [:test]
 
-desc "Run basic tests"
-Rake::TestTask.new("test") do |t|
+desc "Run all tests (core and plugin)"
+task :test => [:core_test, :plugins_test]
+
+desc "Run core tests"
+Rake::TestTask.new("core_test") do |t|
 
   t.libs << ["./src/test", "./src/plugins/core"]
   t.pattern = 'src/test/*_test.rb'
@@ -34,7 +37,7 @@ Rake::TestTask.new("plugins_test") do |t|
 end
 
 desc "Run the game on a sample app"
-task :play => [:test, :plugins_test] do |t|
+task :play => [:test] do |t|
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/plugins/core"
 

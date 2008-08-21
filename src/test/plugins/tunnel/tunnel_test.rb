@@ -1,13 +1,8 @@
-require "bp_test_case"
+require "plugin_test_case"
 
-# You can expect that the plugins will be loaded by rake, can't you ?
+class TunnelPluginTest < PluginTestCase
 
-require 'src/plugins/core/plugins.rb'
-Plugins.init("src/plugins")
-Plugins.read_manifests
-Plugins.need("tunnel")
-
-class TunnelPluginTest < BPTestCase
+  tested_plugin :tunnel
 
   class PuzzleWithTunnel < Puzzle
 
