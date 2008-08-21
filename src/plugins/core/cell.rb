@@ -18,8 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
+require 'naming'
 
 class Cell
+
+  include Naming
 
   # This might be redefined if needed
   def walkable?
@@ -57,6 +60,14 @@ class Cell
     k = self
     @@types_by_letter[l] = k
     @@letters_by_type[k] = l
+
+    # Provide an accessor for each cell, after all...
+    self.instance_eval do
+      define_method :letter do
+        l
+      end
+    end
+
   end
 
   def self.type_by_letter(l)
@@ -66,6 +77,43 @@ class Cell
   def self.letter_by_type(type)
     @@letters_by_type[type]
   end
+
+  # Creates a new class for a cell, for a given plugin
+  def self.for_plugin(plugin_name, props={}, &block)
+    cell_class_name = props[:name]
+    if (cell_class_name == nil)
+      cell_class_name = Naming.to_camel_case(plugin_name) + "Cell"
+    end
+
+    cell_parent_class = props[:parent]
+    if (cell_parent_class == nil)
+      cell_parent_class = Cell
+    end
+
+    cell_class = cell_parent_class.clone
+
+    cell_class.class.instance_eval do
+
+      define_method :img do |image_file_name|
+
+        define_method :src do
+          "#{plugin_name}/img/#{image_file_name}"
+        end
+
+      end
+
+    end
+
+    if (block_given?)
+      cell_class.instance_eval(&block)
+    end
+    Kernel.const_set(cell_class_name, cell_class)
+
+  end
+
+  def img
+  end
+
 end
 
 class Wall < Cell

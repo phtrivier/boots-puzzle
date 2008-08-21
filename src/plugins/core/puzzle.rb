@@ -26,7 +26,11 @@ require 'story'
 require 'rubygems'
 require 'dictionary'
 
+require 'naming'
+
 class Puzzle
+
+  include Naming
 
   # Ints with the dimension
   attr_accessor :w, :h

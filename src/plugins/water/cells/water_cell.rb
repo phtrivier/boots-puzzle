@@ -1,8 +1,4 @@
-class WaterCell < Wall
-
+Cell.for_plugin("water", :parent => Wall) do
   letter "~"
-
-  def src
-    "water/img/water_cell.png"
-  end
+  img "water_cell.png"
 end

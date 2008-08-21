@@ -89,12 +89,42 @@ class CellTest < Test::Unit::TestCase
   end
 
   def test_cells_register_their_letters
-
     assert_equal CellWithLetter, Cell.type_by_letter("Y")
     assert_equal "Y", Cell.letter_by_type(CellWithLetter)
 
     assert_equal "I", Cell.letter_by_type(In)
     assert_equal "O", Cell.letter_by_type(Out)
+  end
+
+  def test_cells_can_be_defined_with_less_stuff
+
+    Cell.for_plugin("sea", :name => "DefinedSeaCell", :parent => Walkable) do
+      walkable
+      img "sea_cell.png"
+    end
+
+    c = DefinedSeaCell.new
+    assert_not_nil c
+    assert c.walkable?
+    # Ideally, we would create a new class that is a subclass of
+    # Cell (or whatever the Parent is ...) , instead of a brand new class that just copies
+    # everything
+    assert !c.is_a?(Walkable)
+    assert_equal "sea/img/sea_cell.png", c.src
+
+    Cell.for_plugin("fire") do
+      walkable false
+      img "burn_burn.png"
+    end
+
+    f = FireCell.new
+    assert !f.walkable?
+    assert_equal "fire/img/burn_burn.png", f.src
+
+    # But the other one did not change !!
+    c = DefinedSeaCell.new
+    assert_equal "sea/img/sea_cell.png", c.src
+
   end
 
 

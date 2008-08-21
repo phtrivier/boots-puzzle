@@ -17,8 +17,8 @@ voire :
 Story.for(Level1Puzzle) do
   tunnel :black, :white
 end
-** TODO Make it possible to declare a story event without a class name (and use the one in the puzzle in that case)
-** TODO [#B] Make it easier to declare Cell
+** TODO Make it possible to declare a story event without a class name (and use the one in the puzzle name in that case)
+** DONE Make it easier to declare Cell
 class WaterCell < Walkable
    walkable
    def src
@@ -33,7 +33,7 @@ Cell.define("water") do
 end
 
 [sea_cell.rb ou sea.rb]
-Cell.define("sea") do
+Cell.define("sea", :name => "DefinedNamedCell", :parent => Walkable) do
   walkable
   img "sea_cell.png" => Definit la methode "src" qui va bien ("et est capable de virer le plugins/... au besoin ?)
 end
@@ -124,6 +124,10 @@ ToolsRegistry.register(CellTool ...)
 ** Add a background around the UI
 ** Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
+** TODO [BUG] It is not possible to load a level with a story (normal ...)
+So either I monkey patch thing so that Story does not do anything in the context of the Editor (why not ??)
+Or I am much cleverer ... and I get rid of the story once and for all (I let the level load the story if it need to,
+gessing the name of the story, if required. So fix the level thing, and be done with it !!
 ** TODO [#A] Adventure system
 *** TODO Load an adventure file
 **** Adventure editing
