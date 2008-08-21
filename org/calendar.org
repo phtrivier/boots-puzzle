@@ -1,3 +1,5 @@
 * When did I work (what did I do?)
 
-** <2008-08-21 jeu> Added a way to test a plugin (that is, launching test with requiring plugins -- need some refactoring)
+** <2008-08-21 jeu>
+*** Added a way to test a plugin (that is, launching test with requiring plugins)
+*** Added a way to define a story with less code

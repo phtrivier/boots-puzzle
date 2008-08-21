@@ -5,7 +5,8 @@
 *** DONE Handle the case where the file ends with 'rb' ;)
 *** TODO [#B] Move 'story' out of puzzle and let the level loads the story
 *** TODO [#B] Let level 'guess' the name of the story based on the file name / class name
-** TODO [#C] Find a way to have to write less stuff to define a story module (only the name of the puzzle, and the content of the init method...)
+** DONE [#C] Find a way to have to write less stuff to define a story module (only the name of the puzzle, and the content of the init method...)
+
 Story.for("level_1_puzzle") do
   tunnel :black, :white
 end
@@ -16,7 +17,8 @@ voire :
 Story.for(Level1Puzzle) do
   tunnel :black, :white
 end
-** TODO [#B] Maje it easier to declare Cell
+** TODO Make it possible to declare a story event without a class name (and use the one in the puzzle in that case)
+** TODO [#B] Make it easier to declare Cell
 class WaterCell < Walkable
    walkable
    def src
@@ -139,7 +141,6 @@ ToolsRegistry.register(CellTool ...)
 ** TODO Externalize strings (good exercise :))
 ** TODO Add a tool to set the quote for a puzzle
 * Plugins
-** TODO [#B] Introduce a way to test plugins in isolation
 ** TODO swimming : water cells, palms
 *** TODO Palms
 *** TODO Define cells as 'swimmable' (and let the player walk on it only if it wears waterproof boots)

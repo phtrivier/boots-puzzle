@@ -1,5 +1,3 @@
-module Level1PuzzleStory
-  def init_story
-    tunnel(:tunnel_top, :tunnel_bottom)
-  end
+Story.for("level_1_puzzle") do
+  tunnel(:tunnel_top, :tunnel_bottom)
 end

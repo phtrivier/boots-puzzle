@@ -21,6 +21,7 @@
 require 'cell'
 require 'errors'
 require 'player'
+require 'story'
 
 require 'rubygems'
 require 'dictionary'
