@@ -38,44 +38,6 @@ require 'plugins'
 # Init the plugin system
 Plugins.init("src/plugins")
 Plugins.read_manifests
-# Plugins.need("water")
-
-# module SimplePuzzleStory
-#   def init_story
-#     story_event(:trap, Walkable) do |puzzle|
-#       # Add a way to know if the event occured already ...
-#       if (puzzle.cell_by_name(:begin).class != Wall)
-#         puzzle.set_cell_by_name(:begin, Wall.new)
-#         puzzle.set_cell_by_name(:end, Wall.new)
-#         # TODO : ADD A ZONE WITH MESSAGES
-#         puts "Ho no, the exit is locked now !!"
-#       end
-#     end
-#   end
-# end
-
-# class SimplePuzzle < Puzzle
-#   dim 4,4
-
-#   rows do
-#     row "###O"
-#     row "I##-"
-#     row "----"
-#     row "~~~~"
-#   end
-
-#   named_cells do
-#     named_cell :begin,2,0
-#     named_cell :trap, 2, 1
-#     named_cell :end, 1, 3
-#   end
-
-#   boots do
-#     boot 2,3, DoubleBoots
-#   end
-
-#   story SimplePuzzleStory
-# end
 
 # TODO : add a better HELP
 def usage
@@ -84,74 +46,7 @@ def usage
   puts "Example : 'ruby play_puzzle foo_puzzle.rb FooPuzzle'"
 end
 
-# Actions for the game UI
-
-# Subclasses should define :
-# triggered? when the action should be activated
-# released? when the action is done and should be considered finished
-# act! what to do
-class Action
-
-  def initialize(w)
-    @w = w
-    @key_down = false
-  end
-
-  def evaluate
-    if (triggered? and not @key_down)
-      @key_down = true
-      act!
-    elsif (@key_down and released?)
-      @key_down = false
-    end
-  end
-
-end
-
-class SingleKeyAction < Action
-  def initialize(w, key)
-    super(w)
-    @k = key
-  end
-
-  def triggered?
-    @w.button_down?(@k)
-  end
-
-  def released?
-    !@w.button_down?(@k)
-  end
-
-end
-
-class NextBootsAction < SingleKeyAction
-  def act!
-    @w.puzzle.player.next_boots!
-  end
-end
-
-class MoveAction < SingleKeyAction
-  def initialize(w, k, dir)
-    super(w,k)
-    @dir = dir
-  end
-
-  def act!
-    @w.puzzle.try_move!(@dir)
-  end
-end
-
-class PickBootsAction < SingleKeyAction
-  def act!
-    @w.puzzle.try_pick!
-  end
-end
-
-class DropBootsAction < SingleKeyAction
-  def act!
-    @w.puzzle.try_drop!
-  end
-end
+require 'action'
 
 require 'adventure'
 

@@ -93,7 +93,5 @@ gessing the name of the story, if required. So fix the level thing, and be done 
 ** TODO Have rake be happier with passing arguments to play (relative path to the adventure file ?)
 ** TODO Have rake run the editor => Not possible at the moment (Baaaad shoes)
 ** TODO Improve Logging (how to log into rake tests ?)
-** TODO Mode emacs pour creer un nouveau fichier en me demandant le nom, et la description, et qui ajoute le nom
-** , le bandeau, et la declaration de la classe (je suis un feignasse)
 ** test coverage tools ?
 ** TODO Blog about it !

@@ -1,7 +1,11 @@
-# Boots Puzzle - story.rb
-#
-# Functions to define stories
-#
+;; Skeleton for puzzle files ...
+(define-skeleton puzzle-skeleton
+  "Insert a header for puzzle class file"
+  "Desription of the file : "
+  "# Boots Puzzle - " (buffer-name) "\n"
+"#\n"
+"# " str | " * describe the file * " "\n"
+"#
 # Copyright (C) 2008 Pierre-Henri Trivier
 #
 # This program is free software; you can redistribute it and/or modify
@@ -16,29 +20,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n")
 
-require 'puzzle'
+(global-set-key [(control ?c) (?p)] 'puzzle-skeleton)
 
-class Story
-
-  def self.name_for(puzzle_name, klass_name = nil)
-    klass_name = Puzzle.name_for(puzzle_name) unless klass_name
-    "#{klass_name}Story"
-  end
-
-  def self.for(puzzle_name, klass_name = nil, &block)
-
-    klass_name = Story.name_for(puzzle_name) unless klass_name
-
-    klass = Module.new
-
-    klass.instance_eval do
-      define_method :init_story , block
-    end
-
-    Kernel.const_set(klass_name, klass)
-
-  end
-
-end
+(provide 'boots-puzzle)
