@@ -20,20 +20,23 @@
 
 require 'log4r'
 
+require 'name'
+
 class Level
 
   include Log4r
 
-  attr_reader :puzzle_file, :puzzle_class_name
+  attr_reader :puzzle_file, :puzzle_class_name, :puzzle_name
   attr_reader :puzzle
 
-  def initialize(file, klass_name=nil)
-    @puzzle_file = file
-    if (klass_name != nil)
-      @puzzle_class_name = klass_name
-    else
-      @puzzle_class_name = Puzzle.name_for(file)
-    end
+  def initialize(str, klass_name=nil)
+
+    @name = Name.new(str, { :puzzle_class_name => klass_name })
+    @puzzle_name = @name.base_name
+    @puzzle_file = @name.puzzle_file_name
+    @puzzle_class_name = @name.puzzle_class_name
+    @story_file = @name.story_file_name
+
     @puzzle = nil
     @log = Logger.new 'bp::level'
   end
@@ -43,7 +46,7 @@ class Level
   end
 
   def story_file_path(prefix)
-    "#{prefix}/#{@puzzle_file}_story"
+    "#{prefix}/#{@story_file}"
   end
 
   def load!(prefix)

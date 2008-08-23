@@ -37,6 +37,13 @@ class LevelTest < BPTestCase
     assert_equal NoStoryPuzzle, l.puzzle.class
   end
 
+  def test_level_without_story_with_shorter_puzzle_name
+    l = Level.new("no_story")
+    l.load!("testdir/level_test")
+    assert_not_nil(l.puzzle)
+    assert_equal NoStoryPuzzle, l.puzzle.class
+  end
+
   def test_level_with_story
     l = Level.new("staged_puzzle","StagedPuzzle")
     l.load!("testdir/level_test")

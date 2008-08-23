@@ -5,6 +5,6 @@ adventure:
     - "water"
     - "tunnel"
   levels:
-    - puzzle: level_1_puzzle
-    - puzzle: level_2_puzzle
+    - puzzle: level_1
+    - puzzle: level_2
 

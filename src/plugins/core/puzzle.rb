@@ -432,15 +432,15 @@ class Puzzle
   # klass_name : puzzle class (optionnal, standard name will be used if omitted)
   # error_block : what to do if an error happens. The error block is passed
   #  the file name, class name, and the actual error.
-  def self.load(file_name, klass_name = nil, &error_block)
+  def self.load(str, klass_name = nil, &error_block)
     puzzle = nil
     begin
-      klass_name = Puzzle.name_for(file_name) unless klass_name != nil
-      require file_name
-      puzzle = Kernel.const_get(klass_name).new
+      name = Name.new(str, { :puzzle_class_name => klass_name})
+      require name.puzzle_file_name
+      puzzle = Kernel.const_get(name.puzzle_class_name).new
     rescue LoadError, NameError => e
       if block_given?
-        error_block.call(file_name, klass_name, e)
+        error_block.call(name.puzzle_file_name, name.puzzle_class_name, e)
       else
         raise e
       end
@@ -448,21 +448,21 @@ class Puzzle
     puzzle
   end
 
-  def self.name_for(file_name)
-    # Remove any path component, and
-    # any trailing spaces
-    striped = file_name.strip.split("/")[-1]
-    limit = -1
-    if (striped[-3..-1] == ".rb")
-      limit = -4
-    end
-    short_name = striped[0..limit]
+#   def self.name_for(file_name)
+#     # Remove any path component, and
+#     # any trailing spaces
+#     striped = file_name.strip.split("/")[-1]
+#     limit = -1
+#     if (striped[-3..-1] == ".rb")
+#       limit = -4
+#     end
+#     short_name = striped[0..limit]
 
-    tokens = short_name.split("_")
-    tokens.collect do |token|
-      token[0,1].upcase + token[1..-1]
-    end.join("")
-  end
+#     tokens = short_name.split("_")
+#     tokens.collect do |token|
+#       token[0,1].upcase + token[1..-1]
+#     end.join("")
+#   end
 
 
   # ------------------------------------

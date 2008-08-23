@@ -22,14 +22,17 @@ require 'puzzle'
 
 class Story
 
-  def self.name_for(puzzle_name, klass_name = nil)
-    klass_name = Puzzle.name_for(puzzle_name) unless klass_name
-    "#{klass_name}Story"
-  end
+#   def self.name_for(puzzle_name, klass_name = nil)
+#     klass_name = Puzzle.name_for(puzzle_name) unless klass_name
+#     "#{klass_name}Story"
+#   end
 
-  def self.for(puzzle_name, klass_name = nil, &block)
+  def self.for(str, klass_name = nil, &block)
 
-    klass_name = Story.name_for(puzzle_name) unless klass_name
+    name = Name.new(str, { :puzzle_clas_name => klass_name})
+    klass_name = name.story_class_name
+
+#    klass_name = Story.name_for(puzzle_name) unless klass_name
 
     klass = Module.new
 

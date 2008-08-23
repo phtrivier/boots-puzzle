@@ -3,3 +3,4 @@
 *#
 src/editor/foo_puzzle.rb
 logs/*.log
+*semantic.cache

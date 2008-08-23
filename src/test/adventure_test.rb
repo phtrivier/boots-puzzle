@@ -1,3 +1,23 @@
+# Boots Puzzle - adventure_test.rb
+#
+# Test for the adventure class
+#
+# Copyright (C) 2008 Pierre-Henri Trivier
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+
 require "bp_test_case"
 
 require 'adventure.rb'
@@ -32,9 +52,9 @@ EOF
     assert_equal 3, @a.plugins.size
     assert_equal 3, @a.levels.size
     assert_equal "levels", @a.prefix
-    assert_equal "foo_puzzle", @a.levels[0].puzzle_file
+    assert_equal "foo_puzzle", @a.levels[0].puzzle_name
     assert_equal "FooPuzzle", @a.levels[0].puzzle_class_name
-    assert_equal "baz_puzzle.rb", @a.levels[2].puzzle_file
+    assert_equal "baz_puzzle", @a.levels[2].puzzle_name
     assert_equal "CustomBazPuzzle", @a.levels[2].puzzle_class_name
 
     @b = Adventure.new
@@ -48,7 +68,7 @@ EOF
       al = @a.levels[i]
       bl = @b.levels[i]
 
-      assert_equal al.puzzle_file, bl.puzzle_file
+      assert_equal al.puzzle_name, bl.puzzle_name
       assert_equal al.puzzle_class_name, bl.puzzle_class_name
 
     end
@@ -62,15 +82,15 @@ EOF
 
     assert @a.has_next_level?
     @a.next_level!
-    assert_equal "foo_puzzle", @a.current_level.puzzle_file
+    assert_equal "foo_puzzle", @a.current_level.puzzle_name
 
     assert @a.has_next_level?
     @a.next_level!
-    assert_equal "bar_puzzle", @a.current_level.puzzle_file
+    assert_equal "bar_puzzle", @a.current_level.puzzle_name
 
     assert @a.has_next_level?
     @a.next_level!
-    assert_equal "baz_puzzle.rb", @a.current_level.puzzle_file
+    assert_equal "baz_puzzle", @a.current_level.puzzle_name
 
 
     assert !@a.has_next_level?

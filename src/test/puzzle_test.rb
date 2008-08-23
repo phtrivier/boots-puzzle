@@ -358,19 +358,17 @@ class PuzzleTest < BPTestCase
     assert_equal pu.cell(0,0), pu.cell_by_name(:entry)
   end
 
-  def test_puzzle_name_can_be_guessed_from_file_name
-    assert_equal 'FooBarPuzzle', Puzzle.name_for("foo_bar_puzzle")
-    assert_equal 'FooBarPuzzle', Puzzle.name_for("foo_bar_puzzle.rb")
-    assert_equal 'FooBarPuzzle', Puzzle.name_for("foo/bar/baz/foo_bar_puzzle.rb")
-  end
-
   def test_loads_puzzle_from_file
     file_name = "src/test/testdir/puzzle_test/loaded_puzzle.rb"
+
+    n = Name.new(file_name)
+    assert_equal "src/test/testdir/puzzle_test/loaded_puzzle.rb", n.puzzle_file_name
+
     pu = Puzzle.load(file_name)
     assert_not_nil pu
     assert_equal LoadedPuzzle, pu.class
 
-    file_name = "src/test/testdir/puzzle_test/loaded_puzzle_with_odd_name.rb"
+    file_name = "src/test/testdir/puzzle_test/loaded_odd_name_puzzle.rb"
     pu = Puzzle.load(file_name, "OddNamePuzzle")
     assert_not_nil pu
     assert_equal OddNamePuzzle, pu.class
@@ -381,7 +379,7 @@ class PuzzleTest < BPTestCase
     called = false
     file_name = "not_existing_puzzle"
     pu = Puzzle.load(file_name) do |f,k,e|
-      assert_equal file_name, f
+      assert_equal "not_existing_puzzle.rb", f
       assert_equal "NotExistingPuzzle", k
       called = true
     end
