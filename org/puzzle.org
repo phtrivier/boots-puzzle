@@ -5,89 +5,7 @@
 *** DONE Handle the case where the file ends with 'rb' ;)
 *** TODO [#B] Move 'story' out of puzzle and let the level loads the story
 *** TODO [#B] Let level 'guess' the name of the story based on the file name / class name
-** DONE [#C] Find a way to have to write less stuff to define a story module (only the name of the puzzle, and the content of the init method...)
-
-Story.for("level_1_puzzle") do
-  tunnel :black, :white
-end
-
--> C'est bien ca : ne jamais avoir a taper le nom d'une classe : uniquement le
-nom d'un puzzle (et ca cree les classes en fonction !!)
-voire :
-Story.for(Level1Puzzle) do
-  tunnel :black, :white
-end
 ** TODO Make it possible to declare a story event without a class name (and use the one in the puzzle name in that case)
-** DONE Make it easier to declare Cell
-class WaterCell < Walkable
-   walkable
-   def src
-     "plugins/water/water_cell.png"
-   end
-end
-
-[water_cell.rb]
-Cell.define("water") do
-  walkable
-  img "water_cell.png" # Possible parceque j'ai le nom du plugin !
-end
-
-[sea_cell.rb ou sea.rb]
-Cell.define("sea", :name => "DefinedNamedCell", :parent => Walkable) do
-  walkable
-  img "sea_cell.png" => Definit la methode "src" qui va bien ("et est capable de virer le plugins/... au besoin ?)
-end
-
-Note that this might be possible since THIS works :
-
-end
-
-t = TotoFoo.new
-
-So get inspiration from this ...
-
-AND FROM THIS :
-class Bar
-
-  def self.bar(i)
-    self.instance_eval do
-      define_method :baz do
-        puts "BAAAAZ #{i}"
-      end
-    end
-  end
-
-  def self.for(name, &block)
-    new_klass = Bar.clone
-    block.call(new_klass)
-    new_klass_name = name[0,1].upcase + name[1..-1] + "Bar"
-    Kernel.const_set(new_klass_name, new_klass)
-  end
-
-  def self.fur(name, &block)
-    new_klass = Bar.clone
-    new_klass.instance_eval(&block)
-    new_klass_name = name[0,1].upcase + name[1..-1] + "Bar"
-    Kernel.const_set(new_klass_name, new_klass)
-  end
-
-
-end
-
-Bar.for("titi") do |b|
-  b.bar 3
-end
-
-Bar.fur("tutu") do
-  bar 4
-end
-
-
-b = TitiBar.new
-b.baz => 3
-
-c = TutuBar.new
-c.baz => 4
 ** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
 CellTool.for("water") > Definit un simple outil pour la classe WaterCell
 CellTool.for(WaterCell) > Definit un outil pour la classe WaterCell (autre syntaxe)
@@ -106,7 +24,7 @@ def WaterCellTool < CellTool
 end
 ToolsRegistry.register(CellTool ...)
 ** TODO [#C] Improve story system to add a flag telling if the event has already occured
-** TODO Add the concept of a notification (so that the GUI can display stuff...)
+** TODO [#B] Add the concept of a notification (so that the GUI can display stuff...)
 ** TODO [#D] Add quotes associated to a level (displayed between levels)
 ** TODO [#E] Introduce the notion of 'initializer'
 *** TODO method 'def_identifier(:named_cells) ==> definit une method named_cells qui :
@@ -121,8 +39,7 @@ ToolsRegistry.register(CellTool ...)
 *** DONE changer la syntaxe des rows et transformer la creation des cases en un initializeur
 *** DONE changer la sauvegarde des rows (pour faire apparaitre rows do ...)
 * Game UI
-** Add a background around the UI
-** Make the UI exstensible (addition to the plug-in system)
+** [#F] Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
 ** TODO [BUG] It is not possible to load a level with a story (normal ...)
 So either I monkey patch thing so that Story does not do anything in the context of the Editor (why not ??)
@@ -139,7 +56,7 @@ gessing the name of the story, if required. So fix the level thing, and be done 
 ***** TODO link a level to a story and a puzzle
 ***** TODO edit the puzzle
 *** TODO [#A] Load the tools from all plugins in an adventure
-** TODO [#C] Undo ?
+** TODO [#B] Undo ?
 ** TODO [#C] Continuous saving
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))

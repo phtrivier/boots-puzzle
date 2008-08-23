@@ -11,5 +11,9 @@ class Level1Puzzle < Puzzle
     named_cell :tunnel_bottom, 2,0
   end
 
+  boots do
+    boot 0,2,DoubleBoots
+  end
+
   story Level1PuzzleStory
 end

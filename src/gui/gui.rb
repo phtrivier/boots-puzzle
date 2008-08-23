@@ -1,4 +1,4 @@
-# Boots Puzzle - play_puzzle
+# Boots Puzzle - gui.rb
 #
 # Gosu application to play the puzzle
 #
