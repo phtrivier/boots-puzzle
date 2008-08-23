@@ -18,7 +18,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-
 begin
   # In case you use Gosu via RubyGems.
   require 'rubygems'
@@ -163,9 +162,16 @@ class GameWindow < Gosu::Window
 
   attr_reader :puzzle
 
+  White = Gosu::Color.new(0xffffffff)
+  # Maximum dimension of puzzles
+  H = 10
+  W = 16
+
   def initialize
     super(640, 480, false)
     self.caption = "Puzzle Game"
+
+    @bg_image =  Gosu::Image.new(self, "src/gui/img/background_spirale.png", false)
 
     @adventure = nil
 
@@ -230,15 +236,17 @@ class GameWindow < Gosu::Window
   end
 
   def draw
-    @font.draw("Hello world !", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
+#    @font.draw("Hello world !", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
     draw_puzzle
   end
 
   def draw_puzzle
 
     @x0 = 20
-    @y0 = 50
+    @y0 = 20
     @s = 32
+
+    draw_background
 
     @puzzle.each_cell do |i,j,c|
       draw_cell(i,j,c)
@@ -253,6 +261,15 @@ class GameWindow < Gosu::Window
     draw_player
 
     draw_ui
+
+  end
+
+  def draw_background
+    @bg_image.draw(0,0,ZOrder::UI)
+
+    # Draw a rectangle around the game area
+    draw_rectangle(@x0-5, @y0-5, @x0 + W*@s + 5, @y0 + H*@s + 5, White)
+#    draw_rectangle(@x0-3, @y0-3, @x0 + w*@s + 3, @y0 + h*@s + 3, White)
 
   end
 
@@ -290,21 +307,21 @@ class GameWindow < Gosu::Window
 
   def draw_ui
     draw_boots_ui
-    # draw_message_ui
+    draw_message_ui
     # draw_keys_ui
   end
 
   # Draw the part of the UI where the current boot is displayed
   def draw_boots_ui
     @boots_ui_x0 = 580
-    @boots_ui_y0 = 30
+    @boots_ui_y0 = 25
     interval = 25
 
     x = @boots_ui_x0
     y = @boots_ui_y0
 
     # Draw a nice line around everything
-    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*3) + (interval*2) + 10, Gosu::Color.new(0xffffffff))
+    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*3) + (interval*2) + 10, White)
 
     # Draw each boots, surrounding the selected one
     @puzzle.player.each_boots do |boot, selected|
@@ -323,6 +340,16 @@ class GameWindow < Gosu::Window
 
     end
 
+  end
+
+  def draw_message_ui
+    # TODO : Compute the actual positions of where we should start writing text
+    # TODO : hide the zone (in black) and write messages when they come in !
+    y0 = @y0 + @s*H + 5 + 10
+    x1 = 620
+    height = 110
+
+    draw_rectangle @x0 - 5, y0, x1, y0 + height, White
   end
 
   # Draw a rectangle

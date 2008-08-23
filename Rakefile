@@ -39,6 +39,7 @@ end
 desc "Run the game on a sample app"
 task :play => [:test] do |t|
   $LOAD_PATH << "./src"
+  $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
 
   # Odly enough, seems like I can't get logging to work in RakeTestTask...
@@ -46,7 +47,7 @@ task :play => [:test] do |t|
   FileUtils.mkdir_p("logs")
   log_config("dev")
 
-  require 'play_puzzle'
+  require 'gui'
   play
 end
 
