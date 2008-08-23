@@ -1,5 +1,8 @@
 * When did I work (what did I do?)
 
+** <2008-08-23 sam>
+*** Improved the GUI, moved things into proper folders
+
 ** <2008-08-21 jeu>
 *** Added a way to test a plugin (that is, launching test with requiring plugins)
 *** Added a way to define a story with less code
