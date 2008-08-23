@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/testtask'
-
+require 'fileutils'
 require 'rubygems'
 require 'log4r'
 require 'log4r/yamlconfigurator'
@@ -43,6 +43,7 @@ task :play => [:test] do |t|
 
   # Odly enough, seems like I can't get logging to work in RakeTestTask...
   # TODO : PASS parameter to change the config ?
+  FileUtils.mkdir_p("logs")
   log_config("dev")
 
   require 'play_puzzle'

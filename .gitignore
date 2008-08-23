@@ -2,4 +2,4 @@
 *#*
 *#
 src/editor/foo_puzzle.rb
-logs/*
+logs/*.log
