@@ -129,7 +129,6 @@ class LevelEditor < Shoes
         exit
       else
         puzzle_name = ARGV[2]
-#        alert("Would load puzzle name : #{puzzle_name}")
 
         @level = @adventure.level_by_name(puzzle_name)
         if (@level == nil)
