@@ -90,7 +90,7 @@ class Cell
       cell_parent_class = Cell
     end
 
-    cell_class = cell_parent_class.clone
+    cell_class = Class.new(cell_parent_class)
 
     cell_class.class.instance_eval do
 

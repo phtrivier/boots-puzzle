@@ -109,7 +109,7 @@ class CellTest < Test::Unit::TestCase
     # Ideally, we would create a new class that is a subclass of
     # Cell (or whatever the Parent is ...) , instead of a brand new class that just copies
     # everything
-    assert !c.is_a?(Walkable)
+    assert c.is_a?(Walkable)
     assert_equal "sea/img/sea_cell.png", c.src
 
     Cell.for_plugin("fire") do
