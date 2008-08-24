@@ -77,11 +77,12 @@ class PuzzleStoryTest < BPTestCase
       named_cell :foo, 0, 1
     end
 
-    story PuzzleStoryTest::PuzzleStory
   end
 
   def test_loads_story_if_relevant
     pu = PuzzleWithStory.new
+    pu.init_story_from_module PuzzleStoryTest::PuzzleStory
+
     assert_equal Walkable, pu.cell_by_name(:bar).class
     pu.enters_player!
     assert !pu.called

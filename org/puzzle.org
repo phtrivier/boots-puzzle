@@ -1,9 +1,9 @@
 * Game Engine
-** TODO [#A] Conventions over Repetition
+** DONE [#A] Conventions over Repetition
 *** DONE Let a puzzle 'guess' its name based on the file name
 *** DONE [#A] Let level 'guess' the name of a puzzle class from its file name
 *** DONE Handle the case where the file ends with 'rb' ;)
-*** TODO [#B] Move 'story' out of puzzle and let the level loads the story
+*** DONE [#B] Move 'story' out of puzzle and let the level loads the story
 *** DONE [#B] Let level 'guess' the name of the story based on the file name / class name
 ** TODO Make it possible to declare a story event without a class name (and use the one in the puzzle name in that case)
 ** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)

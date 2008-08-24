@@ -22,8 +22,6 @@ class StoryTest < BPTestCase
       named_cell :foo, 0,1
     end
 
-    # TODO : MOVE STORY OUT OF THE PUZZLE ?
-    story FooPuzzleStory
   end
 
   def test_story_created_from_short_def
@@ -31,6 +29,8 @@ class StoryTest < BPTestCase
     assert !@@called, "the story event should not have been called yet"
 
     pu = FooPuzzle.new
+    pu.init_story_from_module FooPuzzleStory
+
     pu.enters_player!
     pu.try_move!(:right)
     assert @@called, "the story event should have been called"

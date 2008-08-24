@@ -341,14 +341,22 @@ class Puzzle
 
   end
 
+  def metaclass
+    class << self
+      self
+    end
+  end
+
   # ---
-  # 'init_story' should be called if possible
-  initer(:story)
+  # Story
 
-
-  # Indicate which story should be loaded
-  def self.story(story_name)
-    include story_name
+  def init_story_from_module(mod)
+    self.class.instance_eval do
+      include mod
+    end
+    # The method should have been defined by
+    # the module we just included
+    init_story
   end
 
   # Define an event on a named cell
@@ -447,23 +455,6 @@ class Puzzle
     end
     puzzle
   end
-
-#   def self.name_for(file_name)
-#     # Remove any path component, and
-#     # any trailing spaces
-#     striped = file_name.strip.split("/")[-1]
-#     limit = -1
-#     if (striped[-3..-1] == ".rb")
-#       limit = -4
-#     end
-#     short_name = striped[0..limit]
-
-#     tokens = short_name.split("_")
-#     tokens.collect do |token|
-#       token[0,1].upcase + token[1..-1]
-#     end.join("")
-#   end
-
 
   # ------------------------------------
   # 'init_boots' should be called if possible

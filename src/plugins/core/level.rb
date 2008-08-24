@@ -60,8 +60,17 @@ class Level
       begin
         @log.info {  "Trying story at #{story_file_path(prefix)}" }
         require story_file_path(prefix)
-        @puzzle.class.story Kernel.const_get(@story_class_name)
+        # Load the module
+#        @puzzle.metaclass.include Kernel.const_get(@story_class_name)
+        @log.info {  "Story module : #{Kernel.const_get(@story_class_name)}" }
+        mod = Kernel.const_get(@story_class_name)
+
+        @puzzle.init_story_from_module(mod)
+        @log.info { "Puzzle properly loaded (used module #{@story_class_name})"}
+        # Call the initers
+        @puzzle.init_story
       rescue LoadError => e
+        @log.info { "Could not load story : #{e}"}
       end
     end
 
