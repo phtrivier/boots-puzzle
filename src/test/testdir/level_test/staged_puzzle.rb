@@ -6,5 +6,4 @@ class StagedPuzzle < Puzzle
   named_cells do
     named_cell :entry, 1,0
   end
-  story StagedPuzzleStory
 end

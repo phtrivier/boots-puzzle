@@ -6,5 +6,4 @@ class Level2Puzzle < Puzzle
   named_cells do
     named_cell :middle, 0,1
   end
-  story Level2PuzzleStory
 end

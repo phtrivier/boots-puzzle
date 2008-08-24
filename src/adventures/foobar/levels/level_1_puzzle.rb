@@ -15,5 +15,4 @@ class Level1Puzzle < Puzzle
     boot 0,2,DoubleBoots
   end
 
-  story Level1PuzzleStory
 end

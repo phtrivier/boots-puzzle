@@ -60,7 +60,17 @@ class LevelTest < BPTestCase
     assert StagedPuzzleStory::Loaded
   end
 
-  # TODO : if the name is 'toto.rb', check the story i 'toto_story.rb' ... be nice !
+  def test_level_can_be_loaded_without_the_story
+    l = Level.new("staged_puzzle")
+    l.load!("testdir/level_test", false)
+    assert_not_nil(l.puzzle)
+    assert_equal StagedPuzzle, l.puzzle.class
+    begin
+      assert_not_nil StagedPuzzleStory::Loaded
+      bad("Should not be possible to retrieve the constant")
+    rescue NameError => e
+    end
+  end
 
   def test_level_is_finished_or_not
     l = Level.new("staged_puzzle","StagedPuzzle")

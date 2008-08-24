@@ -35,6 +35,7 @@ class Level
     @puzzle_name = @name.base_name
     @puzzle_file = @name.puzzle_file_name
     @puzzle_class_name = @name.puzzle_class_name
+    @story_class_name = @name.story_class_name
     @story_file = @name.story_file_name
 
     @puzzle = nil
@@ -49,16 +50,21 @@ class Level
     "#{prefix}/#{@story_file}"
   end
 
-  def load!(prefix)
-    begin
-      @log.info {  "Trying story at #{story_file_path(prefix)}" }
-      require story_file_path(prefix)
-    rescue LoadError => e
-    end
+  def load!(prefix,should_load_story=true)
     @log.info {  "Trying puzzle at #{puzzle_file_path(prefix)}" }
     require puzzle_file_path(prefix)
     klass = Kernel.const_get(@puzzle_class_name)
     @puzzle = klass.new
+
+    if (should_load_story)
+      begin
+        @log.info {  "Trying story at #{story_file_path(prefix)}" }
+        require story_file_path(prefix)
+        @puzzle.class.story Kernel.const_get(@story_class_name)
+      rescue LoadError => e
+      end
+    end
+
   end
 
   def finished?
