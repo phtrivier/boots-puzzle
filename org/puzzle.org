@@ -4,7 +4,7 @@
 *** DONE [#A] Let level 'guess' the name of a puzzle class from its file name
 *** DONE Handle the case where the file ends with 'rb' ;)
 *** TODO [#B] Move 'story' out of puzzle and let the level loads the story
-*** TODO [#B] Let level 'guess' the name of the story based on the file name / class name
+*** DONE [#B] Let level 'guess' the name of the story based on the file name / class name
 ** TODO Make it possible to declare a story event without a class name (and use the one in the puzzle name in that case)
 ** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
 CellTool.for("water") > Definit un simple outil pour la classe WaterCell
@@ -41,6 +41,7 @@ ToolsRegistry.register(CellTool ...)
 * Game UI
 ** [#F] Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
+** TODO [BUG] The editor is broken in this state !!!
 ** TODO [BUG] It is not possible to load a level with a story (normal ...)
 So either I monkey patch thing so that Story does not do anything in the context of the Editor (why not ??)
 Or I am much cleverer ... and I get rid of the story once and for all (I let the level load the story if it need to,

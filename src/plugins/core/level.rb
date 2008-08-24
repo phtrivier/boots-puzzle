@@ -57,10 +57,8 @@ class Level
     end
     @log.info {  "Trying puzzle at #{puzzle_file_path(prefix)}" }
     require puzzle_file_path(prefix)
-    # Ugly isn't it ?
-    cmd = "@puzzle = #{@puzzle_class_name}.new"
-    @log.debug { "Cmd to load the class : #{cmd}" }
-    instance_eval(cmd)
+    klass = Kernel.const_get(@puzzle_class_name)
+    @puzzle = klass.new
   end
 
   def finished?
