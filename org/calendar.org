@@ -1,6 +1,7 @@
 * When did I work (what did I do?)
 ** <2008-08-24 dim>
 *** Levels now load the story of a puzzle
+*** Added adventure loading in the editor
 ** <2008-08-23 sam>
 *** Improved the GUI, moved things into proper folders
 

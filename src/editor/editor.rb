@@ -108,76 +108,132 @@ class LevelEditor < Shoes
      show_editor
   end
 
- def load_adventure
+  def load_adventure
+
     if (ARGV[1] == nil)
       alert("You need to give the name of an adventure.")
+      close
       exit
     else
-      name = ARGV[1]
-      adventure_file = "../adventures/#{name}/adventure.yml"
+      @adventure_name = ARGV[1]
+      adventure_folder = "../adventures/#{@adventure_name}"
+      @levels_folder =  "#{adventure_folder}/levels"
+
+      @adventure_file = "#{adventure_folder}/adventure.yml"
       begin
-        @adventure = Adventure.new(name)
-        @adventure.load!(File.open(adventure_file))
+        @adventure = Adventure.new(@adventure_name)
+        @adventure.load!(File.open(@adventure_file))
         @adventure.load_plugins!
       rescue RuntimeError => e
-        alert("Unable to load adventure #{name} : #{e}. Will quit.")
+        alert("Unable to load adventure #{@adventure_name} : #{e}. Will quit.")
       end
 
       # TODO : MOVE THIS TO LOAD_PUZZLE ?
       if (ARGV[2] == nil)
-        alert("No puzzle name given ... should create a NEW : TODO ")
+        alert("No puzzle name given ... We'll create a new one ")
+        create_new_puzzle
         exit
       else
         puzzle_name = ARGV[2]
 
         @level = @adventure.level_by_name(puzzle_name)
         if (@level == nil)
-          alert("Bad puzzle name .. shoudl create a new one ?")
-          exit
+          if (!confirm("There is no puzzle with the name #{puzzle_name} in adventure #{@adventure_name}" +
+                       ". Do you want to create one ?"))
+            close
+          else
+            create_new_puzzle(puzzle_name)
+          end
+        else
+          # The level can be loaded and the puzzle initialized
+          @level.load!(@levels_folder)
+          @puzzle_name = @level.puzzle_name
+          @puzzle = @level.puzzle
+          @file_name = "#{@levels_folder}/" + @level.puzzle_file
+          @puzzle_class = @level.puzzle_class_name
         end
-        @level.load!("../adventures/#{name}/levels")
-        @puzzle = @level.puzzle
-        @file_name = "../adventures/#{name}/levels" + "/" + @level.puzzle_file
-        @puzzle_class = @level.puzzle_class_name
 
       end
 
     end
+
   end
 
-#   def load_or_init_puzzle
-#     if (ARGV[1] != nil)
-#       @file_name = ARGV[1]
-#       @puzzle_class = ARGV[2]
-#       loaded_puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
-#         alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
-#               "\n A new one will be created.")
-#         init_new_puzzle
-#       end
-#       if (loaded_puzzle != nil)
-#         @puzzle = loaded_puzzle
-#       end
-#     else
-#       init_new_puzzle
-#     end
-#   end
+  # There should be no spaces ...
+  def valid_puzzle_name?(str)
+    !str.include?(" ")
+  end
 
-#   def init_new_puzzle
-#     # TODO : Create a dialog to ask ...
-#     @puzzle_class = "FooPuzzle"
-#     @file_name = "foo_puzzle.rb"
-#     @puzzle = Puzzle.empty(10, 10)
-#     debug("New Puzzle initialized : #{@puzzle}")
-#   end
+  def create_new_puzzle(puzzle_name=nil)
+    # TODO : Make this method shorter ?
+    h = 10
+    w = 16
+    all_good = true
+
+    puzzle_name = ask "What is the name of the puzzle ?" unless puzzle_name
+    puzzle_name = puzzle_name.strip
+
+    if (puzzle_name == nil)
+      all_good = false
+    else
+      if (!valid_puzzle_name?(puzzle_name))
+        alert("Invalid puzzle name, sorry...")
+        all_good = false
+      else
+        if (!confirm "Do you want standard size (10 lines, 16 columns ?)")
+          all_good = false
+          h_dialog = ask "How many lines ?"
+          if (h_dialog.to_i <= 0)
+            alert("Bad dimension")
+            close
+            exit
+          else
+            w_dialog = ask "How many columns ?"
+            if (w_dialog.to_i <= 0)
+              alert("Bad dimension")
+              close
+              exit
+            else
+              all_good = true
+              h = h_dialog.to_i
+              w = w_dialog.to_i
+            end
+          end
+        end
+      end
+    end
+
+    if (!all_good)
+      alert("Some entry sucked, sorry...")
+      close
+      exit
+    else
+      @level = Level.new(puzzle_name)
+      @puzzle_name = @level.puzzle_name
+      @puzzle = Puzzle.empty(w,h)
+      @adventure.levels << @level
+      # We should save the puzzle and the adventure now
+      File.open(@adventure_file, "w") << @adventure.save
+      @file_name = "#{@levels_folder}/" + @level.puzzle_file
+      @puzzle_class = @level.puzzle_class_name
+      save_puzzle
+    end
+
+  end
 
   # Main page
   def show_editor
+
     flow do
-      stack :width => '20%' do
+      build_names_panel
+    end
+
+    flow do
+      stack :width => '15%' do
         build_palette_panel
       end
 
-      stack :width => '60%' do
+      stack :width => '65%' do
         build_puzzle_grid_panel
       end
 
@@ -192,7 +248,7 @@ class LevelEditor < Shoes
 
     keypress do |k|
       if (k==:control_s)
-        save_puzzle
+        save_and_undirty
       elsif (k==:control_q)
         if (@dirty_state != "" and confirm("Save before quitting ?"))
           save_puzzle
@@ -201,6 +257,14 @@ class LevelEditor < Shoes
       end
     end
 
+  end
+
+  def build_names_panel
+    para "Adventure name : "
+    para @adventure_name
+    para "--"
+    para "Puzzle name : "
+    para @puzzle_name
   end
 
   def make_cell_tools_line(tools, length)
@@ -261,10 +325,6 @@ class LevelEditor < Shoes
 
       make_cell_tools_line(tools, 3)
 
-#       flow :margin_top => '5px', :margin_left => '5px' do
-#         cell_tool_button(BootsTool.new(DoubleBoots))
-#         cell_tool_button(ResetBootsTool.new())
-#       end
     end
 
     debug ToolsRegistry.registered_boots_tools
@@ -329,10 +389,15 @@ class LevelEditor < Shoes
     create_named_cells_list
   end
 
+  def save_and_undirty
+    save_puzzle
+    dirty(false)
+  end
+
   def build_controls_panel
     button "save" do
       begin
-        save_puzzle
+        save_and_undirty
       rescue RuntimeError => e
         alert "Error while saving : #{e}"
       end
@@ -350,7 +415,6 @@ class LevelEditor < Shoes
     File.open(@file_name, "w+") do |f|
       f << res
     end
-    @dirty_state.text = ""
   end
 
   def create_named_cells_list
@@ -387,6 +451,7 @@ class LevelEditor < Shoes
           flow :width => "10%" do
             button "X" do
               @puzzle.unname_cell(name)
+              dirty(true)
               update_named_cells_list
             end
           end
