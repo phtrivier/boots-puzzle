@@ -1,0 +1,9 @@
+v0.1.0 - 2008/08/24
+
+ - Initial version that I can show to the world without feeling too
+    shamefull.
+
+ - Sort-of working puzzle system, plugin system, the editor can
+    open adventure files, and you can edit individual levels. Some
+    plugins are even started ! Definitely a lot to do...
+

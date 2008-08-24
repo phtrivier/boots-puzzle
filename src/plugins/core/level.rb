@@ -62,7 +62,6 @@ class Level
         # @log.info {  "Trying story at #{story_file_path(prefix)}" }
         require story_file_path(prefix)
         # Load the module
-#        @puzzle.metaclass.include Kernel.const_get(@story_class_name)
         # @log.info {  "Story module : #{Kernel.const_get(@story_class_name)}" }
         mod = Kernel.const_get(@story_class_name)
 
@@ -79,6 +78,11 @@ class Level
 
   def finished?
     @puzzle.player.pos == @puzzle.out
+  end
+
+  def named_like?(str)
+    n = Name.new(str)
+    self.puzzle_name == n.base_name
   end
 
 end

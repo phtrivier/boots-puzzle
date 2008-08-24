@@ -38,13 +38,6 @@ require 'plugins'
 Plugins.init("src/plugins")
 Plugins.read_manifests
 
-# TODO : add a better HELP
-def usage
-  puts "----------------------------------------------------"
-  puts "Usage : 'play_puzzle file_name class_name'"
-  puts "Example : 'ruby play_puzzle foo_puzzle.rb FooPuzzle'"
-end
-
 require 'action'
 
 require 'adventure'
@@ -61,7 +54,7 @@ class GameWindow < Gosu::Window
   H = 10
   W = 16
 
-  def initialize
+  def initialize(props)
     super(640, 480, false)
     self.caption = "Puzzle Game"
 
@@ -69,23 +62,30 @@ class GameWindow < Gosu::Window
 
     @adventure = nil
 
-    if (ARGV[1] != nil)
-      @puzzle = Puzzle.load(ARGV[1], ARGV[2]) do |file_name, klass_name, e|
-        puts "Unable to load puzzle #{klass_name} from file #{file_name}, #{e}"
-        usage
-        exit(-1)
-      end
-    else
+    adventure_name = props[:adventure_name]
 
-      @adventure = Adventure.new
-      @adventure.load!(File.open("src/adventures/foobar/adventure.yml"))
-      @adventure.load_plugins!
+    @adventure = Adventure.new
+    begin
+      @adventure.load!(File.open("src/adventures/#{adventure_name}/adventure.yml"))
+    rescue Exception => e
+      puts "Unable to open adventure #{adventure_name} : #{e}"
+      exit(-1)
+    end
+    @adventure.load_plugins!
 
-      if (@adventure.has_next_level?)
+    if (@adventure.has_next_level?)
+
+      if (props[:level_name]!=nil and @adventure.has_level_named?(props[:level_name]))
+        @adventure.go_to_level_named!(props[:level_name])
+        @adventure.load_current_level!
+      else
         @adventure.load_next_level!
-        @puzzle = @adventure.current_level.puzzle
       end
 
+      @puzzle = @adventure.current_level.puzzle
+    else
+      puts "This adventure has nothing to play !!"
+      exit(-1)
     end
 
     @puzzle.enters_player!
@@ -130,7 +130,6 @@ class GameWindow < Gosu::Window
   end
 
   def draw
-#    @font.draw("Hello world !", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
     draw_puzzle
   end
 
@@ -285,7 +284,7 @@ class GameWindow < Gosu::Window
 
 end
 
-def play
-  w = GameWindow.new
+def play(ops)
+  w = GameWindow.new(ops)
   w.show
 end

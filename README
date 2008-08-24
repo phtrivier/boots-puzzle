@@ -1,0 +1,17 @@
+This is BootsPuzzle, an extensible puzzle game based on movement.
+
+This is still a work in LOT of progress... so don't expect much.
+
+See 'rake help' for info on how to play or run the editor.
+
+Every commands should be run from above 'src' (that's where you are right now)
+
+The hopefully-up-to-date release note in is org/puzzle.org. You should
+open it with emacs org-mode to get something nice.
+
+You should use emacs, because, well, you should.
+
+Documentation will come (it should be somewhere in the todo list.)
+
+Bug reports, suggestions, cialis adds, etc .. can be sent at phtrivier
+AT yahoo DOT fr.

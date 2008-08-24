@@ -80,6 +80,10 @@ class Adventure
 
   def load_next_level!
     next_level!
+    load_current_level!
+  end
+
+  def load_current_level!
     current_level.load!(@prefix)
   end
 
@@ -90,10 +94,22 @@ class Adventure
   def level_by_name(str)
 
     @levels.find do |level|
-      n = Name.new(str)
-      level.puzzle_name == n.base_name
+      level.named_like?(str)
     end
 
+  end
+
+  def has_level_named?(str)
+    level_by_name(str) != nil
+  end
+
+  def go_to_level_named!(str)
+    l = level_by_name(str)
+    if (l==nil)
+      raise RuntimeError.new("No level named like #{str}")
+    else
+      @current_index = @levels.index(l)
+    end
   end
 
 end

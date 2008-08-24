@@ -36,19 +36,30 @@ Rake::TestTask.new("plugins_test") do |t|
   t.warning = false
 end
 
+def from_env(long, short, default)
+  res = default
+  if (ENV[long])
+    res = ENV[long]
+  elsif (ENV[short])
+    res = ENV[short]
+  end
+  res
+end
+
 desc "Run the game on a sample app"
 task :play => [:test] do |t|
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
 
-  # Odly enough, seems like I can't get logging to work in RakeTestTask...
-  # TODO : PASS parameter to change the config ?
   FileUtils.mkdir_p("logs")
   log_config("dev")
 
+  adventure_name = from_env("adventure", "a", "foobar")
+  level_name = from_env("level", "l", nil)
+
   require 'gui'
-  play
+  play(:adventure_name => adventure_name, :level_name => level_name)
 end
 
 desc "Run the puzzle editor"
@@ -65,6 +76,11 @@ def editor_usage(offset)
   puts offset + ex
 end
 
+def gui_usage(offset)
+  puts offset + "Usage : rake play [adventure|a=ADVENTURE_NAME] [level|l=LEVEL_NAME]"
+  puts offset + "Example : rake play adventure=foobar l=level_1"
+end
+
 desc "Help"
 task :help do
   puts "Boots puzzle (C) Pierre-Henri Trivier - 2008"
@@ -72,9 +88,7 @@ task :help do
   puts "Puzzle editor :"
   editor_usage(" ")
   puts "---"
-  puts "To launch the game :"
-  puts " rake play"
-  puts "or"
-  puts " rake play src/editor/foo_puzzle.rb FooPuzzle"
+  puts "To launch the game (with a default adventure):"
+  gui_usage("")
 end
 

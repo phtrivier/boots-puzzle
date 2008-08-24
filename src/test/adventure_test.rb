@@ -122,4 +122,21 @@ EOF
     @a.load_next_level!
   end
 
+  def test_go_to_level_by_name
+    @a = Adventure.new
+    @a.load!(@str)
+    assert @a.has_level_named?("foo")
+    assert @a.has_level_named?("bar")
+    @a.go_to_level_named!("bar")
+    assert_equal "bar_puzzle", @a.current_level.puzzle_name
+
+    begin
+      @a.go_to_level_named!("prout")
+      bad("Bad level name")
+    rescue RuntimeError => e
+        assert_equal "No level named like prout", e.message
+    end
+
+  end
+
 end
