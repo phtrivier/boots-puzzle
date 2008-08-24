@@ -44,8 +44,8 @@ require 'plugins'
 
 Plugins.init("../plugins")
 Plugins.read_manifests
-# This would be done from the adventure !
-Plugins.need("water")
+# # This would be done from the adventure !
+# Plugins.need("water")
 # ----------------------
 
 module ImagePath
