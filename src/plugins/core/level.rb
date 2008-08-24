@@ -18,13 +18,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-require 'log4r'
+# require 'rubygems'
+# require 'log4r'
 
 require 'name'
 
 class Level
 
-  include Log4r
+  #  include Log4r
 
   attr_reader :puzzle_file, :puzzle_class_name, :puzzle_name
   attr_reader :puzzle
@@ -39,7 +40,7 @@ class Level
     @story_file = @name.story_file_name
 
     @puzzle = nil
-    @log = Logger.new 'bp::level'
+    # @log = Logger.new 'bp::level'
   end
 
   def puzzle_file_path(prefix)
@@ -51,26 +52,26 @@ class Level
   end
 
   def load!(prefix,should_load_story=true)
-    @log.info {  "Trying puzzle at #{puzzle_file_path(prefix)}" }
+    # @log.info {  "Trying puzzle at #{puzzle_file_path(prefix)}" }
     require puzzle_file_path(prefix)
     klass = Kernel.const_get(@puzzle_class_name)
     @puzzle = klass.new
 
     if (should_load_story)
       begin
-        @log.info {  "Trying story at #{story_file_path(prefix)}" }
+        # @log.info {  "Trying story at #{story_file_path(prefix)}" }
         require story_file_path(prefix)
         # Load the module
 #        @puzzle.metaclass.include Kernel.const_get(@story_class_name)
-        @log.info {  "Story module : #{Kernel.const_get(@story_class_name)}" }
+        # @log.info {  "Story module : #{Kernel.const_get(@story_class_name)}" }
         mod = Kernel.const_get(@story_class_name)
 
         @puzzle.init_story_from_module(mod)
-        @log.info { "Puzzle properly loaded (used module #{@story_class_name})"}
+        # @log.info { "Puzzle properly loaded (used module #{@story_class_name})"}
         # Call the initers
         @puzzle.init_story
       rescue LoadError => e
-        @log.info { "Could not load story : #{e}"}
+        # @log.info { "Could not load story : #{e}"}
       end
     end
 

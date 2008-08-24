@@ -27,6 +27,7 @@ require 'rubygems'
 require 'dictionary'
 
 require 'naming'
+require 'name'
 
 class Puzzle
 
@@ -442,12 +443,13 @@ class Puzzle
   #  the file name, class name, and the actual error.
   def self.load(str, klass_name = nil, &error_block)
     puzzle = nil
+    name = nil
     begin
       name = Name.new(str, { :puzzle_class_name => klass_name})
       require name.puzzle_file_name
       puzzle = Kernel.const_get(name.puzzle_class_name).new
     rescue LoadError, NameError => e
-      if block_given?
+      if block_given? and name != nil
         error_block.call(name.puzzle_file_name, name.puzzle_class_name, e)
       else
         raise e

@@ -26,8 +26,8 @@ class Adventure
 
   attr_reader :name, :plugins, :levels, :prefix
 
-  def initialize
-    @name = nil
+  def initialize(name=nil)
+    @name = name
     @plugins = []
     @levels = []
     @prefix = ""
@@ -85,6 +85,15 @@ class Adventure
 
   def load_plugins!
     Plugins.need(@plugins)
+  end
+
+  def level_by_name(str)
+
+    @levels.find do |level|
+      n = Name.new(str)
+      level.puzzle_name == n.base_name
+    end
+
   end
 
 end

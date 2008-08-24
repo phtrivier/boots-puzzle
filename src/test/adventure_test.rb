@@ -75,6 +75,20 @@ EOF
 
   end
 
+  def test_finds_level_by_puzzle_name
+
+    @a.load!(@str)
+
+    l = @a.level_by_name("foo_puzzle")
+    assert_not_nil l
+    assert_equal "foo_puzzle", l.puzzle_name
+
+    l = @a.level_by_name("foo")
+    assert_not_nil l
+    assert_equal "foo_puzzle", l.puzzle_name
+
+  end
+
   def test_iterates_over_level
     @a.load!(@str)
 

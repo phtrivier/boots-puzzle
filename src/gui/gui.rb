@@ -32,7 +32,6 @@ module ZOrder
 end
 
 require 'puzzle'
-
 require 'plugins'
 
 # Init the plugin system

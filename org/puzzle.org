@@ -41,13 +41,10 @@ ToolsRegistry.register(CellTool ...)
 * Game UI
 ** [#F] Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
-** TODO [BUG] The editor is broken in this state !!!
-** TODO [BUG] It is not possible to load a level with a story (normal ...)
-So either I monkey patch thing so that Story does not do anything in the context of the Editor (why not ??)
-Or I am much cleverer ... and I get rid of the story once and for all (I let the level load the story if it need to,
-gessing the name of the story, if required. So fix the level thing, and be done with it !!
-** TODO [#A] Adventure system
-*** TODO Load an adventure file
+** TODO [BUG] On ne peut pas charger log4r dans shoes, apparement ? En tout ca ca merde grave.
+(no such file - log4r)
+** TODO [#A] Adventure editor
+*** DONE Load an adventure file
 **** Adventure editing
 ***** TODO Create an adventure : ask puzzle dimensions, name, file_name
 ***** TODO Add / Remove levels (ask Puzzle and story file / name ?)
@@ -56,7 +53,8 @@ gessing the name of the story, if required. So fix the level thing, and be done 
 **** Level editing
 ***** TODO link a level to a story and a puzzle
 ***** TODO edit the puzzle
-*** TODO [#A] Load the tools from all plugins in an adventure
+*** DONE [#A] Load all plugins from the adventure (so that tools, cells, etc... can be loaded)
+*** TODO Create a new level if necessary (just ask the name of it, and its dimensions (with nice defaults!!)
 ** TODO [#B] Undo ?
 ** TODO [#C] Continuous saving
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file

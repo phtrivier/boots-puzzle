@@ -19,7 +19,22 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
 $LOAD_PATH << "../plugins/core"
+$LOAD_PATH << "../adventures"
 
+# require 'rubygems'
+# require 'log4r'
+# require 'log4r/yamlconfigurator'
+# require 'log4r/outputter/datefileoutputter'
+
+# include Log4r
+
+# def log_config(conf)
+#   cfg = YamlConfigurator
+#   cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
+# end
+# log_config("dev")
+
+require 'adventure'
 require 'puzzle'
 require 'tools'
 
@@ -62,19 +77,19 @@ class ToolSlot
   end
 end
 
-class Editor < Shoes
+class LevelEditor < Shoes
 
   include ImagePath
 
-  url '/', :index
+ url '/', :index
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
   Transparent = "img/transparent.png"
 
-  attr_reader :puzzle
+  attr_accessor :puzzle
 
-   # ----------------------------------------
+  #----------------------------------------
 
   # Main page
   def index
@@ -87,34 +102,74 @@ class Editor < Shoes
      @named_cell_icons = NameCellTool::Icons
      @named_cell_icon_index = 0
 
-     load_or_init_puzzle
+     load_adventure
+     # load_or_init_puzzle
+
      show_editor
   end
 
-  def load_or_init_puzzle
-    if (ARGV[1] != nil)
-      @file_name = ARGV[1]
-      @puzzle_class = ARGV[2]
-      loaded_puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
-        alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
-              "\n A new one will be created.")
-        init_new_puzzle
-      end
-      if (loaded_puzzle != nil)
-        @puzzle = loaded_puzzle
-      end
+ def load_adventure
+    if (ARGV[1] == nil)
+      alert("You need to give the name of an adventure.")
+      exit
     else
-      init_new_puzzle
+      name = ARGV[1]
+      adventure_file = "../adventures/#{name}/adventure.yml"
+      begin
+        @adventure = Adventure.new(name)
+        @adventure.load!(File.open(adventure_file))
+        @adventure.load_plugins!
+      rescue RuntimeError => e
+        alert("Unable to load adventure #{name} : #{e}. Will quit.")
+      end
+
+      # TODO : MOVE THIS TO LOAD_PUZZLE ?
+      if (ARGV[2] == nil)
+        alert("No puzzle name given ... should create a NEW : TODO ")
+        exit
+      else
+        puzzle_name = ARGV[2]
+#        alert("Would load puzzle name : #{puzzle_name}")
+
+        @level = @adventure.level_by_name(puzzle_name)
+        if (@level == nil)
+          alert("Bad puzzle name .. shoudl create a new one ?")
+          exit
+        end
+        @level.load!("../adventures/#{name}/levels")
+        @puzzle = @level.puzzle
+        @file_name = "../adventures/#{name}/levels" + "/" + @level.puzzle_file
+        @puzzle_class = @level.puzzle_class_name
+
+      end
+
     end
   end
 
-  def init_new_puzzle
-    # TODO : Create a dialog to ask ...
-    @puzzle_class = "FooPuzzle"
-    @file_name = "foo_puzzle.rb"
-    @puzzle = Puzzle.empty(10, 10)
-    debug("New Puzzle initialized : #{@puzzle}")
-  end
+#   def load_or_init_puzzle
+#     if (ARGV[1] != nil)
+#       @file_name = ARGV[1]
+#       @puzzle_class = ARGV[2]
+#       loaded_puzzle = Puzzle.load(@file_name, @puzzle_class) do |f, k, e|
+#         alert("Unable to load puzzle #{k} from file #{f} ; #{e} " +
+#               "\n A new one will be created.")
+#         init_new_puzzle
+#       end
+#       if (loaded_puzzle != nil)
+#         @puzzle = loaded_puzzle
+#       end
+#     else
+#       init_new_puzzle
+#     end
+#   end
+
+#   def init_new_puzzle
+#     # TODO : Create a dialog to ask ...
+#     @puzzle_class = "FooPuzzle"
+#     @file_name = "foo_puzzle.rb"
+#     @puzzle = Puzzle.empty(10, 10)
+#     debug("New Puzzle initialized : #{@puzzle}")
+#   end
 
   # Main page
   def show_editor
@@ -437,7 +492,7 @@ class Editor < Shoes
     end
   end
 
-
 end
 
-Editor.app :title => "Puzzle editor", :width => 1000
+LevelEditor.app :title => "Puzzle editor", :width => 1000
+
