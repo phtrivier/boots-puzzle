@@ -53,21 +53,24 @@ end
 
 desc "Run the puzzle editor"
 task :editor => [:test] do |t|
+  puts "--------------------------------"
   puts "Sorry, editor can not be run at the moment (don't know why ...)"
-  cmd = "shoes src/editor/editor.rb"
-  puts cmd
-  cmd2 = "shoes src/editor/editor.rb foo_puzzle.rb FooPuzzle"
-  puts cmd2
+  editor_usage("")
+end
+
+def editor_usage(offset)
+  cmd2 = "Usage : shoes src/editor/editor.rb ADVENTURE_NAME [PUZZLE_NAME]"
+  puts offset + cmd2
+  ex = "Example : shoes src/editor/editor.rb foobar level_1"
+  puts offset + ex
 end
 
 desc "Help"
 task :help do
   puts "Boots puzzle (C) Pierre-Henri Trivier - 2008"
   puts "--------------------------------------------"
-  puts "To launch the editor :"
-  puts " shoes src/editor/editor.rb"
-  puts "or"
-  puts " shoes src/editor/editor.rb foo_puzzle.rb FooPuzzle"
+  puts "Puzzle editor :"
+  editor_usage(" ")
   puts "---"
   puts "To launch the game :"
   puts " rake play"
