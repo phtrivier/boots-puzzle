@@ -1,4 +1,7 @@
 * When did I work (what did I do?)
+** <2008-08-27 Wed>
+*** Fixed loading levels without story in the editor
+*** Got a working version of shoes for 'oscar' (hurrah!)
 ** <2008-08-24 dim>
 *** Levels now load the story of a puzzle
 *** Added adventure loading in the editor
