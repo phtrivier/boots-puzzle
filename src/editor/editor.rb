@@ -146,7 +146,7 @@ class LevelEditor < Shoes
           end
         else
           # The level can be loaded and the puzzle initialized
-          @level.load!(@levels_folder)
+          @level.load!(@levels_folder, false)
           @puzzle_name = @level.puzzle_name
           @puzzle = @level.puzzle
           @file_name = "#{@levels_folder}/" + @level.puzzle_file
