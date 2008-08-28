@@ -1,6 +1,7 @@
 * When did I work (what did I do?)
 ** <2008-08-28 jeu>
 *** Added a way to define a cell event without changing the class of the cell
+*** Added quick definition of a cell tool (for standard cell where you simply change the type)
 ** <2008-08-27 Wed>
 *** Fixed loading levels without story in the editor
 *** Got a working version of shoes for 'oscar' (hurrah!)

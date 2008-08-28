@@ -1,5 +1,7 @@
 # I don't like this ... this puts things all over the place...
 
+require 'naming'
+
 class ToolsRegistry
   @@registered_cell_tools_class = []
 
@@ -37,10 +39,59 @@ class CellTool
   end
 
   def act(editor, i,j)
+    standard_act(editor, i, j)
+  end
+
+  def standard_act(editor, i, j)
     begin
       editor.change_editor_cell(i,j,@type)
     rescue CellError => e
       alert(e.message)
     end
+
   end
+
+  # Defines and register a cell tool for
+  # a type fof cell
+  # arg : plugin name, or cell class
+  # extra_act : what to be done after the type of the cell
+  #  has been changed by the tool
+  def self.for(arg, &extra_act)
+
+    cell_class = nil
+    tool_class_name = nil
+    if (arg.is_a? Class)
+      cell_class = arg
+      tool_class_name = cell_class.name + "Tool"
+    else
+      # TODO Factor in Cell ?
+      plugin_name = arg
+      tool_class_name = Naming.to_camel_case(plugin_name) + "CellTool"
+      cell_class_name = Naming.to_camel_case(plugin_name) + "Cell"
+      cell_class = Kernel.const_get(cell_class_name)
+    end
+
+    tool_class = Class.new(CellTool)
+
+    tool_class.instance_eval do
+      define_method(:initialize) do
+        @type = cell_class
+      end
+    end
+
+    if (block_given?)
+      tool_class.instance_eval do
+        define_method(:act) do |editor, i, j|
+          standard_act(editor, i, j)
+          extra_act.call(editor,i,j)
+        end
+      end
+    end
+
+    Kernel.const_set(tool_class_name, tool_class)
+
+    ToolsRegistry.register_cell_tools(tool_class)
+
+  end
+
 end
