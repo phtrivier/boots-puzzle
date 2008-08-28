@@ -54,6 +54,14 @@ class PuzzleStoryTest < BPTestCase
     assert_equal Wall, pu.cell_by_name(:bar).class
   end
 
+  def test_events_can_be_added_without
+    pu = SpecialPuzzle.new
+    assert_equal Walkable, pu.cell_by_name(:bar).class
+    pu.story_event(:bar) do |puzzle|
+    end
+    assert_equal Walkable, pu.cell_by_name(:bar).class
+  end
+
   module PuzzleStory
     attr_accessor :called
     @called = false

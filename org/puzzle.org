@@ -1,7 +1,6 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO [#A] Make it possible to declare a story event without a class name (and use the one in the puzzle name in that case
 ** TODO [#B] Add the concept of a notification (so that the GUI can display stuff...)
 ** TODO [#B] Make it easier to declare CellTools (when there is only a cell type to pass ... don't have them write anything else!)
 CellTool.for("water") > Definit un simple outil pour la classe WaterCell

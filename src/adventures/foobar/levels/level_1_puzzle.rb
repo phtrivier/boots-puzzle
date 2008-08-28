@@ -9,6 +9,7 @@ class Level1Puzzle < Puzzle
  named_cells do
   named_cell :tunnel_top, 0, 3
   named_cell :tunnel_bottom, 2, 0
+  named_cell :middle, 0, 2
  end
 
  boots do

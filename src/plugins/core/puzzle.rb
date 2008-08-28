@@ -364,8 +364,14 @@ class Puzzle
   # (Note that the base class might actually be
   # in the Puzzle class rather than
   # in the Story module ... anyway ...)
-  def story_event(name, base_class, &walk_proc)
-    cell = base_class.new
+  def story_event(name, base_class=nil, &walk_proc)
+
+    cell = nil
+    if (base_class == nil)
+      cell = cell_by_name(name)
+    else
+      cell = base_class.new
+    end
 
     cell.meta.instance_eval do
       define_method(:walk!) do |puzzle|
