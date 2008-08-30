@@ -1,4 +1,6 @@
 * When did I work (what did I do?)
+** <2008-08-30 sam>
+*** Added tool for tunnel entry
 ** <2008-08-28 jeu>
 *** Added a way to define a cell event without changing the class of the cell
 *** Added quick definition of a cell tool (for standard cell where you simply change the type)

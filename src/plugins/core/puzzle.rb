@@ -29,9 +29,12 @@ require 'dictionary'
 require 'naming'
 require 'name'
 
+require 'notification'
+
 class Puzzle
 
   include Naming
+  include Notification
 
   # Ints with the dimension
   attr_accessor :w, :h
@@ -384,7 +387,6 @@ class Puzzle
 
     set_cell_by_name(name, cell)
   end
-
 
   # --------------------------------
 
