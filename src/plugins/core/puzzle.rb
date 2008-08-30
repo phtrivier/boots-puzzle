@@ -140,6 +140,8 @@ class Puzzle
   # provided 'dim' has been called on them
   def initialize(_w = nil, _h = nil)
 
+    @listeners = []
+
     if (_w != nil and _h != nil)
       @w = _w
       @h = _h
@@ -274,6 +276,9 @@ class Puzzle
 
     @player = Player.new
     @player.move!(self.in)
+
+    @player.add_listeners(self.listeners)
+
   end
 
   # Try and move the player to another position.
@@ -514,6 +519,7 @@ class Puzzle
       if (b != nil)
         @player.pick!(b)
         remove_boot(i,j)
+        message("You picked #{b.txt}")
       end
     end
   end
@@ -528,6 +534,7 @@ class Puzzle
         b = @player.current_boots
         @player.drop!
         boot(i,j, b.class)
+        message("You dropped #{b.txt}")
       end
     end
   end

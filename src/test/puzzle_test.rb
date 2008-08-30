@@ -270,6 +270,8 @@ class PuzzleTest < BPTestCase
 
     pu.enters_player!
     m = mock()
+    m.expects(:txt).returns("mock boots")
+
     pu.player.pick!(m)
     pu.player.next_boots!
 

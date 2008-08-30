@@ -3,13 +3,18 @@ module Notification
   attr_reader :listeners
 
   def add_listener(listener)
-    if (@listeners == nil)
-      @listeners = []
-    end
-    @listeners << listener
+   @listeners << listener
   end
 
-  def fire!(event, options)
+  def add_listeners(ls)
+   if (ls != nil)
+     ls.each do |l|
+        @listeners << l
+      end
+    end
+  end
+
+  def fire!(event, options = {})
     @listeners.each do |listener|
       msg = "handle_#{event}".to_sym
       if (listener.respond_to?(msg))

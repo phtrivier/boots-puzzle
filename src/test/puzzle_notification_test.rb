@@ -37,4 +37,49 @@ class PuzzleNotificationTest < BPTestCase
 
   end
 
+  def test_puzzle_with_no_listener_does_not_break
+    pu = Puzzle.empty(1,1)
+    pu.fire!(:foo)
+  end
+
+  class FooBoots < BareFeet
+    txt "foo boots"
+  end
+
+  class TestPuzzle < Puzzle
+    dim 3,1
+    rows do
+      row "I-O"
+    end
+
+    boots do
+      boot 0,1, FooBoots
+    end
+  end
+
+  def expect_message(l, msg)
+    l.expects(:respond_to?).with(:handle_message).returns(true)
+    l.expects(:send).with(:handle_message, { :msg => msg})
+  end
+
+  def test_listeners_are_notified_when_you_pick_boots
+    pu = TestPuzzle.new
+    l1 = mock()
+
+    expect_message(l1, "You picked foo boots")
+    expect_message(l1, "You're now wearing foo boots")
+    expect_message(l1, "You dropped foo boots")
+
+    pu.add_listener(l1)
+
+    pu.enters_player!
+
+    assert_equal 1, pu.player.listeners.size
+
+    pu.try_move!(:right)
+    pu.try_pick!
+    pu.player.next_boots!
+    pu.try_drop!
+  end
+
 end

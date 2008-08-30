@@ -60,6 +60,10 @@ class GameWindow < Gosu::Window
 
     @bg_image =  Gosu::Image.new(self, "src/gui/img/background_spirale.png", false)
 
+    @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+
+    @last_message = nil
+
     @adventure = nil
 
     adventure_name = props[:adventure_name]
@@ -88,9 +92,7 @@ class GameWindow < Gosu::Window
       exit(-1)
     end
 
-    @puzzle.enters_player!
-
-    @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+    init_puzzle
 
     @images = { }
 
@@ -107,6 +109,12 @@ class GameWindow < Gosu::Window
 
   end
 
+  def init_puzzle
+    @puzzle.add_listener self
+    @puzzle.enters_player!
+    @last_message = "Entering level : #{@adventure.current_level.puzzle_name}"
+  end
+
   def update
     # Move
     @actions.each do |name, action|
@@ -119,7 +127,7 @@ class GameWindow < Gosu::Window
       if (@adventure.has_next_level?)
         @adventure.load_next_level!
         @puzzle = @adventure.current_level.puzzle
-        @puzzle.enters_player!
+        init_puzzle
       else
         puts "Congratulations, you finished this adventure !!"
         puts "Thanks for playing !!"
@@ -243,6 +251,17 @@ class GameWindow < Gosu::Window
     height = 110
 
     draw_rectangle @x0 - 5, y0, x1, y0 + height, White
+
+    # Print the text of last message
+    if (@last_message != nil)
+      @font.draw(@last_message, @x0, y0 + 5, ZOrder::UI, 1.0, 1.0, White)
+    end
+
+  end
+
+  # Handlers for the messages
+  def handle_message(ops)
+    @last_message = ops[:msg]
   end
 
   # Draw a rectangle

@@ -20,6 +20,18 @@
 
 class Boots
 
+  def txt
+    ""
+  end
+
+  def self.txt(t)
+    self.instance_eval do
+      define_method :txt do
+        t
+      end
+    end
+  end
+
   def try_move!(puzzle, dir)
     ni,nj = new_position(puzzle, dir)
     try_move_to( puzzle, ni,nj)
@@ -45,6 +57,9 @@ end
 # Default boots for the player,
 # which walks one cell at a time.
 class BareFeet < Boots
+
+  txt "your bear foots"
+
   def new_position( puzzle, dir)
     i,j = puzzle.player.pos
     case dir
@@ -61,6 +76,9 @@ class BareFeet < Boots
 end
 
 class DoubleBoots < Boots
+
+  txt "Double Walk Boots"
+
   def new_position( puzzle, dir)
     i,j = puzzle.player.pos
     case dir

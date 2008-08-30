@@ -19,14 +19,19 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
 require 'boots'
+require 'notification'
 
 class Player
+
+  include Notification
+
   attr_reader :i,:j
   attr_reader :boots
 
   def initialize
     @boots = [BareFeet.new]
     @current_boots_index = 0
+    @listeners = []
   end
 
   def current_boots
@@ -40,7 +45,11 @@ class Player
   end
 
   def next_boots!
+    old_index = @current_boots_index
     @current_boots_index = (@current_boots_index + 1) % @boots.size
+    if (old_index != @current_boots_index)
+      message("You're now wearing #{current_boots.txt}")
+    end
   end
 
   def previous_boots!
