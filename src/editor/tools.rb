@@ -94,9 +94,7 @@ class NameCellTool
   end
 
   def act(editor, i, j)
-    name = editor.ask("Name of the cell ?")
-    editor.puzzle.named_cell(name.to_sym, i,j)
-    editor.update_named_cells_list
+    editor.add_named_cell(i,j)
   end
 
 end

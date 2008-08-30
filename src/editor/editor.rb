@@ -556,6 +556,12 @@ class LevelEditor < Shoes
     end
   end
 
+  def add_named_cell(i,j, msg = "Name of the cell ?")
+    name = ask msg
+    @puzzle.named_cell(name.to_sym, i,j)
+    update_named_cells_list
+  end
+
 end
 
 LevelEditor.app :title => "Puzzle editor", :width => 1000

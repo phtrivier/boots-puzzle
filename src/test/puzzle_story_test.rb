@@ -365,4 +365,22 @@ class PuzzleStoryTest < BPTestCase
     end
   end
 
+  class TestNonExistingNamedCellPuzzle < Puzzle
+    dim 3,1
+    rows do
+      row "I-O"
+    end
+  end
+
+  def test_defining_event_on_non_existing_named_cell_throws_error
+    pu = TestNonExistingNamedCellPuzzle.new
+    begin
+      pu.story_event :foo do
+      end
+      bad("No cell named foo, should complain !")
+    rescue CellError => e
+      assert_equal "There is no cell named foo to define an event", e.message
+    end
+  end
+
 end

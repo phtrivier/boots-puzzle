@@ -369,6 +369,9 @@ class Puzzle
     cell = nil
     if (base_class == nil)
       cell = cell_by_name(name)
+      if (cell == nil)
+        raise CellError.new("There is no cell named #{name} to define an event")
+      end
     else
       cell = base_class.new
     end
