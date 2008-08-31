@@ -447,4 +447,17 @@ class PuzzleStoryTest < BPTestCase
     pu.try_move!(:right)
   end
 
+  def test_puzzle_cannot_have_several_cells_with_the_same_name
+    pu = Puzzle.empty(3,3)
+    pu.named_cell(:foo, 0, 1)
+    begin
+      pu.named_cell(:foo, 1,1)
+      bad("Two cells can't have the same name")
+    rescue CellError => e
+      assert_equal "Another cell already has this name", e.message
+    end
+    # However do not complain if this is the same
+    pu.named_cell(:foo, 0, 1)
+  end
+
 end

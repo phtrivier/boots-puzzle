@@ -558,8 +558,12 @@ class LevelEditor < Shoes
 
   def add_named_cell(i,j, msg = "Name of the cell ?")
     name = ask msg
-    @puzzle.named_cell(name.to_sym, i,j)
-    update_named_cells_list
+    begin
+      @puzzle.named_cell(name.to_sym, i,j)
+      update_named_cells_list
+    rescue CellError => e
+      alert(e.message)
+    end
   end
 
 end

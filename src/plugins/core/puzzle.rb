@@ -302,6 +302,12 @@ class Puzzle
   # Define a named cell (should be called in
   # a block passed to 'named_cells').
   def named_cell(name, i, j)
+    if (@named_cells.has_key?(name))
+      pos = @named_cells[name]
+      if (pos != [i,j])
+        raise CellError.new("Another cell already has this name")
+      end
+    end
     @named_cells[name] = [i,j]
   end
 
