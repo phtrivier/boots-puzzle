@@ -95,3 +95,25 @@ class CellTool
   end
 
 end
+
+# TODO : Improve this
+class BootsTool < Struct.new(:type)
+  def initialize(type)
+    @type = type
+  end
+
+  def src
+    @type.new.src
+  end
+
+  def act(editor, i,j)
+    begin
+      editor.puzzle.boot(i,j,@type)
+      editor.update_editor_cell(i,j)
+    rescue CellError => e
+      alert("You cannot put a pair of boots on a non walkable cell")
+    end
+  end
+end
+
+

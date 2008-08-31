@@ -319,6 +319,7 @@ class LevelEditor < Shoes
 
       tools = [BootsTool.new(DoubleBoots),
                ResetBootsTool.new]
+
       ToolsRegistry.registered_boots_tools.each do |k|
         tools << k.new
       end

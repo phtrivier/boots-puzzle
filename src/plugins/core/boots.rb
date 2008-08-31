@@ -42,10 +42,14 @@ class Boots
   end
 
   def try_move_to(puzzle, i,j)
-    if (puzzle.valid?(i,j) and puzzle.walkable?(i,j))
+    if (puzzle.valid?(i,j) and reachable?(puzzle,i,j))
       puzzle.player.move!([i,j])
       puzzle.cell(i,j).walk!(puzzle)
     end
+  end
+
+  def reachable?(puzzle, i,j)
+    puzzle.walkable?(i,j)
   end
 
   def src

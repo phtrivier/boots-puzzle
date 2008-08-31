@@ -1,6 +1,30 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
+** TODO [#A] Make it easier to define boots
+Boots.for(Palms) do
+  reachable do |puzzle, i,j|
+    walkable?(puzzle, i,j) || puzzle.cell(i,j).swimmable?
+  end
+  img "palms.png"
+end
+
+Boots.for(ChessKnightBoots) do
+  next_position do
+    # Here the code to return things
+  end
+  img "knight.png"
+end
+
+Try and reuse as many code as possible from what was done with the Cells
+(guessing the names if possible, provide the class, turn all methods into instances method, etc...)
+** TODO [#A] Make it easier to define boots tools
+BootsTool.for(Palms)
+[defines and register a PalmsBootsTool tools that set boots to be Palms ... gne he !)
+Should not need much more than this ...
+** TODO Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
+==> cell_property :walkable true
+(defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
 ** [#F] Make the UI exstensible (addition to the plug-in system)
@@ -12,10 +36,12 @@
 ** TODO Add a tool to set the quote for a puzzle
 * Plugins
 ** TODO swimming : water cells, palms
-*** TODO Palms
-*** TODO Define cells as 'swimmable' (and let the player walk on it only if it wears waterproof boots)
+*** DONE Palms
+*** DONE Define cells as 'swimmable' (and let the player walk on it only if it wears waterproof boots)
+*** TODO Fix the palms icon (add transparency, ... find something nicer)
+*** TODO Simplify the boots and boots tool definition)
 ** TODO burning
-   (Same as swimming, but with waterproof)
+   (Same as swimming, but with burning stuff, and you need shoes that are )
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)

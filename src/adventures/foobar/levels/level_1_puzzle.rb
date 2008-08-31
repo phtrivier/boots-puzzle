@@ -7,7 +7,7 @@ class Level1Puzzle < Puzzle
  end
 
  named_cells do
-  named_cell :entry, 0,1
+  named_cell :entry, 0, 1
   named_cell :next_to_entry, 0, 2
   named_cell :tunnel_top, 0, 3
   named_cell :tunnel_bottom, 2, 0
@@ -15,5 +15,6 @@ class Level1Puzzle < Puzzle
 
  boots do
   boot 0,2,DoubleBoots
+  boot 0,1,Palms
  end
 end
