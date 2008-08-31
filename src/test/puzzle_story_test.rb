@@ -383,4 +383,68 @@ class PuzzleStoryTest < BPTestCase
     end
   end
 
+  class AllreadyCalledEventPuzzle < Puzzle
+    dim 3,1
+    rows do
+      row "I-O"
+    end
+    named_cells do
+      named_cell :foo,0,1
+    end
+  end
+
+  def test_events_can_be_notified_whether_they_occured_already
+    pu = AllreadyCalledEventPuzzle.new
+    m = mock()
+    pu.story_event :foo do |puzzle, called|
+      if (!called)
+        m.first_call(puzzle)
+      else
+        m.second_call(puzzle)
+      end
+    end
+    m.expects(:first_call).with(pu).times(1)
+    m.expects(:second_call).with(pu).times(1)
+    pu.enters_player!
+    pu.try_move!(:right)
+    pu.try_move!(:left)
+    pu.try_move!(:right)
+  end
+
+  def test_events_can_be_notified_how_many_times_they_where_called
+    pu = AllreadyCalledEventPuzzle.new
+    m = mock()
+    pu.story_event :foo do |puzzle, called, count|
+      m.event_called(puzzle, called, count)
+    end
+
+    m.expects(:event_called).with(pu, false, 0).times(1)
+    m.expects(:event_called).with(pu, true, 1).times(1)
+    m.expects(:event_called).with(pu, true, 2).times(1)
+
+    pu.enters_player!
+    pu.try_move!(:right)
+    pu.try_move!(:left)
+    pu.try_move!(:right)
+    pu.try_move!(:left)
+    pu.try_move!(:right)
+  end
+
+  def test_several_events_can_occur_on_one_named_cell
+    pu = AllreadyCalledEventPuzzle.new
+    m = mock()
+    pu.story_event :foo do |puzzle, called, count|
+      m.first_event_called(puzzle, called, count)
+    end
+    pu.story_event :foo do |puzzle, called, count|
+      m.second_event_called(puzzle, called, count)
+    end
+
+    m.expects(:first_event_called).with(pu, false, 0).times(1)
+    m.expects(:second_event_called).with(pu, false, 0).times(1)
+
+    pu.enters_player!
+    pu.try_move!(:right)
+  end
+
 end

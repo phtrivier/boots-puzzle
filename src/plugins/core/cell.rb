@@ -20,9 +20,41 @@
 
 require 'naming'
 
+# Internal class for what can happen when
+# you walk on a cell
+class CellEvent < Struct.new(:calls, :proc)
+
+  # Create an event
+  def initialize(proc)
+    @calls = 0
+    @proc = proc
+  end
+
+  # Make the event occur.
+  # Depending on its arrity, the event is called with
+  # - the puzzle
+  # - has the event occured ?
+  # - how many times has the event occured ?
+  def occur!(puzzle)
+    called = @calls != 0
+    if (@proc.arity == 1)
+        @proc.call(puzzle)
+    elsif (@proc.arity == 2)
+        @proc.call(puzzle, called)
+    elsif (@proc.arity == 3)
+        @proc.call(puzzle, called, @calls)
+    end
+    @calls = @calls + 1
+  end
+end
+
 class Cell
 
   include Naming
+
+  def initialize
+    @story_events = { }
+  end
 
   # This might be redefined if needed
   def walkable?
@@ -41,10 +73,24 @@ class Cell
     "core/img/#{self.class.name.downcase}.png"
   end
 
-  # Make something happen when
-  # the player walks in a given cell.
-  # @param puzzle (so that funny stuff can happen)
+  # Make all events attached to a cell
+  # (by calling add_event) occur.
+  # Events are passed the puzzle, and (if required
+  # by the event handler), a boolean telling whether
+  # the event occured already.
   def walk!(puzzle)
+    @story_events.each do |name, events|
+      events.each do |event|
+        event.occur!(puzzle)
+      end
+    end
+  end
+
+  def add_event(name, walk_proc)
+    if (@story_events[name] == nil)
+      @story_events[name] = []
+    end
+    @story_events[name] << CellEvent.new(walk_proc)
   end
 
   def meta

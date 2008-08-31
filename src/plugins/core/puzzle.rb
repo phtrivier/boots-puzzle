@@ -384,11 +384,7 @@ class Puzzle
       cell = base_class.new
     end
 
-    cell.meta.instance_eval do
-      define_method(:walk!) do |puzzle|
-        walk_proc.call(puzzle)
-      end
-    end
+    cell.add_event(name, walk_proc)
 
     set_cell_by_name(name, cell)
   end
