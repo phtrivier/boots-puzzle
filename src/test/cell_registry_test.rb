@@ -14,7 +14,7 @@ end
 
 class CellRegistryTest < BPTestCase
 
-  def test_cells_can_be_created_and_registerd_quicly
+  def test_cells_can_be_created_and_registered_quickly
 
     CellTool.for("water")
 

@@ -139,15 +139,11 @@ class Cell
     cell_class = Class.new(cell_parent_class)
 
     cell_class.class.instance_eval do
-
       define_method :img do |image_file_name|
-
         define_method :src do
           "#{plugin_name}/img/#{image_file_name}"
         end
-
       end
-
     end
 
     if (block_given?)

@@ -2,14 +2,14 @@
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
 ** TODO [#A] Make it easier to define boots
-Boots.for(Palms) do
+Boots.for("Palms") do
   reachable do |puzzle, i,j|
     walkable?(puzzle, i,j) || puzzle.cell(i,j).swimmable?
   end
   img "palms.png"
 end
 
-Boots.for(ChessKnightBoots) do
+Boots.for("ChessKnightBoots") do
   next_position do
     # Here the code to return things
   end
@@ -20,6 +20,7 @@ Try and reuse as many code as possible from what was done with the Cells
 (guessing the names if possible, provide the class, turn all methods into instances method, etc...)
 ** TODO [#A] Make it easier to define boots tools
 BootsTool.for(Palms)
+BootsTool.for("Palms")
 [defines and register a PalmsBootsTool tools that set boots to be Palms ... gne he !)
 Should not need much more than this ...
 ** TODO Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)

@@ -55,6 +55,40 @@ class Boots
   def src
     raise RuntimeError.new("Should not instanciate Boots and call src. Subclass it.")
   end
+
+  # --------------------
+  # Helper methods to define boots
+  def self.for(plugin_name, klass_name, &block)
+    klass = Class.new(Boots)
+
+    klass.class.instance_eval do
+      define_method :img do |image_file_name|
+        define_method :src do
+          "#{plugin_name}/img/#{image_file_name}"
+        end
+      end
+    end
+
+    if (block_given?)
+      klass.instance_eval(&block)
+    end
+
+    Kernel.const_set(klass_name, klass)
+  end
+
+  def self.reachable(&block)
+    self.instance_eval do
+      define_method :reachable?, block
+    end
+  end
+
+  def self.next_position(&block)
+    self.instance_eval do
+      define_method :next_position, block
+    end
+  end
+
+
 end
 
 
