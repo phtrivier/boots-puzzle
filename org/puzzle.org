@@ -38,14 +38,17 @@ Should not need much more than this ...
 ** saving / loading
 * General
 ** TODO Use the gosu lib from the system if it exists (installed through gem?)
+- try installing trough gem before building the executable ...
+- then remove the lib and run the thing
 ** TODO Build an installer for shoes app ?
-** TODO Distribute as a gem ?
-** TODO inline help
-* TODO [#B] Documentation
+** TODO Distribute as a gem / an executable ?
+See http://www.erikveen.dds.nl/distributingrubyapplications/#3.0.0
+(or anything better ... how does shoes get distributed ?)
+** TODO [#B] Documentation
 ** Adventure format
 ** Puzzle format
 ** Plugin system
+** TODO set up a bug tracker (or move to bazaar and launchpad ?)
 * Misc
-** TODO Have rake run the editor => Not possible at the moment (Baaaad shoes)
 ** TODO Improve Logging (how to log into rake tests ?)
 ** test coverage tools ?
