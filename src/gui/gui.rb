@@ -33,13 +33,7 @@ end
 
 require 'puzzle'
 require 'plugins'
-
-# Init the plugin system
-Plugins.init("src/plugins")
-Plugins.read_manifests
-
 require 'action'
-
 require 'adventure'
 
 # --------------------------------------------
@@ -56,9 +50,21 @@ class GameWindow < Gosu::Window
 
   def initialize(props)
     super(640, 480, false)
+
+    @prefix = props[:prefix]
+    if (@prefix == nil)
+      @prefix = "."
+    end
+
+    # Init the plugin system
+    Plugins.init("#{@prefix}/src/plugins")
+    Plugins.read_manifests
+
+
     self.caption = "Puzzle Game"
 
-    @bg_image =  Gosu::Image.new(self, "src/gui/img/background_spirale.png", false)
+
+    @bg_image =  Gosu::Image.new(self, "#{@prefix}/src/gui/img/background_spirale.png", false)
 
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
@@ -70,7 +76,7 @@ class GameWindow < Gosu::Window
 
     @adventure = Adventure.new
     begin
-      @adventure.load!(File.open("src/adventures/#{adventure_name}/adventure.yml"))
+      @adventure.load!(File.open("#{@prefix}/src/adventures/#{adventure_name}/adventure.yml"))
     rescue Exception => e
       puts "Unable to open adventure #{adventure_name} : #{e}"
       exit(-1)
@@ -283,7 +289,7 @@ class GameWindow < Gosu::Window
 
   # Locate the image (it must be available globally ?)
   def to_image_path(src)
-    "src/plugins/#{src}"
+    "#{@prefix}/src/plugins/#{src}"
   end
 
   def get_image(cell)
@@ -303,7 +309,9 @@ class GameWindow < Gosu::Window
 
 end
 
-def play(ops)
-  w = GameWindow.new(ops)
-  w.show
-end
+
+  def play(ops)
+    w = GameWindow.new(ops)
+    w.show
+  end
+
