@@ -10,7 +10,7 @@ include Log4r
 
 def log_config(conf)
   cfg = YamlConfigurator
-  cfg.load_yaml_file("#{RUBYSCRIPT2EXE.userdir}/conf/#{conf}/log4r.yml")
+  cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
 end
 
 ARGV.each do |arg|
@@ -33,9 +33,13 @@ def from_env(long, short, default)
   res
 end
 
-$LOAD_PATH << "#{RUBYSCRIPT2EXE.userdir}/src"
-$LOAD_PATH << "#{RUBYSCRIPT2EXE.userdir}/src/gui"
-$LOAD_PATH << "#{RUBYSCRIPT2EXE.userdir}/src/plugins/core"
+def oldlocation(str)
+  return "./#{str}"
+end
+
+$LOAD_PATH << oldlocation("./src")
+$LOAD_PATH << oldlocation("./src/gui")
+$LOAD_PATH << oldlocation("./src/plugins/core")
 
 FileUtils.mkdir_p("logs")
 log_config("dev")
@@ -43,5 +47,5 @@ log_config("dev")
 adventure_name = from_env("adventure", "a", "foobar")
 level_name = from_env("level", "l", nil)
 
-require "#{RUBYSCRIPT2EXE.userdir}/src/gui/gui"
-play(:adventure_name => adventure_name, :level_name => level_name, :prefix => "#{RUBYSCRIPT2EXE.userdir}")
+require oldlocation("src/gui/gui")
+play(:adventure_name => adventure_name, :level_name => level_name, :prefix => oldlocation("."))
