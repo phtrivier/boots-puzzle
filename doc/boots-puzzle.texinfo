@@ -162,7 +162,7 @@ test
 In particular, there should be an example of an adventure in the
 @file{src/adventures/foobar} folder.
 
-To run an adventure, you will need some ruby packages (most of them available by @command{rubygem}.
+To run an adventure, you will need some ruby packages (most of them available by @command{rubygem}).
 
 @itemize
 @item
@@ -249,7 +249,7 @@ adventure:
     puzzle: level_3_puzzle.rb
 @end example
 
-TODO : Describt everything !!
+TODO : Describe everything !!
 
 @node Levels, Puzzle, Adventures, Top
 @chapter Levels
