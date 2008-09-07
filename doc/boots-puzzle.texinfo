@@ -1,0 +1,55 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename boots-puzzle.info
+@settitle The Boots Puzzle Language
+@c %**end of header
+
+@c copyright info
+@copying
+This is the manual for the Boots Puzzle Language, a short rub-DSL
+used to generate puzzles for the boots-puzzle game.
+
+Copyright @copyright{} 2008 Pierre-Henri Trivier.
+@end copying
+
+@c title page
+@titlepage
+@title The Boots Puzzle Language
+@page
+@vskip 0pt plus 1fill
+@insertcopying
+@end titlepage
+
+@c table of contents
+@contents
+
+@c top node
+@ifnottex
+@node Top
+@top The Boots Puzzle Language
+
+This is the manual for the Boots puzzle language.
+@end ifnottex
+
+@c Navigation menu
+@menu
+* Adventures::  How to create a boots puzzle adventure.
+* Index::       Complete index.
+@end menu
+
+@c Body of the document
+@node Adventures
+@chapter Adventures
+@cindex adventures
+
+This is how you would learn how to write adventure files.
+This will be so much fun !
+
+@c End of the document
+@node Index
+@unnumbered Index
+
+@printindex cp
+
+@bye
+
