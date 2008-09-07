@@ -6,3 +6,15 @@ logs/*.log
 *semantic.cache
 *.info
 doc/boots-puzzle/*.html
+doc/*.aux
+doc/*.cp
+doc/*.cps
+doc/*.fn
+doc/*.ky
+doc/*.log
+doc/*.pdf
+doc/*.pg
+doc/*.toc
+doc/*.tp
+doc/*.vr
+boots-puzzle
