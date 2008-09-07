@@ -6,8 +6,7 @@
 
 @c copyright info
 @copying
-This is the manual for the Boots Puzzle Language, a short rub-DSL
-used to generate puzzles for the boots-puzzle game.
+This is the manual for the Boots Puzzle language.
 
 Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @end copying
@@ -34,7 +33,7 @@ Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @node Top, Introduction, (dir), (dir)
 @top The Boots Puzzle Language
 
-This is the manual for the Boots puzzle language.
+This is the manual for the Boots Puzzle language.
 @end ifnottex
 
 @c Navigation menu
@@ -51,6 +50,11 @@ This is the manual for the Boots puzzle language.
 
 @detailmenu
  --- The Detailed Node Listing ---
+
+Introduction
+
+* Who's this for ?::
+* Running Boots Puzzle::
 
 Plugin
 
@@ -70,20 +74,72 @@ Notorious plugins
 @chapter Introduction
 @comment  node-name,  next,  previous,  up
 
-Hello, this is a manual for people who want to write manual for Boots Puzzle.
-If you want to play a game based on Boots Puzzle (there should be one some day ;) ), please
-refer to somewhere else.
+This is the manual for the Boots Puzzle Language, a short ruby-based DSL
+to make reflexion games.
 
-This manual assume that you managed to get the latest version of the boots-puzzle sources.
-If not, go grab them first at @url{git://github.com/phtrivier/boots-puzzle.git}.
-Yyou will need to install the @command{git} program first -- see @url{http://git.or.cz/, Git home page}.
+@menu
+* Who's this for ?::
+* Running Boots Puzzle::
+@end menu
+
+@node Who's this for ?, Running Boots Puzzle, Introduction, Introduction
+@comment  node-name,  next,  previous,  up
+@section Who's this for ?
+
+This is a manual for people who want to create adventures playable
+with the @command{boots-puzzle} 'Engine'.  If you want to play a game
+based on Boots Puzzle (there should be some one day ;) ), please refer
+to the manual of the game itself.
+
+I will assume that you have some knowledge of the
+@url{http://ruby-lang.org, Ruby programming language}.  In my humble
+opinion, you should.
+
+Ruby rocks. Go learn it.
+
+No, wait ; actually, don't go learn it, and let me show you how YOU
+can extend my app and create your own puzzle, writting ruby code
+without even realizing it.
+
+There is plenty of documentation available for ruby on the Internet,
+otherwise. You might want to start with @cite{Why's (Poignant) Guide
+to Ruby}, which you can freely grab
+@url{http://poignantguide.net/ruby/, here}.  This is a very funny
+book, whith lots of drawings and jokes.
+
+Being a terrible drawer, the author of this manual will try to provide
+you with your fair share of jokes.
+
+Have fun.
+
+@node Running Boots Puzzle,  , Who's this for ?, Introduction
+@section Running Boots Puzzle
+
+You'll need the latest sources of the @command{boots-puzzle} project.
+You should be able to get it from
+@url{git://github.com/phtrivier/boots-puzzle.git}.  You will need to
+install the @command{git} program first --- see
+@url{http://git.or.cz/, Git home page}.
+
+Once you have grabbed the sources, there should be a folder with the following structure
+...TODO : structure...
+
+There should be an example of an application in the
+@command{src/adventures/foobar} folder.
+
+To run an adventure, you will need some ruby packages (most of them available by @command{rubygem}.
+
+@itemize
+@item
+@command{rake}, a ruby version of @command{make}, used to run other tasks
+@item
+@command{mocha}, a ruby Mocking framwork, used in tests cases
+@end itemize
 
 @node Adventures, Levels, Introduction, Top
 @chapter Adventures
 @cindex adventures
 
-This is how you would learn how to write adventure files.
-This will be so much fun !
 
 @node Levels, Puzzle, Adventures, Top
 @chapter Levels
