@@ -1,4 +1,6 @@
 * When did I work (what did I do?)
+** <2008-09-07 dim>
+*** Started texinfo documentation
 ** <2008-08-31 dim>
 *** Improved the event system
 *** worked on water plugin

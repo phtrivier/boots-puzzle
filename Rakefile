@@ -59,6 +59,7 @@ task :play => [:test] do |t|
   level_name = from_env("level", "l", nil)
 
   require 'gui'
+
   play(:adventure_name => adventure_name, :level_name => level_name)
 end
 

@@ -56,6 +56,11 @@ Introduction
 * Who's this for ?::
 * Running Boots Puzzle::
 
+Adventures
+
+* Creating an adventure::
+* adventure.yml file::
+
 Plugin
 
 * Notorious plugins::
@@ -91,6 +96,14 @@ with the @command{boots-puzzle} 'Engine'.  If you want to play a game
 based on Boots Puzzle (there should be some one day ;) ), please refer
 to the manual of the game itself.
 
+I will assume you are running a variant of GNU/Linux. If you try this
+on an Apple(tm) computer or on a PC with Microsoft(tm) Windows, well,
+I cannot blame you, but I don't guarantee anything.
+
+This reminds me that I can't guarantee a lot for you if you run
+GNU/Linux ; I've only tried this on my x486 compatible running Ubuntu
+Hardy Heron.
+
 I will assume that you have some knowledge of the
 @url{http://ruby-lang.org, Ruby programming language}.  In my humble
 opinion, you should.
@@ -121,11 +134,33 @@ You should be able to get it from
 install the @command{git} program first --- see
 @url{http://git.or.cz/, Git home page}.
 
-Once you have grabbed the sources, there should be a folder with the following structure
-...TODO : structure...
+Once you have grabbed the sources, there should be a folder with the following structure :
 
-There should be an example of an application in the
-@command{src/adventures/foobar} folder.
+@itemize
+@item
+Rakefile
+@item
+src
+@itemize @minus
+@item
+adventures
+@itemize @minus
+@item
+foobar
+@end itemize
+@item
+editor
+@item
+gui
+@item
+plugins
+@item
+test
+@end itemize
+@end itemize
+
+In particular, there should be an example of an adventure in the
+@file{src/adventures/foobar} folder.
 
 To run an adventure, you will need some ruby packages (most of them available by @command{rubygem}.
 
@@ -136,10 +171,85 @@ To run an adventure, you will need some ruby packages (most of them available by
 @command{mocha}, a ruby Mocking framwork, used in tests cases
 @end itemize
 
+Still there ? Whao, you're not afraid by my lists. Okay, so adventures should be in folders under the @file{src/adventures} folder. For example, 'foobar' is the name of an adventure, so the adventure (that is, all file necessary to describe the adventure) should be in @file{src/adventures/foobar}.
+
+To run the adventure, go to the folder just above the @file{src} folder (you should see file @file{Rakefile}). Rake task @command{play} is used to play and adventure. To play adventure foobar, type :
+
+@example
+rake play --adventure=foobar
+@end example
+
+Later, we will create and adventure called 'donjon'. To play it, you will type :
+
+@example
+rake play --adventure=donjon
+@end example
+
+If you forget the adventure name, you will automatically play adventure foobar.
+
+You'll see in a moment that an adventure is made of levels. If you
+know the name of a level in an adventure, you can go directly to this
+level. For example, to go directly to level called 'level_2' in adventure foobar :
+
+@example
+rake play --adventure=foobar --level=level_2
+@end example
+
+You can get more information about how to invoke @command{rake play} by calling @command{rake help}.
+
 @node Adventures, Levels, Introduction, Top
 @chapter Adventures
-@cindex adventures
 
+@quotation
+``A l'aventure compagnon, je suis parti vers l'horizon,
+J'aurais mieux fait de rester au lit, ce donjon il est pourri''
+
+@cite{Donjon de Naheulbeuk}, @url{http://www.penofchaos.com}
+@end quotation
+
+A Boots Puzzle adventure is a whole new world of traps, strange places, events, smelly boots and, maybe, fame and fortune.
+
+Or you might also see it as a bunch of ruby files to describe the levels, and a YAML file to order the levels. That would just be a bit less poetic.
+
+@menu
+* Creating an adventure::
+* adventure.yml file::
+@end menu
+
+@node Creating an adventure, adventure.yml file, Adventures, Adventures
+@section Creating an adventure
+
+To create a brand new adventure, first create a folder under @file{src/adventures}, and create and edit a file called @file{adventure.yml} in this folder :
+
+@example
+mkdir src/adventures/donjon
+emacs src/adventures/donjon/adventure.yml
+@end example
+
+You don't necessarily have to use emacs, of course, it's just an advice. If you are really lazy, you can copy the @file{adventure.yml} file from @file{foobar}, and edit it. Just remenber : @file{adventures} is the folder with, well, adventures, and @file{adventure.yml} is only the description of @emph{one} adventure. Grammar and everything.
+
+@node adventure.yml file,  , Creating an adventure, Adventures
+@section adventure.yml file
+
+Enough talking already. Here is an example of an adventure file for our adventure.
+
+@example
+adventure:
+  plugins:
+  - water
+  - tunnel
+  prefix: src/adventures/foobar/levels
+  name: foobar
+  levels:
+  - name: Level1Puzzle
+    puzzle: level_1_puzzle.rb
+  - name: Level2Puzzle
+    puzzle: level_2_puzzle.rb
+  - name: Level3Puzzle
+    puzzle: level_3_puzzle.rb
+@end example
+
+TODO : Describt everything !!
 
 @node Levels, Puzzle, Adventures, Top
 @chapter Levels

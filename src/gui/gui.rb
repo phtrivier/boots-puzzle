@@ -129,14 +129,14 @@ class GameWindow < Gosu::Window
 
     # Change level if required
     if (@adventure.current_level.finished?)
-      puts "Congratulations, you finished this level !!"
+#      puts "Congratulations, you finished this level !!"
       if (@adventure.has_next_level?)
         @adventure.load_next_level!
         @puzzle = @adventure.current_level.puzzle
         init_puzzle
       else
-        puts "Congratulations, you finished this adventure !!"
-        puts "Thanks for playing !!"
+#        puts "Congratulations, you finished this adventure !!"
+#        puts "Boot-Puzzle -- Thanks for playing !!"
         exit(0)
       end
     end
@@ -309,9 +309,10 @@ class GameWindow < Gosu::Window
 
 end
 
-
-  def play(ops)
-    w = GameWindow.new(ops)
-    w.show
-  end
+def play(ops)
+  w = GameWindow.new(ops)
+  puts "Boots Puzzle is free software. See LICENSE for more information."
+  puts "Copyright (c) 2008 Pierre-Henri Trivier"
+  w.show
+end
 

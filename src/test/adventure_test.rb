@@ -139,4 +139,6 @@ EOF
 
   end
 
+  # TODO : Test that saving a puzzle which follows conventions does not put too much stuff in it
+
 end
