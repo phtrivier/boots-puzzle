@@ -15,6 +15,10 @@ Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @c title page
 @titlepage
 @title The Boots Puzzle Language
+@subtitle Does anybody know Boots ?
+@author Pierre-Henri Trivier
+
+@c copyright page
 @page
 @vskip 0pt plus 1fill
 @insertcopying
@@ -23,9 +27,11 @@ Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @c table of contents
 @contents
 
+@c -------------------------------
+
 @c top node
 @ifnottex
-@node Top
+@node Top, Introduction, (dir), (dir)
 @top The Boots Puzzle Language
 
 This is the manual for the Boots puzzle language.
@@ -33,20 +39,102 @@ This is the manual for the Boots puzzle language.
 
 @c Navigation menu
 @menu
-* Adventures::  How to create a boots puzzle adventure.
-* Index::       Complete index.
+* Introduction::                What's this manual ?
+* Adventures::                  Creating an adventure.
+* Levels::                      What levels are, and why you should'nt really care.
+* Puzzle::                      What puzzles are, and why you have to care.
+* Cells::                       Those things you walk on. Or not.
+* Boots::                       Those things you walk with. Or not.
+* Story::                       Make things happen in your puzzles.
+* Plugins::                     Extend the Boots Puzzle game.
+* Index::                       Complete index
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Plugin
+
+* Notorious plugins::
+
+Notorious plugins
+
+* Water::
+
+@end detailmenu
 @end menu
 
+@c ------------------------
 @c Body of the document
-@node Adventures
+
+@node Introduction, Adventures, Top, Top
+@chapter Introduction
+@comment  node-name,  next,  previous,  up
+
+Hello, this is a manual for people who want to write manual for Boots Puzzle.
+If you want to play a game based on Boots Puzzle (there should be one some day ;) ), please
+refer to somewhere else.
+
+This manual assume that you managed to get the latest version of the boots-puzzle sources.
+If not, go grab them first at @url{git://github.com/phtrivier/boots-puzzle.git}.
+Yyou will need to install the @command{git} program first -- see @url{http://git.or.cz/, Git home page}.
+
+@node Adventures, Levels, Introduction, Top
 @chapter Adventures
 @cindex adventures
 
 This is how you would learn how to write adventure files.
 This will be so much fun !
 
+@node Levels, Puzzle, Adventures, Top
+@chapter Levels
+
+A level is a puzzle (where things are) and a story (what things happen).
+etc...
+
+@node Puzzle, Cells, Levels, Top
+@chapter Puzzle
+@comment  node-name,  next,  previous,  up
+
+A puzzle is a lot of places (cells), an entry, an exit, and boots scatered all around the place.
+
+@node Cells, Boots, Puzzle, Top
+@chapter Cells
+@comment  node-name,  next,  previous,  up
+
+@node Boots, Story, Cells, Top
+@chapter Boots
+@comment  node-name,  next,  previous,  up
+
+@node Story, Plugins, Boots, Top
+@chapter Story
+@comment  node-name,  next,  previous,  up
+
+@node Plugins, Index, Story, Top
+@chapter Plugin
+@comment  node-name,  next,  previous,  up
+
+@menu
+* Notorious plugins::
+@end menu
+
+@node Notorious plugins,  , Plugins, Plugins
+@section  Notorious plugins
+@comment  node-name,  next,  previous,  up
+
+
+@menu
+* Water::
+@end menu
+
+@node Water,  , Notorious plugins, Notorious plugins
+@subsection Water
+@comment  node-name,  next,  previous,  up
+
+
+
+@c ----------------------------------
 @c End of the document
-@node Index
+@node Index,  , Plugins, Top
 @unnumbered Index
 
 @printindex cp

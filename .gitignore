@@ -5,3 +5,4 @@ src/editor/foo_puzzle.rb
 logs/*.log
 *semantic.cache
 *.info
+doc/boots-puzzle/*.html
