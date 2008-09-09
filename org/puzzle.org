@@ -1,13 +1,13 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
+** DONE Ensure that when you save an adventure with things that follow conventions, the smallest
+possible output is returned
 ** TODO [#A] Make it easier to define boots tools
 BootsTool.for(Palms)
 BootsTool.for("Palms")
 [defines and register a PalmsBootsTool tools that set boots to be Palms ... gne he !)
 Should not need much more than this ...
-** TODO Ensure that when you save an adventure with things that follow conventions, the smallest
-possible output is returned
 ** TODO Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
 ==> cell_property :walkable true
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)

@@ -45,7 +45,6 @@ class Name
     end
     compute_story_file_name
     compute_story_class_name
-
   end
 
   def ends_with_puzzle?(str)

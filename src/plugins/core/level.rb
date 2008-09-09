@@ -85,4 +85,9 @@ class Level
     self.puzzle_name == n.base_name
   end
 
+  def follows_conventions?
+    n = Name.new(self.puzzle_name)
+    @puzzle_class_name == n.puzzle_class_name
+  end
+
 end

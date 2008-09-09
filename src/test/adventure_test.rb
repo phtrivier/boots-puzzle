@@ -44,6 +44,18 @@ EOF
 
   end
 
+  def test_saves_the_minium
+    @a.load!(@str)
+    s = @a.save
+
+    assert !s.match("FooPuzzle")
+    assert !s.match("BarPuzzle")
+    assert s.match("baz_puzzle.rb")
+    assert s.match("CustomBazPuzzle")
+
+  end
+
+
   def test_loading_adventure
 
    @a.load!(@str)

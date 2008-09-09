@@ -176,13 +176,13 @@ Still there ? Whao, you're not afraid by my lists. Okay, so adventures should be
 To run the adventure, go to the folder just above the @file{src} folder (you should see file @file{Rakefile}). Rake task @command{play} is used to play and adventure. To play adventure foobar, type :
 
 @example
-rake play --adventure=foobar
+rake play adventure=foobar
 @end example
 
 Later, we will create and adventure called 'donjon'. To play it, you will type :
 
 @example
-rake play --adventure=donjon
+rake play adventure=donjon
 @end example
 
 If you forget the adventure name, you will automatically play adventure foobar.
@@ -192,7 +192,7 @@ know the name of a level in an adventure, you can go directly to this
 level. For example, to go directly to level called 'level_2' in adventure foobar :
 
 @example
-rake play --adventure=foobar --level=level_2
+rake play adventure=foobar level=level_2
 @end example
 
 You can get more information about how to invoke @command{rake play} by calling @command{rake help}.
@@ -241,12 +241,9 @@ adventure:
   prefix: src/adventures/foobar/levels
   name: foobar
   levels:
-  - name: Level1Puzzle
-    puzzle: level_1_puzzle.rb
-  - name: Level2Puzzle
-    puzzle: level_2_puzzle.rb
-  - name: Level3Puzzle
-    puzzle: level_3_puzzle.rb
+  - puzzle: level_1_puzzle
+  - puzzle: level_2_puzzle
+  - puzzle: level_3_puzzle
 @end example
 
 TODO : Describe everything !!

@@ -53,10 +53,18 @@ class Adventure
     }
 
     @levels.each do |l|
-      adv["levels"] << {
-        "puzzle" => l.puzzle_file,
-        "name" => l.puzzle_class_name
-      }
+
+      if (l.follows_conventions?)
+        adv["levels"] << {
+          "puzzle" => l.puzzle_name
+        }
+      else
+        adv["levels"] << {
+          "puzzle" => l.puzzle_file,
+          "name" => l.puzzle_class_name
+        }
+      end
+
     end
 
     { "adventure" => adv}.to_yaml

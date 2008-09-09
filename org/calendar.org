@@ -1,4 +1,7 @@
 * When did I work (what did I do?)
+** <2008-09-09 mar>
+*** Fixed some icon
+*** Saving nows saves a little more when conventions are followed
 ** <2008-09-07 dim>
 *** Started texinfo documentation
 ** <2008-08-31 dim>

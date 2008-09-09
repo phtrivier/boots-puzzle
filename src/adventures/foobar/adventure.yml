@@ -1,16 +1,13 @@
----
-adventure:
-  plugins:
+--- 
+adventure: 
+  plugins: 
   - water
   - tunnel
   prefix: src/adventures/foobar/levels
   name: foobar
-  levels:
-  - name: Level1Puzzle
-    puzzle: level_1_puzzle.rb
-  - name: Level2Puzzle
-    puzzle: level_2_puzzle.rb
-  - name: Level3Puzzle
-    puzzle: level_3_puzzle.rb
-  - name: Level4Puzzle
-    puzzle: level_4_puzzle.rb
+  levels: 
+  - puzzle: level_1_puzzle
+  - puzzle: level_2_puzzle
+  - puzzle: level_3_puzzle
+  - puzzle: level_4_puzzle
+  - puzzle: level_5_puzzle

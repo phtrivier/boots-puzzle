@@ -81,4 +81,17 @@ class LevelTest < BPTestCase
     assert l.finished?
   end
 
+  def test_level_follows_naming_conventions
+
+    l = Level.new("staged_puzzle")
+    assert l.follows_conventions?
+
+    l = Level.new("staged_puzzle", "StagedPuzzle")
+    assert l.follows_conventions?
+
+    l = Level.new("staged_puzzle", "FooPuzzle")
+    assert !l.follows_conventions?
+
+  end
+
 end
