@@ -36,6 +36,7 @@ require 'plugins'
 require 'action'
 require 'adventure'
 
+require 'game_modes'
 # --------------------------------------------
 # Game UI
 
@@ -60,9 +61,7 @@ class GameWindow < Gosu::Window
     Plugins.init("#{@prefix}/src/plugins")
     Plugins.read_manifests
 
-
     self.caption = "Puzzle Game"
-
 
     @bg_image =  Gosu::Image.new(self, "#{@prefix}/src/gui/img/background_spirale.png", false)
 
@@ -104,14 +103,7 @@ class GameWindow < Gosu::Window
 
     @player_img = Gosu::Image.new(self, to_image_path("core/img/player.png"), false)
 
-    @actions = {  :next_boots => NextBootsAction.new(self, Gosu::Button::KbTab) ,
-      :up => MoveAction.new(self, Gosu::Button::KbUp, :up),
-      :down => MoveAction.new(self, Gosu::Button::KbDown, :down),
-      :right => MoveAction.new(self, Gosu::Button::KbRight, :right),
-      :left => MoveAction.new(self, Gosu::Button::KbLeft, :left),
-      :pick_boots => PickBootsAction.new(self, Gosu::Button::KbSpace),
-      :drop_boots => DropBootsAction.new(self, Gosu::Button::KbLeftControl)
-    }
+    @game_mode = SplashScreenMode.new(self)
 
   end
 
@@ -122,29 +114,35 @@ class GameWindow < Gosu::Window
   end
 
   def update
+    @game_mode.update
     # Move
-    @actions.each do |name, action|
-      action.evaluate
-    end
+    #   @actions.each do |name, action|
+    #  action.evaluate
+    #end
+  end
 
+  def check_level_finished
     # Change level if required
     if (@adventure.current_level.finished?)
-#      puts "Congratulations, you finished this level !!"
+
       if (@adventure.has_next_level?)
         @adventure.load_next_level!
         @puzzle = @adventure.current_level.puzzle
         init_puzzle
       else
-#        puts "Congratulations, you finished this adventure !!"
-#        puts "Boot-Puzzle -- Thanks for playing !!"
-        exit(0)
+        @game_mode = EndScreenMode.new(self)
       end
     end
+  end
 
+  def exit
+    puts "Thanks for playing !"
+    exit(0)
   end
 
   def draw
-    draw_puzzle
+    # draw_puzzle
+    @game_mode.draw
   end
 
   def draw_puzzle
@@ -176,7 +174,6 @@ class GameWindow < Gosu::Window
 
     # Draw a rectangle around the game area
     draw_rectangle(@x0-5, @y0-5, @x0 + W*@s + 5, @y0 + H*@s + 5, White)
-#    draw_rectangle(@x0-3, @y0-3, @x0 + w*@s + 3, @y0 + h*@s + 3, White)
 
   end
 
@@ -306,6 +303,23 @@ class GameWindow < Gosu::Window
       close
     end
   end
+
+  def enter_game!
+    @game_mode = InPlayGameMode.new(self)
+  end
+
+  def draw_splash_screen
+    # TODO : Use the one from adventure
+    @splash_screen = Gosu::Image.new(self, "#{@prefix}/src/gui/img/splash_screen.png", false)
+    @splash_screen.draw(0,0,ZOrder::UI)
+  end
+
+  def draw_end_screen
+    # TODO : Use the one from adventure
+    @splash_screen = Gosu::Image.new(self, "#{@prefix}/src/gui/img/end_screen.png", false)
+    @splash_screen.draw(0,0,ZOrder::UI)
+  end
+
 
 end
 

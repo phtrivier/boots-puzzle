@@ -30,6 +30,7 @@ You start the adventure by pressing 'Space', and then that's it).
 When you quit the game, you go back to this screen. If you press 'R'
 ** TODO Add quotes between levels
 ** TODO Add a 'adventure finished' screen (again, customizable if required)
+** TODO Move player's icon in its class (it's in the gui at the moment)
 ** [#F] Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
 ** TODO [#C] Undo ?
