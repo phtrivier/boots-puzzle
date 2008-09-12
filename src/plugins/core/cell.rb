@@ -87,10 +87,12 @@ class Cell
   end
 
   def add_event(name, walk_proc)
-    if (@story_events[name] == nil)
-      @story_events[name] = []
-    end
-    @story_events[name] << CellEvent.new(walk_proc)
+    add_cell_event(name, CellEvent.new(walk_proc))
+  end
+
+  def add_cell_event(name, event)
+    @story_events[name] ||= []
+    @story_events[name] << event
   end
 
   def meta

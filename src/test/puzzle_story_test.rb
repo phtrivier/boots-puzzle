@@ -460,4 +460,33 @@ class PuzzleStoryTest < BPTestCase
     pu.named_cell(:foo, 0, 1)
   end
 
+  class MultiCellEventPuzzle < Puzzle
+    dim 3,2
+    rows do
+      row "I--"
+      row "--O"
+    end
+    named_cells do
+      named_cell :foo,0,1
+      named_cell :bar,1,0
+    end
+  end
+
+  def test_puzzle_can_have_the_same_event_on_several_cells
+    pu = MultiCellEventPuzzle.new
+    m = mock()
+    m.expects(:event_occured).with(pu, false, 0).times(1)
+    m.expects(:event_occured).with(pu, true, 1).times(1)
+
+    pu.story_event [:foo, :bar] do |pu, called, count|
+      m.event_occured(pu, called, count)
+    end
+
+    pu.enters_player!
+    pu.try_move!(:right)
+    pu.try_move!(:left)
+    pu.try_move!(:down)
+  end
+
+
 end

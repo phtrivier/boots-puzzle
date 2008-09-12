@@ -1,6 +1,5 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
-** TODO [BP-1] Editor crashes when opening an adventure with no levels
 * Game Engine
 ** DONE Ensure that when you save an adventure with things that follow conventions, the smallest
 possible output is returned
@@ -14,6 +13,7 @@ Should not need much more than this ...
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
+** TODO Improve the messaging system (text on several lines simply doesn't show ; at least, cut the text between lines
 ** TODO Add a start screen (one default with nothing, extendible for each adventure).
 
 Mode

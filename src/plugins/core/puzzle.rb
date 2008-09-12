@@ -378,8 +378,37 @@ class Puzzle
   # (Note that the base class might actually be
   # in the Puzzle class rather than
   # in the Story module ... anyway ...)
-  def story_event(name, base_class=nil, &walk_proc)
+  def story_event(naming, base_class=nil, &walk_proc)
+    if (naming.is_a? Array)
+      multiple_cell_story_events(naming, base_class, &walk_proc)
+    else
+      single_cell_story_event(naming, base_class, &walk_proc)
+    end
+  end
 
+  # Define an event on one cell. A new event is created.
+  def single_cell_story_event(name, base_class=nil, &walk_proc)
+    cell = get_cell_for_event(name, base_class)
+    cell.add_event(name, walk_proc)
+    set_cell_by_name(name, cell)
+  end
+
+  # Define an event that spans several cells.
+  # The 'called' property, and the number of calls, are
+  # shared among all cells.
+  def multiple_cell_story_events(names, base_class=nil, &walk_proc)
+    event = CellEvent.new(walk_proc)
+    names.each do |name|
+      cell = get_cell_for_event(name, base_class)
+      cell.add_cell_event(name, event)
+      set_cell_by_name(name, cell)
+    end
+  end
+
+  # Get a cell by its name.
+  # If there is no cell with this name, and a base class
+  # is provided, a new cell of this class is created.
+  def get_cell_for_event(name, base_class=nil)
     cell = nil
     if (base_class == nil)
       cell = cell_by_name(name)
@@ -389,10 +418,7 @@ class Puzzle
     else
       cell = base_class.new
     end
-
-    cell.add_event(name, walk_proc)
-
-    set_cell_by_name(name, cell)
+    cell
   end
 
   # --------------------------------

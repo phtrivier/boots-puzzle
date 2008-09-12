@@ -60,6 +60,7 @@ class Level
     if (should_load_story)
       begin
         # @log.info {  "Trying story at #{story_file_path(prefix)}" }
+        puts "Trying story at #{story_file_path(prefix)}"
         require story_file_path(prefix)
         # Load the module
         # @log.info {  "Story module : #{Kernel.const_get(@story_class_name)}" }
@@ -71,6 +72,7 @@ class Level
         @puzzle.init_story
       rescue LoadError => e
         # @log.info { "Could not load story : #{e}"}
+        puts "Error loading story : #{e}"
       end
     end
 

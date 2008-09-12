@@ -1,9 +1,10 @@
---- 
-adventure: 
-  plugins: 
+---
+adventure:
+  plugins:
   - water
   - tunnel
   prefix: src/adventures/demo/levels
   name: demo
-  levels: 
+  levels:
+  - puzzle: level_2_puzzle
   - puzzle: level_1_puzzle
