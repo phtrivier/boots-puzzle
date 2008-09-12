@@ -1,8 +1,6 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** DONE Ensure that when you save an adventure with things that follow conventions, the smallest
-possible output is returned
 ** TODO [#A] Make it easier to define boots tools
 BootsTool.for(Palms)
 BootsTool.for("Palms")
@@ -71,5 +69,6 @@ See http://www.erikveen.dds.nl/distributingrubyapplications/#3.0.0
 ** Plugin system
 ** TODO set up a bug tracker (or move to bazaar and launchpad ?)
 * Misc
+** TODO Provide a Rake task to create a new plugin (with the manifest, the test folder, etc...)
 ** TODO Improve Logging (how to log into rake tests ?)
 ** test coverage tools ?

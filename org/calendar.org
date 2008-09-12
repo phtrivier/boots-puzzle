@@ -1,4 +1,7 @@
 * When did I work (what did I do?)
+** <2008-09-12 ven>
+*** Added a demo adventure
+*** Started writing a few levels !
 ** <2008-09-09 mar>
 *** Fixed some icon
 *** Saving nows saves a little more when conventions are followed

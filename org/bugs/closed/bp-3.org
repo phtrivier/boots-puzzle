@@ -1,7 +1,7 @@
 * Number
 bp-3.org
 * Status
-Open
+Invalid
 * How ?
 Create an adventure with a level called level_0_puzzle, and a story in file level_0_puzzle_story.rb.
 Try and play the adventure
@@ -10,3 +10,4 @@ Adventure cannot load : Kernel::Level0PuzzleStory is not defined
 * Expected ?
 Module should be defined, and adventure loaded
 * Comments ?
+I thought it happened, but actually it works ... must have messed somewhere...
