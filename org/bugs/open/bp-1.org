@@ -1,0 +1,26 @@
+* Number
+bp-1.org
+* Status
+Open
+* How ?
+** Create an adventure file with no levels, but a level lines, such as
+---
+adventure:
+  plugins:
+  - water
+  - tunnel
+  prefix: src/adventures/demo/levels
+  name: demo
+  levels:
+
+** Open the editor on this adventure
+shoes src/editor/editor.rb demo
+* Seen ?
+Editor stays blank.
+Shoes console mentions :
+ adventure.rb line 43
+ undefined method each for nil:NilClass
+* Expected ?
+Editor should offer to create a new level
+* Comments ?
+List of levels must be nil , should be empty.

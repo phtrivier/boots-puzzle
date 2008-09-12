@@ -22,6 +22,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n")
 
+;; Skeleton for bugs
+(define-skeleton puzzle-bug-skeleton
+ "Prepare an org file to file a bug for boots puzzle"
+ ""
+ "* Number\n" (buffer-name)
+ "\n* Status\nOpen"
+ "\n* How ?\n" _
+ "\n* Seen ?\n"
+ "\n* Expected ?\n"
+ "\n* Comments ?\n"
+)
+
 (global-set-key [(control ?c) (?p)] 'puzzle-skeleton)
+(global-set-key [(control ?c) (?b)] 'puzzle-bug-skeleton)
 
 (provide 'boots-puzzle)

@@ -1,5 +1,6 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
+** TODO [BP-1] Editor crashes when opening an adventure with no levels
 * Game Engine
 ** DONE Ensure that when you save an adventure with things that follow conventions, the smallest
 possible output is returned
