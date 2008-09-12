@@ -1,0 +1,9 @@
+2008-09-12  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* adventure.rb (load!) : Fixed bp-1 (adventure with no levels)
+
+	* adventure_test.rb : added test for bp-1
+
+	* boots-puzzle.el (puzzle-bug-skeleton) : added skeleton to enter bugs
+
+

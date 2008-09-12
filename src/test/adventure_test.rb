@@ -151,6 +151,21 @@ EOF
 
   end
 
-  # TODO : Test that saving a puzzle which follows conventions does not put too much stuff in it
+
+  def test_adventure_can_be_loaded_with_no_levels_or_plugins
+    s = <<EOF
+---
+adventure:
+adventure:
+  name: "adv"
+  prefix : "levels"
+  plugins:
+  levels:
+EOF
+    @a.load!(s)
+    assert_equal [], @a.levels
+    assert_equal [], @a.plugins
+
+  end
 
 end

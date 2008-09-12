@@ -1,0 +1,15 @@
+* Number
+bp-2.org
+* Status
+Open
+* How ?
+Create an adventure with no levels in the yaml file, and no 'levels' folder.
+Open the editor.
+* Seen ?
+Popup appears to ask for the level's name and size.
+Then the editor stays blank.
+Shoes console indicates that there is no 'levels' folder (which makes sense, since the folder was not created).
+* Expected ?
+The folder should be created silently.
+If the folder can't be created, crash with an error.
+* Comments ?

@@ -38,11 +38,16 @@ class Adventure
     struct = YAML.load(yaml)
 
     @name = struct["adventure"]["name"]
-    @plugins = struct["adventure"]["plugins"]
+    @plugins = struct["adventure"]["plugins"] || []
     @prefix = struct["adventure"]["prefix"]
-    struct["adventure"]["levels"].each do |l|
-      levels << Level.new(l["puzzle"], l["name"])
+
+    read_levels = struct["adventure"]["levels"]
+    if (read_levels != nil)
+      read_levels.each do |l|
+        levels << Level.new(l["puzzle"], l["name"])
+      end
     end
+
   end
 
   def save

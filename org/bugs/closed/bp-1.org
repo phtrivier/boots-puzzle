@@ -1,7 +1,7 @@
 * Number
 bp-1.org
 * Status
-Open
+Closed
 * How ?
 ** Create an adventure file with no levels, but a level lines, such as
 ---
