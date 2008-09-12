@@ -1,5 +1,10 @@
 2008-09-12  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* gui.rb (exit -> save) : fixed stacktrace on exiting (callers updated)
+
+	* editor.rb (save_puzzle) : 'levels' subdirectory created if
+	required when saving a level
+
 	* adventure.rb (load!) : Fixed bp-1 (adventure with no levels)
 
 	* adventure_test.rb : added test for bp-1

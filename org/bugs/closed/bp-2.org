@@ -1,7 +1,7 @@
 * Number
 bp-2.org
 * Status
-Open
+Closed
 * How ?
 Create an adventure with no levels in the yaml file, and no 'levels' folder.
 Open the editor.

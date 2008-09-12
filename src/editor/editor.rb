@@ -37,6 +37,7 @@ $LOAD_PATH << "../adventures"
 require 'adventure'
 require 'puzzle'
 require 'tools'
+require 'fileutils'
 
 # ----------------------
 # Init the plugins > This will be done in the adventure aftewards ?
@@ -413,6 +414,11 @@ class LevelEditor < Shoes
   def save_puzzle
     res = @puzzle.serialize(@puzzle_class)
     debug res
+
+    if (!File.exists?(@levels_folder))
+      FileUtils.mkdir_p(@levels_folder)
+    end
+
     File.open(@file_name, "w+") do |f|
       f << res
     end

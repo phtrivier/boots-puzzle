@@ -62,7 +62,7 @@ class EndGameAction < SingleKeyAction
   end
 
   def act!
-    @w.exit
+    @w.quit
   end
 end
 

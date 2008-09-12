@@ -78,7 +78,7 @@ class GameWindow < Gosu::Window
       @adventure.load!(File.open("#{@prefix}/src/adventures/#{adventure_name}/adventure.yml"))
     rescue Exception => e
       puts "Unable to open adventure #{adventure_name} : #{e}"
-      exit(-1)
+      exit
     end
     @adventure.load_plugins!
 
@@ -94,7 +94,7 @@ class GameWindow < Gosu::Window
       @puzzle = @adventure.current_level.puzzle
     else
       puts "This adventure has nothing to play !!"
-      exit(-1)
+      exit
     end
 
     init_puzzle
@@ -135,9 +135,9 @@ class GameWindow < Gosu::Window
     end
   end
 
-  def exit
+  def quit
     puts "Thanks for playing !"
-    exit(0)
+    exit
   end
 
   def draw
