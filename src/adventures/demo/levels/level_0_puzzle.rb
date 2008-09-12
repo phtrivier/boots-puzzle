@@ -1,4 +1,4 @@
-class Level2Puzzle < Puzzle
+class Level0Puzzle < Puzzle
  dim 16,10
  rows do
   row "################"
@@ -18,7 +18,8 @@ class Level2Puzzle < Puzzle
   named_cell :entry_right, 4, 3
   named_cell :entry_bottom, 5, 2
   named_cell :entry_left, 4, 1
-  named_cell :hole_in_wall, 6, 7
+  named_cell :past_hole, 6, 9
+  named_cell :hole, 6, 7
  end
 
  boots do

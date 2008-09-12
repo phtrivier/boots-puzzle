@@ -19,11 +19,11 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
 require 'naming'
-
+require 'block_utils'
 # Internal class for what can happen when
 # you walk on a cell
 class CellEvent < Struct.new(:calls, :proc)
-
+  include BlockUtils
   # Create an event
   def initialize(proc)
     @calls = 0
@@ -37,13 +37,15 @@ class CellEvent < Struct.new(:calls, :proc)
   # - how many times has the event occured ?
   def occur!(puzzle)
     called = @calls != 0
-    if (@proc.arity == 1)
-        @proc.call(puzzle)
-    elsif (@proc.arity == 2)
-        @proc.call(puzzle, called)
-    elsif (@proc.arity == 3)
-        @proc.call(puzzle, called, @calls)
-    end
+   #  if (@proc.arity == 1)
+#         @proc.call(puzzle)
+#     elsif (@proc.arity == 2)
+#         @proc.call(puzzle, called)
+#     elsif (@proc.arity == 3)
+#         @proc.call(puzzle, called, @calls)
+#     end
+
+    safe_call_block(@proc, puzzle, called, @calls)
     @calls = @calls + 1
   end
 end

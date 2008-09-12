@@ -94,4 +94,10 @@ class LevelTest < BPTestCase
 
   end
 
+  def test_level_0_can_be_loaded
+    l = Level.new("level_0")
+    l.load!("testdir/level_test")
+    assert_not_nil l
+  end
+
 end

@@ -30,9 +30,9 @@ require 'naming'
 require 'name'
 
 require 'notification'
-
+require 'block_utils'
 class Puzzle
-
+  include BlockUtils
   include Naming
   include Notification
 

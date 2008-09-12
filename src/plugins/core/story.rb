@@ -45,3 +45,4 @@ class Story
   end
 
 end
+
