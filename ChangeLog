@@ -1,5 +1,10 @@
 2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* quote.rb : created
+
+	* puzzle.rb (add_quote, self.quote, serialize) : quote is loaded
+	if possible and serialized if necessary
+
 	* gui.rb (init_adventure_images) : background, splash and end
 	screen are read from the adventure if possible. Otherwise default
 	image is used.
