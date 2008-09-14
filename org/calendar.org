@@ -1,6 +1,7 @@
 * When did I work (what did I do?)
 ** <2008-09-14 dim>
 *** Improved messaging system
+*** Quote system
 ** <2008-09-12 ven>
 *** Added a demo adventure
 *** Started writing a few levels !

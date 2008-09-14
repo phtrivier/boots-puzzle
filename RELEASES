@@ -1,3 +1,12 @@
+v0.2.0 - 2008/09/14
+
+ - Convention over configuration (level / puzzle naming)
+ - Easier to define boots, cells, tools, story, etc... with metaprogramming
+ - Notification system
+ - Quote system
+ - Began documentation
+ - Created a nice demo
+
 v0.1.0 - 2008/08/24
 
  - Initial version that I can show to the world without feeling too

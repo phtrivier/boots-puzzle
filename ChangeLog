@@ -1,5 +1,7 @@
 2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* Released v0.2.0
+
 	* editor.rb (save_quote, save_and_undirty, show_editor)
 	(build_quote_panel) : added controls to edit the quote
 
