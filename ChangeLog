@@ -1,3 +1,12 @@
+2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* text_cutter.rb, text_fitter.rb : classes to cut and fit the text
+
+	* gui.rb (initialize, draw_message_ui) : uses a cutter and a
+	fitter to draw text on several lines if required
+
+	* Rakefile (test) : gui folder is now taken into account
+
 2008-09-12  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* gui.rb (exit -> save) : fixed stacktrace on exiting (callers updated)
