@@ -320,7 +320,6 @@ class GameWindow < Gosu::Window
     @splash_screen.draw(0,0,ZOrder::UI)
   end
 
-
 end
 
 def play(ops)
