@@ -13,22 +13,22 @@ Should not need much more than this ...
 * Game UI
 ** TODO Add quotes between levels (this will have something displayed when
 a level is cleared..)
-*** TODO Add a quote for each level
-*** TODO
+*** TODO Add a quote for each level (a quote has a content, and an author)
+*** TODO Show the quote in a nice font between levels (call this a quote mode, the only
+drawing is to draw the font, and that's it
+** TODO Add a 'hint' system (display the position where you would go with a given movement
+** [#F] Make the UI exstensible (addition to the plug-in system)
 ** TODO Add a pause (pressing p, and a resume thing)
-
 Pause : (when pressing p)
   Press 'R' to resume
 You start the adventure by pressing 'Space', and then that's it).
 When you quit the game, you go back to this screen. If you press 'R'
-** TODO Add a 'hint' system (display the position where you would go with a given movement
-** [#F] Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
+** TODO Add a tool to set the quote for a puzzle
 ** TODO [#C] Undo ?
 ** TODO [#C] Continuous saving
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))
-** TODO Add a tool to set the quote for a puzzle
 * Plugins
 ** TODO swimming : water cells, palms
 *** DONE Palms

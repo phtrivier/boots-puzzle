@@ -31,6 +31,9 @@ require 'name'
 
 require 'notification'
 require 'block_utils'
+
+require 'quote'
+
 class Puzzle
   include BlockUtils
   include Naming
@@ -476,6 +479,10 @@ class Puzzle
       res << " end\n"
     end
 
+    if (@quote != nil)
+      res << @quote.serialize(" ")+ "\n"
+    end
+
     res << "end\n"
     res
   end
@@ -566,6 +573,21 @@ class Puzzle
       end
     end
   end
+
+  # ---- Quote management
+  attr_reader :quote
+  def add_quote(ops)
+    @quote = Quote.new(ops)
+  end
+
+  def self.quote(ops)
+    self.instance_eval do
+      define_method :init_quote do
+        add_quote(ops)
+      end
+    end
+  end
+  initer :quote
 
 end
 
