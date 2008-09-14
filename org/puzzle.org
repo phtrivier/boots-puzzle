@@ -11,8 +11,7 @@ Should not need much more than this ...
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
-** DONE Improve the messaging system (text on several lines simply doesn't show ; at least, cut the text between lines
-** TODO Add a start screen (one default with nothing, extendible for each adventure).
+** TODO Add a start screen (one default with nothing, extendable for each adventure).
 
 Mode
 SplashScreen :
@@ -22,14 +21,15 @@ Playing :
   display the regular stuff
 
 You quit with 'Esc' or 'Q' (everything should be quittable in a second with esc or quit)
+** TODO Add a 'adventure finished' screen (again, customizable if required)
 ** TODO Add a pause (pressing p, and a resume thing)
+
 Pause : (when pressing p)
   Press 'R' to resume
 You start the adventure by pressing 'Space', and then that's it).
 When you quit the game, you go back to this screen. If you press 'R'
+** TODO Add a 'hint' system (display the position where you would go with a given movement
 ** TODO Add quotes between levels
-** TODO Add a 'adventure finished' screen (again, customizable if required)
-** TODO Move player's icon in its class (it's in the gui at the moment)
 ** [#F] Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
 ** TODO [#C] Undo ?

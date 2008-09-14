@@ -85,4 +85,8 @@ class Player
     @i,@j = pos
   end
 
+  def src
+    "core/img/player.png"
+  end
+
 end

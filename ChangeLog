@@ -1,5 +1,6 @@
 2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* gui.rb, player.rb (initialize, src) : moved player image to player class
 	* text_cutter.rb, text_fitter.rb : classes to cut and fit the text
 
 	* gui.rb (initialize, draw_message_ui) : uses a cutter and a

@@ -107,7 +107,7 @@ class GameWindow < Gosu::Window
 
     @images = { }
 
-    @player_img = Gosu::Image.new(self, to_image_path("core/img/player.png"), false)
+    @player_img = Gosu::Image.new(self, to_image_path(@puzzle.player.src), false)
 
     @game_mode = SplashScreenMode.new(self)
 
