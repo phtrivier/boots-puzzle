@@ -2,9 +2,7 @@ Story.for("level_0") do
 
   story_once [:entry_up, :entry_left,
               :entry_bottom, :entry_right] do |pu|
-
-    pu.message("This is a demo for Boots Puzzle. \n Your goal is to reach the exit (in green). \nGood luck!")
-
+    pu.message("Hi !\nThis is a demo for Boots Puzzle. Your goal is to reach the exit (in green). Notice there are boots over there ...\nGood luck!")
   end
 
   story_event :hole do |pu|
@@ -17,7 +15,7 @@ Story.for("level_0") do
 
   end
 
-  story_event :past_hole do |pu|
+  story_once :past_hole do |pu|
     pu.message "Cool, you passed the wall ! Now run for the exit..."
   end
 

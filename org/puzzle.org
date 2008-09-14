@@ -11,7 +11,7 @@ Should not need much more than this ...
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
-** TODO Improve the messaging system (text on several lines simply doesn't show ; at least, cut the text between lines
+** DONE Improve the messaging system (text on several lines simply doesn't show ; at least, cut the text between lines
 ** TODO Add a start screen (one default with nothing, extendible for each adventure).
 
 Mode
@@ -41,16 +41,13 @@ When you quit the game, you go back to this screen. If you press 'R'
 ** TODO swimming : water cells, palms
 *** DONE Palms
 *** DONE Define cells as 'swimmable' (and let the player walk on it only if it wears waterproof boots)
-*** TODO Fix the palms icon (add transparency, ... find something nicer)
+*** DONE Fix the palms icon (add transparency, ... find something nicer)
 *** TODO Simplify the boots and boots tool definition)
 ** TODO burning
    (Same as swimming, but with burning stuff, and you need shoes that are )
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
-** TODO tunnel plugin (move from a place to another)
-*** TODO Rename TunnelExtremityCell to TunnelCell
-*** TODO Add a tool that changes the class of the cell to TunnelCell, and name the cell if possible
 * Test Editor
 ** recording
 ** adding assertions

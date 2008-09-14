@@ -37,12 +37,14 @@ require 'action'
 require 'adventure'
 
 require 'game_modes'
+require 'text_fitter'
+require 'text_cutter'
 # --------------------------------------------
 # Game UI
 
 class GameWindow < Gosu::Window
 
-  attr_reader :puzzle
+  attr_reader :puzzle, :font
 
   White = Gosu::Color.new(0xffffffff)
   # Maximum dimension of puzzles
@@ -66,6 +68,10 @@ class GameWindow < Gosu::Window
     @bg_image =  Gosu::Image.new(self, "#{@prefix}/src/gui/img/background_spirale.png", false)
 
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+
+    @fitter = TextFitter.new(@font, 600)
+    @cutter = TextCutter.new(@fitter)
+    @text_h = @font.height
 
     @last_message = nil
 
@@ -257,7 +263,19 @@ class GameWindow < Gosu::Window
 
     # Print the text of last message
     if (@last_message != nil)
-      @font.draw(@last_message, @x0, y0 + 5, ZOrder::UI, 1.0, 1.0, White)
+      lines = @cutter.cut_text(@last_message)
+      if (lines.empty?)
+        # Text could not be reduced to fit.
+        # Mention it (with a !), and display the
+        # text on the whole line -- it might overflow !
+        lines = ["!" + @last_message]
+      end
+      y = y0 + 5
+      lines.each do |line|
+        @font.draw(line, @x0, y, ZOrder::UI, 1.0,1.0, White)
+        y = y + @text_h + 2
+      end
+
     end
 
   end

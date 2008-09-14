@@ -1,6 +1,6 @@
-# Boots Puzzle - gui_test.rb
+# Boots Puzzle - text_cutter_test.rb
 #
-# Test for gui related functions
+# Test for the TextCutter class
 #
 # Copyright (C) 2008 Pierre-Henri Trivier
 #
@@ -20,18 +20,17 @@
 
 require 'bp_test_case'
 
-require 'gui_helper'
+require 'text_cutter'
 
-class GuiTest < BPTestCase
-
-  include GuiHelper
+class TextCutterTest < BPTestCase
 
   def test_keeps_text_that_fits_as_such
     text = "Hello world !"
     fitter = mock()
     fitter.expects(:fit?).with(text).returns(true)
 
-    elements = cut_text(text, fitter)
+    c = TextCutter.new(fitter)
+    elements = c.cut_text(text)
     assert_equal [text], elements
   end
 
@@ -44,7 +43,8 @@ class GuiTest < BPTestCase
     f.expects(:fit?).with("Hello world !").returns(true)
     f.expects(:fit?).with("How are you doing ?").returns(true)
 
-    e = cut_text(text,f)
+    c = TextCutter.new(f)
+    e = c.cut_text(text)
     assert_equal(["Hello world !", "How are you doing ?"], e)
   end
 
@@ -57,7 +57,8 @@ class GuiTest < BPTestCase
     f.expects(:tokens_fit?).with("Hello everyone ! I".split(" ")).returns(true)
     f.expects(:tokens_fit?).with("am happy !".split(" ")).returns(true)
 
-    e = cut_line(line, f)
+    c = TextCutter.new(f)
+    e = c.cut_line(line)
     assert_equal(["Hello everyone ! I", "am happy !"], e)
   end
 
@@ -74,10 +75,31 @@ class GuiTest < BPTestCase
     f.expects(:tokens_fit?).with("I am so happy".split(" ")).returns(false)
     f.expects(:tokens_fit?).with("I am so".split(" ")).returns(true)
     f.expects(:tokens_fit?).with("happy !".split(" ")).returns(true)
-
-    e = cut_line(line, f)
+    c = TextCutter.new(f)
+    e = c.cut_line(line)
     assert_equal(["Hello everyone-from-everywhere !", "I am so", "happy !"], e)
   end
+
+  def test_cuts_lines_then_line_recursively
+    text = "Hi !\nHello everyone-from-everywhere ! I am so happy !"
+    f = mock()
+    f.expects(:fit?).with("Hi !").returns(true)
+    f.expects(:fit?).with("Hello everyone-from-everywhere ! I am so happy !").returns(false)
+    f.expects(:tokens_fit?).with("Hello everyone-from-everywhere ! I am so happy !".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("Hello everyone-from-everywhere ! I am so happy".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("Hello everyone-from-everywhere ! I am so".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("Hello everyone-from-everywhere ! I am".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("Hello everyone-from-everywhere ! I".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("Hello everyone-from-everywhere !".split(" ")).returns(true)
+    f.expects(:tokens_fit?).with("I am so happy !".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("I am so happy".split(" ")).returns(false)
+    f.expects(:tokens_fit?).with("I am so".split(" ")).returns(true)
+    f.expects(:tokens_fit?).with("happy !".split(" ")).returns(true)
+    c = TextCutter.new(f)
+    e = c.cut_text(text)
+    assert_equal(["Hi !", "Hello everyone-from-everywhere !", "I am so", "happy !"], e)
+  end
+
 
 
 end
