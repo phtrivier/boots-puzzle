@@ -25,14 +25,21 @@ class Quote < Struct.new(:author, :text)
 
   def serialize(prefix)
     res = ""
-    if (author == nil)
-      if (text != nil)
-        res = "#{prefix}quote :text => #{text.inspect}"
+    if (!blank?)
+      if (author == nil || author == "")
+        if (text != nil)
+          res = "#{prefix}quote :text => #{text.inspect}"
+        end
+      else
+        res = "#{prefix}quote :author => #{author.inspect},\n"
+        res = res + "#{prefix}:text => #{text.inspect}"
       end
-    else
-      res = "#{prefix}quote :author => #{author.inspect},\n"
-      res = res + "#{prefix}:text => #{text.inspect}"
     end
     res
   end
+
+  def blank?
+    (author == nil || author == "") and (text == nil || text == "")
+  end
+
 end

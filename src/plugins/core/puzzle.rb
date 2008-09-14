@@ -480,6 +480,7 @@ class Puzzle
     end
 
     if (@quote != nil)
+      res << "\n"
       res << @quote.serialize(" ")+ "\n"
     end
 

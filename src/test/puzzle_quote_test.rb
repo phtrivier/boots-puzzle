@@ -54,6 +54,7 @@ class PuzzleWithQuote < Puzzle
  rows do
   row "I-O"
  end
+
  quote :author => "Pierre Desproges",
  :text => "Vivons heureux..."
 end
@@ -71,11 +72,11 @@ class PuzzleWithQuote < Puzzle
  rows do
   row "--"
  end
+
  quote :text => "Toto"
 end
 HERE
     assert_equal expected, s
   end
-
 
 end

@@ -74,7 +74,7 @@ class GameWindow < Gosu::Window
     @quote_text_fitter = TextFitter.new(@font, 300)
     @quote_text_cutter = TextCutter.new(@quote_text_fitter)
 
-    @quote_author_fitter = TextFitter.new(@font, 100)
+    @quote_author_fitter = TextFitter.new(@font, 200)
     @quote_author_cutter = TextCutter.new(@quote_author_fitter)
 
     @last_message = nil
@@ -158,6 +158,7 @@ class GameWindow < Gosu::Window
         @adventure.load_next_level!
         @puzzle = @adventure.current_level.puzzle
         init_puzzle
+        enter_game!
       else
         @game_mode = EndScreenMode.new(self)
       end
@@ -370,7 +371,7 @@ class GameWindow < Gosu::Window
     @bg_image.draw(0,0,ZOrder::UI)
     safe_draw_text(50,100, @quote_text_cutter, "'#{@puzzle.quote.text}'")
     if (@puzzle.quote.author != nil)
-      safe_draw_text(500, 400, @quote_author_cutter , @puzzle.quote.author)
+      safe_draw_text(450, 400, @quote_author_cutter , @puzzle.quote.author)
     end
     safe_draw_text(50, 450, @message_cutter, "(Press Return to start level)")
   end

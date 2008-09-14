@@ -45,8 +45,6 @@ require 'plugins'
 
 Plugins.init("../plugins")
 Plugins.read_manifests
-# # This would be done from the adventure !
-# Plugins.need("water")
 # ----------------------
 
 module ImagePath
@@ -226,7 +224,12 @@ class LevelEditor < Shoes
   def show_editor
 
     flow do
-      build_names_panel
+      flow :width => "60%" do
+        build_names_panel
+      end
+      flow :width => "40%" do
+        build_controls_panel
+      end
     end
 
     flow do
@@ -244,7 +247,7 @@ class LevelEditor < Shoes
     end
 
     flow do
-      build_controls_panel
+      build_quote_panel
     end
 
     keypress do |k|
@@ -392,8 +395,40 @@ class LevelEditor < Shoes
   end
 
   def save_and_undirty
+    save_quote
     save_puzzle
     dirty(false)
+  end
+
+  def save_quote
+    a = @quote_author.text
+    t = @quote_text.text
+    ops = { }
+    if (a != nil)
+      ops[:author] = a
+    end
+    if (t != nil)
+      ops[:text] = t
+    end
+    @puzzle.add_quote(ops)
+  end
+
+  def build_quote_panel
+
+    t = if @puzzle.quote != nil then @puzzle.quote.text end
+    a = if @puzzle.quote != nil then @puzzle.quote.author || "" end
+    para "Quote :"
+    @quote_text = edit_box t , :width => 300, :height => 100
+
+    @quote_text.change do
+        dirty(true)
+    end
+    para "Author (optionnal) :"
+    @quote_author = edit_line a, :heigth => 100
+
+    @quote_author.change do
+      dirty(true)
+    end
   end
 
   def build_controls_panel
@@ -575,5 +610,5 @@ class LevelEditor < Shoes
 
 end
 
-LevelEditor.app :title => "Puzzle editor", :width => 1000
+LevelEditor.app :title => "Puzzle editor", :width => 1000, :height => 500
 

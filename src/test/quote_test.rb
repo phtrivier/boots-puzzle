@@ -59,4 +59,15 @@ HERE
     assert_equal e, q.serialize(" ") + "\n"
   end
 
+  def test_serialize_blank_quote
+    q = Quote.new(:text => "", :author => "")
+    assert q.blank?
+
+    assert_equal "", q.serialize("")
+
+    q = Quote.new(:text => "hello", :author => "")
+    assert_equal "quote :text => \"hello\"", q.serialize("")
+  end
+
+
 end

@@ -22,4 +22,7 @@ class Level1Puzzle < Puzzle
   boot 2,6,DoubleBoots
   boot 1,9,Palms
  end
+
+ quote :author => "Pen of Chaos",
+ :text => "A l'aventure compagnon\nJe suis partis vers l'horizon..."
 end

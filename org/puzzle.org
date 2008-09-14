@@ -11,11 +11,8 @@ Should not need much more than this ...
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
-** TODO Add quotes between levels (this will have something displayed when
-a level is cleared..)
-*** TODO Add a quote for each level (a quote has a content, and an author)
-*** TODO Show the quote in a nice font between levels (call this a quote mode, the only
-drawing is to draw the font, and that's it
+** TODO Add a 'help' mode to display info about the controls
+** TODO Make controls configurable (and update the display of the controls...)
 ** TODO Add a 'hint' system (display the position where you would go with a given movement
 ** [#F] Make the UI exstensible (addition to the plug-in system)
 ** TODO Add a pause (pressing p, and a resume thing)

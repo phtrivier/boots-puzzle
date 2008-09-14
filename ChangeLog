@@ -1,5 +1,16 @@
 2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* editor.rb (save_quote, save_and_undirty, show_editor)
+	(build_quote_panel) : added controls to edit the quote
+
+	* game_modes (LeaveQuoteAction, QuoteMode) : modes to handle the
+	display of quote
+
+	* text_cutter : added attribute reader fitter
+
+	* gui.rb (initialize, safe_draw_text, draw_quote, enter_game!) :
+	Display the quote if relevant
+
 	* quote.rb : created
 
 	* puzzle.rb (add_quote, self.quote, serialize) : quote is loaded
