@@ -25,4 +25,8 @@ class Level0Puzzle < Puzzle
  boots do
   boot 4,6,DoubleBoots
  end
+
+ quote :author => "J.Bonaldi",
+  :text => "I swear, it worked during the demo !"
+
 end

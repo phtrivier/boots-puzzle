@@ -68,8 +68,14 @@ class GameWindow < Gosu::Window
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
     @fitter = TextFitter.new(@font, 600)
-    @cutter = TextCutter.new(@fitter)
+    @message_cutter = TextCutter.new(@fitter)
     @text_h = @font.height
+
+    @quote_text_fitter = TextFitter.new(@font, 300)
+    @quote_text_cutter = TextCutter.new(@quote_text_fitter)
+
+    @quote_author_fitter = TextFitter.new(@font, 100)
+    @quote_author_cutter = TextCutter.new(@quote_author_fitter)
 
     @last_message = nil
 
@@ -280,21 +286,22 @@ class GameWindow < Gosu::Window
 
     # Print the text of last message
     if (@last_message != nil)
-      lines = @cutter.cut_text(@last_message)
-      if (lines.empty?)
-        # Text could not be reduced to fit.
-        # Mention it (with a !), and display the
-        # text on the whole line -- it might overflow !
-        lines = ["!" + @last_message]
-      end
-      y = y0 + 5
-      lines.each do |line|
-        @font.draw(line, @x0, y, ZOrder::UI, 1.0,1.0, White)
-        y = y + @text_h + 2
-      end
-
+      safe_draw_text(@x0, y0 + 5, @message_cutter, @last_message)
     end
+  end
 
+  def safe_draw_text(x,y,cutter,msg)
+    lines = cutter.cut_text(msg)
+    if (lines.empty?)
+      # Text could not be reduced to fit.
+      # Mention it (with a !), and display the
+      # text on the whole line -- it might overflow !
+      lines = ["!" + msg]
+    end
+    lines.each do |line|
+      @font.draw(line, x, y, ZOrder::UI, 1.0,1.0, White)
+      y = y + @text_h + 2
+    end
   end
 
   # Handlers for the messages
@@ -340,6 +347,14 @@ class GameWindow < Gosu::Window
   end
 
   def enter_game!
+    if (@puzzle.quote != nil)
+      @game_mode = QuoteMode.new(self)
+    else
+      @game_mode = InPlayGameMode.new(self)
+    end
+  end
+
+  def leave_quote!
     @game_mode = InPlayGameMode.new(self)
   end
 
@@ -349,6 +364,15 @@ class GameWindow < Gosu::Window
 
   def draw_end_screen
     @end_screen.draw(0,0,ZOrder::UI)
+  end
+
+  def draw_quote
+    @bg_image.draw(0,0,ZOrder::UI)
+    safe_draw_text(50,100, @quote_text_cutter, "'#{@puzzle.quote.text}'")
+    if (@puzzle.quote.author != nil)
+      safe_draw_text(500, 400, @quote_author_cutter , @puzzle.quote.author)
+    end
+    safe_draw_text(50, 450, @message_cutter, "(Press Return to start level)")
   end
 
 end

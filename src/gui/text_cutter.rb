@@ -20,6 +20,8 @@
 
 class TextCutter
 
+  attr_reader :fitter
+
   def initialize(fitter)
     @fitter= fitter
   end

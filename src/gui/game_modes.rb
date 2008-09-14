@@ -79,6 +79,32 @@ class EndScreenMode < GameMode
   end
 end
 
+# TODO : make it simpler to define a single key action ?
+class LeaveQuoteAction < SingleKeyAction
+  def initialize(window)
+    super(window, Gosu::Button::KbReturn)
+  end
+
+  def act!
+    @w.leave_quote!
+  end
+end
+
+# Todo : make it simpler to define a game mode ?
+# (map of actions / draw method ?)
+class QuoteMode < GameMode
+  def initialize(window)
+    super(window)
+    @actions = {
+      :leave => LeaveQuoteAction.new(window)
+    }
+  end
+
+  def draw
+    window.draw_quote
+  end
+end
+
 
 class InPlayGameMode < GameMode
 
