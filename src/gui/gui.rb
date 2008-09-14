@@ -65,8 +65,6 @@ class GameWindow < Gosu::Window
 
     self.caption = "Puzzle Game"
 
-    @bg_image =  Gosu::Image.new(self, "#{@prefix}/src/gui/img/background_spirale.png", false)
-
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
     @fitter = TextFitter.new(@font, 600)
@@ -105,6 +103,8 @@ class GameWindow < Gosu::Window
 
     init_puzzle
 
+    init_adventure_images
+
     @images = { }
 
     @player_img = Gosu::Image.new(self, to_image_path(@puzzle.player.src), false)
@@ -117,6 +117,23 @@ class GameWindow < Gosu::Window
     @puzzle.add_listener self
     @puzzle.enters_player!
     @last_message = "Entering level : #{@adventure.current_level.puzzle_name}"
+  end
+
+  def init_adventure_images
+    @bg_image = load_adventure_image("background.png")
+    @splash_screen = load_adventure_image("splash_screen.png")
+    @end_screen = load_adventure_image("end_screen.png")
+  end
+
+  def load_adventure_image(pic_filename)
+    default_path = "#{@prefix}/src/gui/img/#{pic_filename}"
+    adventure_image_path = "#{@prefix}/src/adventures/#{@adventure.name}/img/#{pic_filename}"
+    if (File.exists?(adventure_image_path))
+      path = adventure_image_path
+    else
+      path = default_path
+    end
+    Gosu::Image.new(self, path, false)
   end
 
   def update
@@ -327,15 +344,11 @@ class GameWindow < Gosu::Window
   end
 
   def draw_splash_screen
-    # TODO : Use the one from adventure
-    @splash_screen = Gosu::Image.new(self, "#{@prefix}/src/gui/img/splash_screen.png", false)
     @splash_screen.draw(0,0,ZOrder::UI)
   end
 
   def draw_end_screen
-    # TODO : Use the one from adventure
-    @splash_screen = Gosu::Image.new(self, "#{@prefix}/src/gui/img/end_screen.png", false)
-    @splash_screen.draw(0,0,ZOrder::UI)
+    @end_screen.draw(0,0,ZOrder::UI)
   end
 
 end
