@@ -60,7 +60,7 @@ class GameWindow < Gosu::Window
     end
 
     # Init the plugin system
-    Plugins.init("#{@prefix}/src/plugins")
+    Plugins.init("#{@prefix}/plugins")
     Plugins.read_manifests
 
     self.caption = "Puzzle Game"
@@ -85,7 +85,7 @@ class GameWindow < Gosu::Window
 
     @adventure = Adventure.new
     begin
-      @adventure.load!(File.open("#{@prefix}/src/adventures/#{adventure_name}/adventure.yml"))
+      @adventure.load!(File.open("#{@prefix}/adventures/#{adventure_name}/adventure.yml"))
     rescue Exception => e
       puts "Unable to open adventure #{adventure_name} : #{e}"
       exit
@@ -132,8 +132,8 @@ class GameWindow < Gosu::Window
   end
 
   def load_adventure_image(pic_filename)
-    default_path = "#{@prefix}/src/gui/img/#{pic_filename}"
-    adventure_image_path = "#{@prefix}/src/adventures/#{@adventure.name}/img/#{pic_filename}"
+    default_path = "#{@prefix}/gui/img/#{pic_filename}"
+    adventure_image_path = "#{@prefix}/adventures/#{@adventure.name}/img/#{pic_filename}"
     if (File.exists?(adventure_image_path))
       path = adventure_image_path
     else
@@ -329,7 +329,7 @@ class GameWindow < Gosu::Window
 
   # Locate the image (it must be available globally ?)
   def to_image_path(src)
-    "#{@prefix}/src/plugins/#{src}"
+    "#{@prefix}/plugins/#{src}"
   end
 
   def get_image(cell)

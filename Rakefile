@@ -60,7 +60,7 @@ task :play => [:test] do |t|
 
   require 'gui'
 
-  play(:adventure_name => adventure_name, :level_name => level_name)
+  play(:adventure_name => adventure_name, :level_name => level_name, :prefix => "src")
 end
 
 desc "Run the puzzle editor"
