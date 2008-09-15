@@ -4,7 +4,7 @@ adventure:
   - water
   - tunnel
   - events
-  prefix: src/adventures/demo/levels
+  prefix: adventures/demo/levels
   name: demo
   levels:
   - puzzle: level_0_puzzle
