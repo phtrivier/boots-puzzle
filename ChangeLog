@@ -1,3 +1,11 @@
+2008-09-22  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* palms_tool.rb (definition) Reduced definition to a one-liner
+
+	* tools_registry.rb (self.for) Added convenience method to define boots tools
+	
+	* boots.rb, tools.rb () Fixed typo
+
 2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* Released v0.2.0

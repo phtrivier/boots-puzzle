@@ -1,6 +1,6 @@
 # Boots Puzzle - boots.rb
 #
-# Boots class (what the player use to walk.
+# Boots class (what the player use to walk.)
 #
 # Copyright (C) 2008 Pierre-Henri Trivier
 #

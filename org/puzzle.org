@@ -1,19 +1,14 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO [#A] Make it easier to define boots tools
-BootsTool.for(Palms)
-BootsTool.for("Palms")
-[defines and register a PalmsBootsTool tools that set boots to be Palms ... gne he !)
-Should not need much more than this ...
 ** TODO Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
 ==> cell_property :walkable true
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
 ** TODO Add a 'help' mode to display info about the controls
-** TODO Make controls configurable (and update the display of the controls...)
 ** TODO Add a 'hint' system (display the position where you would go with a given movement
+** TODO Make controls configurable (and update the display of the controls...)
 ** [#F] Make the UI exstensible (addition to the plug-in system)
 ** TODO Add a pause (pressing p, and a resume thing)
 Pause : (when pressing p)
@@ -34,6 +29,26 @@ When you quit the game, you go back to this screen. If you press 'R'
 *** TODO Simplify the boots and boots tool definition)
 ** TODO burning
    (Same as swimming, but with burning stuff, and you need shoes that are )
+** TODO unmovable
+*** TODO Define a 'unmovable' type of cells that, where you move on it, moves you back to your original place,
+and calls up a block with the direction in with it is touched
+** TODO swicth
+*** TODO Define a 'swicth' type of cells
+(unmovable),
+keeps a 'toggled' state (where you can
+define a 'on' and a 'off' event like this
+
+story_switch :switch do
+
+  on do |puzzle|
+    puzzle.message("you switched me on!!")
+  end
+
+  off do
+    puzzle.message("you switched me off!")
+  end
+
+end
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)

@@ -114,6 +114,22 @@ class BootsTool < Struct.new(:type)
       alert("You cannot put a pair of boots on a non walkable cell")
     end
   end
+
+  # Class function to define boots tool more easily
+  def self.for(klass)
+
+    tools_class_name = klass.name + "Tool"
+    tools_class = Class.new(BootsTool)
+    tools_class.instance_eval do
+      define_method :initialize do
+        super(klass)
+      end
+    end
+
+    Kernel.const_set(tools_class_name, tools_class)
+    ToolsRegistry.register_boots_tools(tools_class)
+  end
+
 end
 
 

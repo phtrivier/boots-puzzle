@@ -22,7 +22,7 @@
 # by contract, Tools should provide :
 #  src : a method to get the path to an image for the tool
 #  act : the method to call when the tool is applied to the editor
-require 'tools_register'
+require 'tools_registry'
 
 # TODO : MAKE A TOOL ONLY FOR IN AND OUT
 class GateTool < Struct.new(:name, :type)

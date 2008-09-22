@@ -1,5 +1,8 @@
 require 'bp_test_case'
 
+class FakeBoots < BareFeet
+end
+
 class BootsRegistryTest < BPTestCase
 
   def test_boots_can_be_created_and_registered_quickly
@@ -42,6 +45,21 @@ class BootsRegistryTest < BPTestCase
     pu = mock()
     pu.expects(:walkable?).with(0,1)
     b.reachable?(pu,0,1)
+  end
+
+  def test_boots_tools_can_be_defined_quickly
+    BootsTool.for(FakeBoots)
+    assert_not_nil FakeBootsTool
+    assert ToolsRegistry.registered_boots_tools.member?(FakeBootsTool)
+    editor = mock()
+    puz = mock()
+    editor.expects(:puzzle).returns(puz)
+    puz.expects(:boot).with(0,1,FakeBoots)
+    editor.expects(:update_editor_cell).with(0,1)
+
+    tool = FakeBootsTool.new
+    tool.act(editor, 0,1)
+
   end
 
 end
