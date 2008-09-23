@@ -6,6 +6,7 @@
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)
 ** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
+** TODO Fix icons of tunnel and switch : make the walkable background show under them
 ** TODO Add a 'help' mode to display info about the controls
 ** TODO Add a 'hint' system (display the position where you would go with a given movement
 ** TODO Make controls configurable (and update the display of the controls...)

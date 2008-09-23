@@ -1,13 +1,13 @@
----
-adventure:
-  plugins:
+--- 
+adventure: 
+  plugins: 
   - water
   - tunnel
   - events
+  - switch
   prefix: adventures/demo/levels
   name: demo
-  levels:
+  levels: 
   - puzzle: level_0_puzzle
   - puzzle: level_1_puzzle
-
-
+  - puzzle: level_2_puzzle

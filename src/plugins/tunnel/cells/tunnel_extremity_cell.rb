@@ -1,6 +1,5 @@
-class TunnelExtremityCell < Cell
+class TunnelExtremityCell < Walkable
   letter ">"
-  walkable
   def src
     "tunnel/img/tunnel_extremity_cell.png"
   end

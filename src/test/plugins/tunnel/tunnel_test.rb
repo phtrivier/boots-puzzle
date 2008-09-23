@@ -19,6 +19,11 @@ class TunnelPluginTest < PluginTestCase
 
   end
 
+  def test_tunnel_extremity_are_walkable
+    c = TunnelExtremityCell.new
+    assert c.walkable?
+  end
+
   def test_puzzle_with_tunnel_inside
 
     pu = PuzzleWithTunnel.new

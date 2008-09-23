@@ -1,0 +1,7 @@
+2008-09-23  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* level_2_puzzle.rb, level_2_puzzle_story.rb : Added level where
+	switch are used
+
+	* adventure.yml (plugins) : Switch plugin is now used
+	(levels) : Added level2

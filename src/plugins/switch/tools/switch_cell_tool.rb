@@ -1,0 +1,1 @@
+CellTool.for("switch")
