@@ -34,6 +34,8 @@ require 'block_utils'
 
 require 'quote'
 
+require 'directions'
+
 class Puzzle
   include BlockUtils
   include Naming
