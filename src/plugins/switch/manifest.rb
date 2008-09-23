@@ -1,0 +1,2 @@
+Plugins.manifest("switch", ["static"])
+
