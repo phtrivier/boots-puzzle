@@ -93,3 +93,9 @@ task :help do
   gui_usage("")
 end
 
+desc "Create a debian package using epm"
+task :deb do
+  # TODO : Generate the 'list' file from what is relevant
+  # (Make it an ERB template ? And let ERB avaluate the thing ?)
+  system("epm -f deb boots-puzzle")
+end

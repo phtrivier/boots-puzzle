@@ -5,7 +5,6 @@
 %version 0.3.0
 %readme README
 %license LICENSE
-%requires rubygems
 %requires g++
 %requires libgl1-mesa-dev
 %requires libpango1.0-dev l
@@ -13,10 +12,11 @@
 %requires ruby
 %requires ruby1.8
 %requires ruby1.8-dev
+%requires rubygems
 %requires libsdl-mixer1.2-dev
 
-%preinstall gem install facets
-%preinstall gem install mocha
+# TOTEST : REQUIRING GOSU Gem itself rather than adding the lib internally (seems to work ... test with more packaging)
+%preinstall gem install gosu facets mocha
 
 # Bin script
 f 755 root sys /usr/bin/boots-puzzle bin/boots-puzzle
@@ -40,11 +40,8 @@ f 644 root sys /usr/share/boots-puzzle/adventures/foobar/levels/level_5_puzzle.r
 f 644 root sys /usr/share/boots-puzzle/adventures/foobar/levels/level_2_puzzle.rb src/adventures/foobar/levels/level_2_puzzle.rb
 f 644 root sys /usr/share/boots-puzzle/adventures/foobar/levels/level_2_puzzle_story.rb src/adventures/foobar/levels/level_2_puzzle_story.rb
 d 755 root sys /usr/share/boots-puzzle/adventures/demo -
-f 644 root sys /usr/share/boots-puzzle/adventures/demo/adventure.yml\~ src/adventures/demo/adventure.yml\~
 f 644 root sys /usr/share/boots-puzzle/adventures/demo/adventure.yml src/adventures/demo/adventure.yml
 d 755 root sys /usr/share/boots-puzzle/adventures/demo/levels -
-f 644 root sys /usr/share/boots-puzzle/adventures/demo/levels/level_0_puzzle_story.rb\~ src/adventures/demo/levels/level_0_puzzle_story.rb\~
-f 644 root sys /usr/share/boots-puzzle/adventures/demo/levels/level_0_puzzle.rb\~ src/adventures/demo/levels/level_0_puzzle.rb\~
 f 644 root sys /usr/share/boots-puzzle/adventures/demo/levels/level_0_puzzle.rb src/adventures/demo/levels/level_0_puzzle.rb
 f 644 root sys /usr/share/boots-puzzle/adventures/demo/levels/level_0_puzzle_story.rb src/adventures/demo/levels/level_0_puzzle_story.rb
 f 644 root sys /usr/share/boots-puzzle/adventures/demo/levels/level_1_puzzle.rb src/adventures/demo/levels/level_1_puzzle.rb
@@ -57,7 +54,6 @@ f 644 root sys /usr/share/boots-puzzle/adventures/demo/img/background.png src/ad
 # ---------------------------------------
 # Plugins (generated)
 f 644 root sys /usr/share/boots-puzzle/gui/text_cutter.rb src/gui/text_cutter.rb
-f 644 root sys /usr/share/boots-puzzle/gui/text_fitter.rb\~ src/gui/text_fitter.rb\~
 f 644 root sys /usr/share/boots-puzzle/gui/gui.rb src/gui/gui.rb
 f 644 root sys /usr/share/boots-puzzle/gui/action.rb src/gui/action.rb
 f 644 root sys /usr/share/boots-puzzle/gui/background_spirale.png src/gui/background_spirale.png
@@ -66,14 +62,11 @@ f 644 root sys /usr/share/boots-puzzle/gui/img/end_screen.png src/gui/img/end_sc
 f 644 root sys /usr/share/boots-puzzle/gui/img/splash_screen.png src/gui/img/splash_screen.png
 f 644 root sys /usr/share/boots-puzzle/gui/img/background.png src/gui/img/background.png
 f 644 root sys /usr/share/boots-puzzle/gui/text_fitter.rb src/gui/text_fitter.rb
-f 644 root sys /usr/share/boots-puzzle/gui/text_cutter.rb\~ src/gui/text_cutter.rb\~
 f 644 root sys /usr/share/boots-puzzle/gui/game_modes.rb src/gui/game_modes.rb
-phtrivier@wilde:~/prj/boots-puzzle$ mkepmlist -u root -g sys --prefix /usr/share/boots-puzzle/plugins src/plugins
 d 755 root sys /usr/share/boots-puzzle/plugins/events -
 f 644 root sys /usr/share/boots-puzzle/plugins/events/manifest.rb src/plugins/events/manifest.rb
 d 755 root sys /usr/share/boots-puzzle/plugins/events/patches -
 f 644 root sys /usr/share/boots-puzzle/plugins/events/patches/patch_puzzle.rb src/plugins/events/patches/patch_puzzle.rb
-f 644 root sys /usr/share/boots-puzzle/plugins/events/patches/patch_puzzle.rb\~ src/plugins/events/patches/patch_puzzle.rb\~
 d 755 root sys /usr/share/boots-puzzle/plugins/core -
 f 644 root sys /usr/share/boots-puzzle/plugins/core/tools_registry.rb src/plugins/core/tools_registry.rb
 f 644 root sys /usr/share/boots-puzzle/plugins/core/block_utils.rb src/plugins/core/block_utils.rb
@@ -91,7 +84,6 @@ f 644 root sys /usr/share/boots-puzzle/plugins/core/dictionary.rb src/plugins/co
 f 644 root sys /usr/share/boots-puzzle/plugins/core/tools_register.rb src/plugins/core/tools_register.rb
 f 644 root sys /usr/share/boots-puzzle/plugins/core/level.rb src/plugins/core/level.rb
 f 644 root sys /usr/share/boots-puzzle/plugins/core/adventure.rb src/plugins/core/adventure.rb
-f 644 root sys /usr/share/boots-puzzle/plugins/core/quote.rb\~ src/plugins/core/quote.rb\~
 f 644 root sys /usr/share/boots-puzzle/plugins/core/cell.rb src/plugins/core/cell.rb
 d 755 root sys /usr/share/boots-puzzle/plugins/core/img -
 f 644 root sys /usr/share/boots-puzzle/plugins/core/img/wall.png src/plugins/core/img/wall.png
@@ -101,7 +93,6 @@ f 644 root sys /usr/share/boots-puzzle/plugins/core/img/double_boots.png src/plu
 f 644 root sys /usr/share/boots-puzzle/plugins/core/img/in.png src/plugins/core/img/in.png
 f 644 root sys /usr/share/boots-puzzle/plugins/core/img/walkable.png src/plugins/core/img/walkable.png
 f 644 root sys /usr/share/boots-puzzle/plugins/core/img/bare_feet.png src/plugins/core/img/bare_feet.png
-f 644 root sys /usr/share/boots-puzzle/plugins/core/block_utils.rb\~ src/plugins/core/block_utils.rb\~
 f 644 root sys /usr/share/boots-puzzle/plugins/core/player.rb src/plugins/core/player.rb
 f 644 root sys /usr/share/boots-puzzle/plugins/core/file_plugin_loader.rb src/plugins/core/file_plugin_loader.rb
 f 644 root sys /usr/share/boots-puzzle/plugins/core/plugin.rb src/plugins/core/plugin.rb
@@ -134,7 +125,6 @@ f 644 root sys /usr/share/boots-puzzle/plugins/water/img/palms.png src/plugins/w
 # --------------------------------------
 # Gui (generated)
 f 644 root sys /usr/share/boots-puzzle/gui/text_cutter.rb src/gui/text_cutter.rb
-f 644 root sys /usr/share/boots-puzzle/gui/text_fitter.rb\~ src/gui/text_fitter.rb\~
 f 644 root sys /usr/share/boots-puzzle/gui/gui.rb src/gui/gui.rb
 f 644 root sys /usr/share/boots-puzzle/gui/action.rb src/gui/action.rb
 f 644 root sys /usr/share/boots-puzzle/gui/background_spirale.png src/gui/background_spirale.png
@@ -143,7 +133,6 @@ f 644 root sys /usr/share/boots-puzzle/gui/img/end_screen.png src/gui/img/end_sc
 f 644 root sys /usr/share/boots-puzzle/gui/img/splash_screen.png src/gui/img/splash_screen.png
 f 644 root sys /usr/share/boots-puzzle/gui/img/background.png src/gui/img/background.png
 f 644 root sys /usr/share/boots-puzzle/gui/text_fitter.rb src/gui/text_fitter.rb
-f 644 root sys /usr/share/boots-puzzle/gui/text_cutter.rb\~ src/gui/text_cutter.rb\~
 f 644 root sys /usr/share/boots-puzzle/gui/game_modes.rb src/gui/game_modes.rb
 
 # TODO : GENERATE
