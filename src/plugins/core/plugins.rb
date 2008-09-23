@@ -27,9 +27,18 @@ require 'tools_registry'
 
 class Plugins
 
+  @@root = nil
+  @@manager = nil
+  @@initialized = nil
+
   def self.init(root = "plugins")
     @@root = root
     @@manager = PluginManager.new(FilePluginLoader.new(@@root))
+    @@initialized = true
+  end
+
+  def self.initialized?
+    @@initialized
   end
 
   def self.manifested?(name)
