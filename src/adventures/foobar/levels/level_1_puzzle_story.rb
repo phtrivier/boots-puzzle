@@ -21,4 +21,11 @@ Story.for("level_1_puzzle") do
     end
   end
 
+  story_switch :sw do
+    on do |puzzle|
+      puzzle.set_cell_by_name(:wall1, Walkable.new)
+      puzzle.cell_by_name(:sw).settle!
+    end
+  end
+
 end

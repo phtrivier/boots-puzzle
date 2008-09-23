@@ -3,6 +3,7 @@ adventure:
   plugins:
   - water
   - tunnel
+  - switch
   prefix: adventures/foobar/levels
   name: foobar
   levels:

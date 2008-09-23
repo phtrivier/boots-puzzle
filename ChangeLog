@@ -1,9 +1,32 @@
+2008-09-23  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* plugins/switch/manifest.rb Defined switch plugin
+
+	* plugins/switch/cells/switch_cell.rb Defined a cell that triggers event when you walk on it, and can be toggled
+
+	* plugins/switch/patches/add_story_event_for_switch (story_switch) make it possible to define on and off event for a switch cell
+
+	* plugins/static/manifest.rb Defined static plugin
+
+	* plugins/static/patches/make_puzzle_remember_player_last_direction (try_move!) monkey-patched puzzle.try_move! to remember the last direction followed by the player
+
+	* plugins/static/static_cell Defined a cell that you can walk on without moving
+
+	* puzzle.rb (require) directions is required
+
+	* directions.rb (reverse) File created ; added function to reverse a direction
+
+	* plugin_test_case.rb (tested_plugin) Added check to ensure plugins are not loaded more than needed
+
+	* plugins.rb (initialize,init) Added flag to mark when plugins
+	have been initialized
+
 2008-09-22  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* palms_tool.rb (definition) Reduced definition to a one-liner
 
 	* tools_registry.rb (self.for) Added convenience method to define boots tools
-	
+
 	* boots.rb, tools.rb () Fixed typo
 
 2008-09-14  Pierre-Henri Trivier  <phtrivier@wilde>

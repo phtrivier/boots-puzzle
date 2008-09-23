@@ -29,26 +29,6 @@ When you quit the game, you go back to this screen. If you press 'R'
 *** TODO Simplify the boots and boots tool definition)
 ** TODO burning
    (Same as swimming, but with burning stuff, and you need shoes that are )
-** TODO unmovable
-*** TODO Define a 'unmovable' type of cells that, where you move on it, moves you back to your original place,
-and calls up a block with the direction in with it is touched
-** TODO swicth
-*** TODO Define a 'swicth' type of cells
-(unmovable),
-keeps a 'toggled' state (where you can
-define a 'on' and a 'off' event like this
-
-story_switch :switch do
-
-  on do |puzzle|
-    puzzle.message("you switched me on!!")
-  end
-
-  off do
-    puzzle.message("you switched me off!")
-  end
-
-end
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
