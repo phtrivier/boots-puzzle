@@ -18,6 +18,8 @@ class Level2Puzzle < Puzzle
   named_cell :tunnel_left, 8, 1
   named_cell :tunnel_bottom, 8, 14
   named_cell :tunnel_top, 1, 14
+  named_cell :entry_1, 1,2
+  named_cell :entry_2, 2,1
  end
 
  boots do

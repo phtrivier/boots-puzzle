@@ -16,6 +16,10 @@ class Level1Puzzle < Puzzle
  named_cells do
   named_cell :tunnel_bottom, 8, 1
   named_cell :tunnel_top, 1, 14
+  named_cell :entry_1, 1, 2
+  named_cell :entry_2, 2, 1
+  named_cell :on_palms, 1, 9
+  named_cell :water1, 8,7
  end
 
  boots do

@@ -18,4 +18,12 @@ Story.for("level_2") do
 
   end
 
+  story_once [:entry_1, :entry_2] do |puzzle|
+    puzzle.message "The big thing over there is a switch.\nIf you walk on it, interesting stuff might happen!"
+  end
+
+  story_once :sw do |puzzle|
+    puzzle.message "Look, magic happening !"
+  end
+
 end
