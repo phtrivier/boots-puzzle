@@ -1,0 +1,28 @@
+Installing Boots Puzzle
+
+You should be running GNU/Linux on an i486.
+I have tested this on Ubuntu 8.04 (Hardy Heron), but it might work otherwise.
+
+* Install required gems
+
+** Install the rubygem application :
+
+ sudo apt-get install rubygems
+
+** Install the required gems
+
+ sudo gem install rake mocha facets gosu
+
+If gosu ask you for a version, you want to choose a version for ruby.
+
+* Running
+
+This should launch the demo :
+
+ rake play adventure=demo
+
+This should give more info :
+
+ rake help
+
+
