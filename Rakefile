@@ -97,18 +97,19 @@ end
 
 desc "Help"
 task :help do
+  puts "---------------------------------------------------"
   puts "Boots puzzle (C) Pierre-Henri Trivier - 2008"
   puts "This is free software ; see COPYING for details."
   puts "There is NO WARRANTY (but then, that's only a game)"
   puts "---------------------------------------------------"
-  puts "Puzzle editor :"
-  editor_usage(" ")
-  puts "---"
   puts "To launch the game (with a default adventure):"
   gui_usage(" ")
   puts "---"
   puts "Default controls : "
   controls(" ")
+  puts "---"
+  puts "Puzzle editor :"
+  editor_usage(" ")
 end
 
 desc "Create a debian package using epm"
