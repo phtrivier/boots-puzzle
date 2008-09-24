@@ -2,9 +2,8 @@
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
 * Game UI
-** TODO [#A] Fix icons of tunnel and switch : make the walkable background show under them
 ** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
-** TODO [#C] Externalize screens
+** TODO [#C] Externalize strings
 ** TODO Make controls configurable (and update the display of the controls...)
 ** TODO Make the UI exstensible (addition to the plug-in system)
 ** TODO Add a pause (pressing p, and a resume thing)
@@ -29,8 +28,6 @@ When you quit the game, you go back to this screen. If you press 'R'
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
 * Demo adventure
-** TODO Fix the title screen (it says 'press start instead of press space ... it sucks!!)
-(now this might not be needed if I customize the whole thing !!)
 ** TODO 3 Levels with double boots, water, switches
 *** TODO Improve the levels if possible (not very pretty yet ..)
 ** TODO 3 Levels with chess moves
