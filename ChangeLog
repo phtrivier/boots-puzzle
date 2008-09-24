@@ -1,13 +1,15 @@
 2008-09-24  Pierre-Henri Trivier  <phtrivier@wilde>
 
-	* action.rb (ToggleHintAction) : Added action to toogle hint
-	display
+	* action.rb (ToggleHintAction) : Added action to
+	toogle hint display
+	(HelpAction) : added action to show controls
 
 	* game_modes.rb (InPlayGameMode.initialize) : Added key to toggle
-	hint display
+	hint display and show controls
 
 	* gui.rb (draw_hints, init_hints_images, toggle_hint!) : Displays
 	hints
+	(show_controls!) : displays help
 
 	* boots.rb (hints) : Computes the required positions of hints
 

@@ -3,8 +3,6 @@
 * Game Engine
 * Game UI
 ** TODO [#A] Fix icons of tunnel and switch : make the walkable background show under them
-** TODO [#A] Add a 'help' mode to display info about the controls
-** DONE [#A] Add a 'hint' system (display the position where you would go with a given movement
 ** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
 ** TODO [#C] Externalize screens
 ** TODO Make controls configurable (and update the display of the controls...)

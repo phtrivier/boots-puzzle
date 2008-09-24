@@ -35,10 +35,8 @@ class Action
   def evaluate
     if (triggered? and not @key_down)
       @key_down = true
-#      puts "Key triggered for #{self}"
       act!
     elsif (@key_down and released?)
-#      puts "Key released for #{self}"
       @key_down = false
     end
   end
@@ -93,5 +91,11 @@ end
 class ToggleHintAction < SingleKeyAction
   def act!
     @w.toggle_hint!
+  end
+end
+
+class HelpAction < SingleKeyAction
+  def act!
+    @w.show_controls!
   end
 end

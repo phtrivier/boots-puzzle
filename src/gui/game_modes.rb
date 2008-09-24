@@ -116,7 +116,8 @@ class InPlayGameMode < GameMode
       :left => MoveAction.new(window, Gosu::Button::KbLeft, :left),
       :pick_boots => PickBootsAction.new(window, Gosu::Button::KbSpace),
       :drop_boots => DropBootsAction.new(window, Gosu::Button::KbLeftControl),
-      :toggle_hint => ToggleHintAction.new(window, window.char_to_button_id("h"))
+      :toggle_hint => ToggleHintAction.new(window, window.char_to_button_id("j")),
+      :show_controls => HelpAction.new(window, window.char_to_button_id("h"))
     }
   end
 

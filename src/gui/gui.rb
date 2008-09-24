@@ -127,7 +127,7 @@ class GameWindow < Gosu::Window
   def init_puzzle
     @puzzle.add_listener self
     @puzzle.enters_player!
-    @last_message = "Entering level : #{@adventure.current_level.puzzle_name}"
+    @last_message = "Entering level : #{@adventure.current_level.puzzle_name}\nPress 'h' for help."
   end
 
   def init_adventure_images
@@ -414,9 +414,13 @@ class GameWindow < Gosu::Window
   end
 
   def toggle_hint!
-    puts "Toggled ! old valud : #{@hint}"
     @hint = !@hint
-    puts "New @hint value : #{@hint}"
+  end
+
+  def show_controls!
+    @last_message = "Use arrow keys to move.\n"+
+      "Press Space to pick up boots, Ctrl to drop boots, Tab to change boots.\n" +
+      "Press 'j' to show where you can move (and j again to hide)."
   end
 
 end

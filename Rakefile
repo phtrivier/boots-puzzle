@@ -93,7 +93,8 @@ def controls(offset)
                                "Use Space to pick boots on the ground",
                                "Use Tab to change the boots you're wearing",
                                "Use Ctrl to drop the boots you're wearing",
-                               "Use h to display a hint of where you can go"])
+                               "Use h to display a quick help reminder",
+                               "Use j to display a hint of where you can go"])
 end
 
 desc "Help"
