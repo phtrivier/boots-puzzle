@@ -17,7 +17,7 @@ When you quit the game, you go back to this screen. If you press 'R'
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))
 * Plugins
-** TODO property plugin :
+** TODO property
 *** Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
 ==> cell_property :walkable true
 (defines the method that return true on walkable?, but also a class method to change it ... !!!)

@@ -1,13 +1,4 @@
 * Planning
-** v0.1.1
-*** Notification system
-*** Improved story system
-** v0.1.2
-*** More plugins
-*** Undo in the editor ?
-** v0.1.3
-*** Quotes
-*** Conversation plugin (to chat with others?)
-** v0.1.4
-*** Level editing ?
-*** Continuous saving ?
+** v0.4.0
+*** Finish the 'demo' adventure
+*** Fix bugs, improve distribution, etc...
