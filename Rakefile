@@ -46,21 +46,31 @@ def from_env(long, short, default)
   res
 end
 
-desc "Run the game on a sample app"
-task :play => [:test] do |t|
-  $LOAD_PATH << "./src"
+def play_adventure(adventure_name, level_name)
+   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
 
   FileUtils.mkdir_p("logs")
   log_config("dev")
 
-  adventure_name = from_env("adventure", "a", "foobar")
-  level_name = from_env("level", "l", nil)
-
   require 'gui'
 
   play(:adventure_name => adventure_name, :level_name => level_name, :prefix => "src")
+end
+
+desc "Run an adventure"
+task :play => [:test] do |t|
+
+  adventure_name = from_env("adventure", "a", "foobar")
+  level_name = from_env("level", "l", nil)
+
+  play_adventure(adventure_name, level_name)
+end
+
+desc "Run the demo adventure"
+task :demo do
+  play_adventure("demo", "level_0")
 end
 
 desc "Run the puzzle editor"
