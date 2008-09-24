@@ -1,3 +1,10 @@
+v0.3.0 - 2008/09/24
+
+ - Improved water plugin
+ - Introduced switches
+ - Hint mode, and help
+ - Improved demo adventure
+
 v0.2.0 - 2008/09/14
 
  - Convention over configuration (level / puzzle naming)

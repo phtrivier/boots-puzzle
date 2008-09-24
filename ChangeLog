@@ -1,5 +1,7 @@
 2008-09-24  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* Released v0.3.0
+
 	* action.rb (ToggleHintAction) : Added action to
 	toogle hint display
 	(HelpAction) : added action to show controls
