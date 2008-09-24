@@ -63,8 +63,6 @@ class GameWindow < Gosu::Window
     Plugins.init("#{@prefix}/plugins")
     Plugins.read_manifests
 
-    self.caption = "Puzzle Game"
-
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
     @fitter = TextFitter.new(@font, 600)
@@ -121,6 +119,8 @@ class GameWindow < Gosu::Window
     @player_img = Gosu::Image.new(self, to_image_path(@puzzle.player.src), false)
 
     @game_mode = SplashScreenMode.new(self)
+
+    self.caption = "Boots Puzzle -- #{@adventure.name}"
 
   end
 
