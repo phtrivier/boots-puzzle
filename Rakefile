@@ -120,3 +120,14 @@ task :deb do
   # (Make it an ERB template ? And let ERB avaluate the thing ?)
   system("epm -f deb boots-puzzle")
 end
+
+desc "Remove emacs backup files"
+task :clean do
+  Dir["**/*~"].each do |filename|
+    FileUtils.rm(filename)
+  end
+end
+
+desc "Build a tarball of the content of the current dir "
+task :tarball => [:clean] do
+end
