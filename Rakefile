@@ -152,3 +152,7 @@ Rake::PackageTask.new('boots-puzzle', BP_VERSION) do |p|
   p.package_files.include("doc/*")
   p.package_files.include("logs/*")
 end
+
+task :version do
+  puts "Boots Puzzle v#{BP_VERSION} - Copyright (C) 2008 Pierre-Henri Trivier"
+end

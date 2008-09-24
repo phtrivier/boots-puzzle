@@ -120,7 +120,7 @@ class GameWindow < Gosu::Window
 
     @game_mode = SplashScreenMode.new(self)
 
-    self.caption = "Boots Puzzle -- #{@adventure.name}"
+    self.caption = "Boots Puzzle v#{BP_VERSION} -- #{@adventure.name}"
 
   end
 
@@ -427,6 +427,7 @@ end
 
 def play(ops)
   w = GameWindow.new(ops)
+  puts "Boots Puzzle v#{BP_VERSION}"
   puts "Boots Puzzle is free software. See LICENSE for more information."
   puts "Copyright (c) 2008 Pierre-Henri Trivier"
   w.show
