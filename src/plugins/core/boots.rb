@@ -88,6 +88,18 @@ class Boots
     end
   end
 
+  def hints(puzzle)
+    res = { }
+    Directions.each do |dir|
+      ni,nj = new_position(puzzle, dir)
+      if (puzzle.valid?(ni,nj) and
+          reachable?(puzzle, ni,nj) )
+        res[dir] = [ni,nj]
+      end
+    end
+    res
+  end
+
 
 end
 

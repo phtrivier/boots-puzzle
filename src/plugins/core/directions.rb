@@ -26,4 +26,11 @@ module Directions
       when :right then :left
     end
   end
+
+  def self.each
+    [:up,:down,:left,:right].each do |dir|
+      yield dir
+    end
+  end
+
 end

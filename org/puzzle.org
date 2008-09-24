@@ -1,55 +1,66 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
-==> cell_property :walkable true
-(defines the method that return true on walkable?, but also a class method to change it ... !!!)
-** TODO [#B] Add quotes associated to a level (displayed between levels)
 * Game UI
-** TODO Fix icons of tunnel and switch : make the walkable background show under them
-** TODO Add a 'help' mode to display info about the controls
-** TODO Add a 'hint' system (display the position where you would go with a given movement
+** TODO [#A] Fix icons of tunnel and switch : make the walkable background show under them
+** TODO [#A] Add a 'help' mode to display info about the controls
+** DONE [#A] Add a 'hint' system (display the position where you would go with a given movement
+** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
+** TODO [#C] Externalize screens
 ** TODO Make controls configurable (and update the display of the controls...)
-** [#F] Make the UI exstensible (addition to the plug-in system)
+** TODO Make the UI exstensible (addition to the plug-in system)
 ** TODO Add a pause (pressing p, and a resume thing)
 Pause : (when pressing p)
   Press 'R' to resume
 You start the adventure by pressing 'Space', and then that's it).
 When you quit the game, you go back to this screen. If you press 'R'
 * Puzzle Editor
-** TODO Add a tool to set the quote for a puzzle
 ** TODO [#C] Undo ?
 ** TODO [#C] Continuous saving
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))
 * Plugins
-** TODO swimming : water cells, palms
-*** DONE Palms
-*** DONE Define cells as 'swimmable' (and let the player walk on it only if it wears waterproof boots)
-*** DONE Fix the palms icon (add transparency, ... find something nicer)
-*** TODO Simplify the boots and boots tool definition)
+** TODO property plugin :
+*** Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
+==> cell_property :walkable true
+(defines the method that return true on walkable?, but also a class method to change it ... !!!)
+*** Change water plugin to use
 ** TODO burning
    (Same as swimming, but with burning stuff, and you need shoes that are )
 ** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
+* Demo adventure
+** TODO Fix the title screen (it says 'press start instead of press space ... it sucks!!)
+(now this might not be needed if I customize the whole thing !!)
+** TODO 3 Levels with double boots, water, switches
+*** TODO Improve the levels if possible (not very pretty yet ..)
+** TODO 3 Levels with chess moves
+*** TODO Do the plugin
+*** TODO Design the levels
+** TODO 3 Levels with [?????]
+*** dialogs ?
+*** doors that open / closes ?
+*** enemies ?
+*** things to collect (other than boots ?)
 * Test Editor
 ** recording
 ** adding assertions
 ** saving / loading
-* General
-** TODO Use the gosu lib from the system if it exists (installed through gem?)
-- try installing trough gem before building the executable ...
-- then remove the lib and run the thing
-** TODO Build an installer for shoes app ?
-** TODO Distribute as a gem / an executable ?
-See http://www.erikveen.dds.nl/distributingrubyapplications/#3.0.0
-(or anything better ... how does shoes get distributed ?)
+* Publicity
+** TODO [#B] Distribute each part separately with a debian like stuff (do it properly)
+*** Use dh_install if usable ?
+** TODO [#B] Do a release (tar.gz file, plus a debian package repository on the
+** TODO Create a web page to distribute the tar / gz things on my free.fr account
+** TODO Blog about the web pages in my 'newly' public blog
 ** TODO [#B] Documentation
-** Adventure format
-** Puzzle format
-** Plugin system
+*** Adventure format
+*** Puzzle format
+*** Plugin system
+** TODO Do a screencast (with at least the first levels ... or something)
 ** TODO set up a bug tracker (or move to bazaar and launchpad ?)
+*** Waiting for Savannah guys to answer ...
+** TODO Build an installer for shoes app ?
 * Misc
 ** TODO Provide a Rake task to create a new plugin (with the manifest, the test folder, etc...)
 ** TODO Improve Logging (how to log into rake tests ?)

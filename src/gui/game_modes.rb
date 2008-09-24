@@ -105,7 +105,6 @@ class QuoteMode < GameMode
   end
 end
 
-
 class InPlayGameMode < GameMode
 
   def initialize(window)
@@ -116,7 +115,8 @@ class InPlayGameMode < GameMode
       :right => MoveAction.new(window, Gosu::Button::KbRight, :right),
       :left => MoveAction.new(window, Gosu::Button::KbLeft, :left),
       :pick_boots => PickBootsAction.new(window, Gosu::Button::KbSpace),
-      :drop_boots => DropBootsAction.new(window, Gosu::Button::KbLeftControl)
+      :drop_boots => DropBootsAction.new(window, Gosu::Button::KbLeftControl),
+      :toggle_hint => ToggleHintAction.new(window, window.char_to_button_id("h"))
     }
   end
 

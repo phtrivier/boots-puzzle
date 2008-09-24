@@ -109,6 +109,11 @@ class GameWindow < Gosu::Window
 
     init_puzzle
 
+    # No hint at startup
+    @hint = false
+
+    init_hints_images
+
     init_adventure_images
 
     @images = { }
@@ -129,6 +134,26 @@ class GameWindow < Gosu::Window
     @bg_image = load_adventure_image("background.png")
     @splash_screen = load_adventure_image("splash_screen.png")
     @end_screen = load_adventure_image("end_screen.png")
+  end
+
+  # Initialize a map with the images to
+  # display for hints
+  def init_hints_images
+    @hints_images = { }
+    Directions.each do |dir|
+      @hints_images[dir] = load_hint_image(dir)
+    end
+  end
+
+  # Load the image for an hint
+  def load_hint_image(dir)
+    load_gui_image("hint_#{dir}.png")
+  end
+
+  # Loads an image from the 'gui/img' folder
+  # filename : name of the image file (eg background.png)
+  def load_gui_image(filename)
+    Gosu::Image.new(self, "#{@prefix}/gui/img/#{filename}")
   end
 
   def load_adventure_image(pic_filename)
@@ -197,14 +222,26 @@ class GameWindow < Gosu::Window
 
     draw_ui
 
+#    puts "Should draw hint ? #{@hint}"
+    if (@hint)
+      draw_hint
+    end
+
+  end
+
+  # Draws an image of an arrow on each cell that is walkable and reachable using the current boots
+  def draw_hint
+    h = @puzzle.player.current_boots.hints(@puzzle)
+    h.each do |dir, pos|
+      i,j = pos
+      draw_on_cell(@hints_images[dir], i, j)
+    end
   end
 
   def draw_background
     @bg_image.draw(0,0,ZOrder::UI)
-
     # Draw a rectangle around the game area
     draw_rectangle(@x0-5, @y0-5, @x0 + W*@s + 5, @y0 + H*@s + 5, White)
-
   end
 
   def to_screen_coords(i,j)
@@ -213,30 +250,30 @@ class GameWindow < Gosu::Window
     [x,y]
   end
 
-  def draw_player
-    i,j = @puzzle.player.pos
-
+  def draw_on_cell(img, i,j)
     x,y = to_screen_coords(i,j)
+    img.draw(x,y,ZOrder::UI)
+  end
 
+  def draw_player
+    # TODO Reduce
+    i,j = @puzzle.player.pos
+    x,y = to_screen_coords(i,j)
     @player_img.draw(x,y, ZOrder::UI)
   end
 
   def draw_cell(i,j,c)
-
+    # TODO Reduce
     x,y = to_screen_coords(i,j)
-
     i = get_image(c)
     i.draw(x,y, ZOrder::UI)
-
   end
 
   def draw_boot(i,j,c,b)
-
+    # TODO Reduce
     x,y = to_screen_coords(i,j)
-
     img = image(b.src)
     img.draw(x,y, ZOrder::UI)
-
   end
 
   def draw_ui
@@ -374,6 +411,12 @@ class GameWindow < Gosu::Window
       safe_draw_text(450, 400, @quote_author_cutter , @puzzle.quote.author)
     end
     safe_draw_text(50, 450, @message_cutter, "(Press Return to start level)")
+  end
+
+  def toggle_hint!
+    puts "Toggled ! old valud : #{@hint}"
+    @hint = !@hint
+    puts "New @hint value : #{@hint}"
   end
 
 end
