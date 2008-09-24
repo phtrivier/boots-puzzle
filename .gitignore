@@ -17,3 +17,5 @@ doc/*.pg
 doc/*.toc
 doc/*.tp
 doc/*.vr
+pkg
+pkg/*

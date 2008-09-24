@@ -126,8 +126,29 @@ task :clean do
   Dir["**/*~"].each do |filename|
     FileUtils.rm(filename)
   end
+  Dir["logs/*"].each do |filename|
+    FileUtils.rm(filename)
+  end
+  FileUtils.rm_rf("pkg")
 end
 
-desc "Build a tarball of the content of the current dir "
-task :tarball => [:clean] do
+# desc "Build a tarball of the content of the current dir "
+# task :tarball => [:clean] do
+
+# end
+
+BP_VERSION = File.open("VERSION").read.strip
+
+require 'rake/packagetask'
+Rake::PackageTask.new('boots-puzzle', BP_VERSION) do |p|
+  p.need_tar_gz = true
+  ["README", "INSTALL", "COPYING", "ART", "ChangeLog", "RELEASES", "Rakefile", "LICENSE", "VERSION"].each do |f|
+    p.package_files.include(f)
+  end
+
+  p.package_files.include("src/**/*")
+  p.package_files.include("conf/**/*")
+  p.package_files.include("org/*")
+  p.package_files.include("doc/*")
+  p.package_files.include("logs/*")
 end
