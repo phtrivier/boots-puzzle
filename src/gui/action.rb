@@ -99,3 +99,9 @@ class HelpAction < SingleKeyAction
     @w.show_controls!
   end
 end
+
+class ReloadAction < SingleKeyAction
+  def act!
+    @w.reload_current_puzzle!
+  end
+end

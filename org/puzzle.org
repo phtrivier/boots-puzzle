@@ -2,6 +2,7 @@
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
 * Game UI
+** Fix glitch on switch off 'on' icon
 ** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
 ** TODO [#C] Externalize strings
 ** TODO Make controls configurable (and update the display of the controls...)

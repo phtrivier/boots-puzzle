@@ -1,3 +1,20 @@
+2008-09-25  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* gui.rb (init_puzzle, reload_current_puzzle!) : allows to reload
+	a puzzle (with it's adventure
+
+	* puzzle.rb (set_cell_by_name, cell_by_name) : names are
+	automatically converted to symbols
+	(story_method) : convenience method to add new method to a puzzle
+	class in a story (to help write stories without repeating oneself)
+
+	* level.rb (load!) : puzzle classes are reset when loading a
+	level (allows reloading)
+
+	* game_modes.rb (InGameMode.initialize) : 'r' reloads level
+
+	* action.rb (ReloadAction) : action to reload current level
+
 2008-09-24  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* Released v0.3.0

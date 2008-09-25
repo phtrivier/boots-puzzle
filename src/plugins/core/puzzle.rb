@@ -319,6 +319,7 @@ class Puzzle
   # Retrive a cell by its name.
   # nil if there is no cell with the given name.
   def cell_by_name(name)
+    name = name.to_sym
     res = nil
     if (@named_cells.has_key?(name))
       i,j = @named_cells[name]
@@ -338,6 +339,7 @@ class Puzzle
 
   # Replace a named cell.
   def set_cell_by_name(name, c)
+    name = name.to_sym
     if (@named_cells.has_key?(name))
 #      puts "Named cells : #{@named_cells.inspect}"
 #      puts "Named cells[#{name}] : #{@named_cells[name].inspect}"
@@ -591,6 +593,13 @@ class Puzzle
     end
   end
   initer :quote
+
+  # Helper to add a method to the puzzle's class
+  def story_method(name, &block)
+    self.class.instance_eval do
+      define_method name, &block
+    end
+  end
 
 end
 

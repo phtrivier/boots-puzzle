@@ -105,6 +105,7 @@ class GameWindow < Gosu::Window
       exit
     end
 
+    # Init the puzzle
     init_puzzle
 
     # No hint at startup
@@ -125,6 +126,7 @@ class GameWindow < Gosu::Window
   end
 
   def init_puzzle
+    # Listen to messages
     @puzzle.add_listener self
     @puzzle.enters_player!
     @last_message = "Entering level : #{@adventure.current_level.puzzle_name}\nPress 'h' for help."
@@ -148,6 +150,13 @@ class GameWindow < Gosu::Window
   # Load the image for an hint
   def load_hint_image(dir)
     load_gui_image("hint_#{dir}.png")
+  end
+
+  def reload_current_puzzle!
+    # TODO : FACTOR WITH WHAT IS DONE THE FIRST TIME?
+    @adventure.load_current_level!
+    @puzzle = @adventure.current_level.puzzle
+    init_puzzle
   end
 
   # Loads an image from the 'gui/img' folder

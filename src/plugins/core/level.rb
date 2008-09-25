@@ -53,7 +53,15 @@ class Level
 
   def load!(prefix,should_load_story=true)
     # @log.info {  "Trying puzzle at #{puzzle_file_path(prefix)}" }
-    require puzzle_file_path(prefix)
+
+    if (Object.const_defined?(@puzzle_class_name))
+      puts "Clearing constant #{@puzzle_class_name}"
+      Object.send(:remove_const,@puzzle_class_name)
+    end
+
+    # File is loaded rather than required : allows reloading
+    load puzzle_file_path(prefix)
+
     klass = Kernel.const_get(@puzzle_class_name)
     @puzzle = klass.new
 
@@ -61,7 +69,10 @@ class Level
       begin
         # @log.info {  "Trying story at #{story_file_path(prefix)}" }
 #        puts "Trying story at #{story_file_path(prefix)}"
-        require story_file_path(prefix)
+
+        # File is loaded rather than required : allows reloading
+        load story_file_path(prefix)
+
         # Load the module
         # @log.info {  "Story module : #{Kernel.const_get(@story_class_name)}" }
         mod = Kernel.const_get(@story_class_name)
