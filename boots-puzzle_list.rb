@@ -1,4 +1,5 @@
 # This script is used to generates a boots-puzzle.list to be used by rake deb
+# 
 
 header = <<HERE
 # This file should have been generated with 'rake deblist'
