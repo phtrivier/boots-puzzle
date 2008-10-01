@@ -202,3 +202,35 @@ task :deb => [:clean, :set_version, :test, :doc, :deblist] do
   system("epm -f deb boots-puzzle")
 end
 
+desc "Set up an apt-repository with the sources"
+task :apt => [:deb] do
+  FileUtils.rm_rf("apt")
+  FileUtils.mkdir_p("apt/binary")
+  FileUtils.mkdir_p("apt/sources")
+  Dir["linux-2.6-intel/*.deb"].each do |file|
+    FileUtils.cp(file, "apt/binary")
+  end
+
+  script = <<HERE
+cd apt
+dpkg-scanpackages binary /dev/null | gzip -9c > binary/Packages.gz
+dpkg-scansources sources /dev/null | gzip -9c > sources/Sources.gz
+HERE
+  system(script)
+
+  release_content = <<HERE
+Archive: unstable
+Component: contrib
+Origin: Pierre-Henri Trivier
+Label: boots-puzzle-apt
+Architecture: i386
+HERE
+
+  File.open("apt/Release", "w") do |f|
+    f << release_content
+  end
+
+end
+
+desc "Releases all artefacts for a new version"
+task :release => [:apt, :package]

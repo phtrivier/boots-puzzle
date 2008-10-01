@@ -1,3 +1,8 @@
+v0.3.1 - 2008/10/01
+
+ - Everything is now distributed with one task (doc, debian package, tar.gz, etc...)
+ - Debian packaging should work
+
 v0.3.0 - 2008/09/24
 
  - Improved water plugin
