@@ -17,5 +17,8 @@ doc/*.pg
 doc/*.toc
 doc/*.tp
 doc/*.vr
+doc/dist
 pkg
 pkg/*
+boots-puzzle.list
+linux-2.6-intel
