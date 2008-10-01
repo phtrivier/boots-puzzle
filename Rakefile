@@ -8,6 +8,9 @@ require 'log4r/outputter/datefileoutputter'
 
 include Log4r
 
+# .list file for Debian
+List = "boots-puzzle.list"
+
 def log_config(conf)
   cfg = YamlConfigurator
   cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
@@ -47,7 +50,7 @@ def from_env(long, short, default)
 end
 
 def play_adventure(adventure_name, level_name)
-   $LOAD_PATH << "./src"
+  $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
 
@@ -124,13 +127,6 @@ task :help do
   editor_usage(" ")
 end
 
-desc "Create a debian package using epm"
-task :deb do
-  # TODO : Generate the 'list' file from what is relevant
-  # (Make it an ERB template ? And let ERB avaluate the thing ?)
-  system("epm -f deb boots-puzzle")
-end
-
 desc "Remove emacs backup files"
 task :clean do
   Dir["**/*~"].each do |filename|
@@ -140,10 +136,37 @@ task :clean do
     FileUtils.rm(filename)
   end
   FileUtils.rm_rf("pkg")
+  FileUtils.rm_rf("doc/dist")
+  FileUtils.rm_rf("linux-2.6-intel")
+  FileUtils.rm_rf(List)
 end
 
+# Packaging
+
+# Version should be in a file called, ahem .. VERSION
 BP_VERSION = File.open("VERSION").read.strip
 
+desc "Display current version"
+task :version do
+  puts "Boots Puzzle v#{BP_VERSION} - Copyright (C) 2008 Pierre-Henri Trivier"
+end
+
+desc "Builds documentation"
+task :doc do
+  script = <<EOF
+cd doc
+mkdir dist
+texi2pdf -c boots-puzzle.texinfo -o dist/boots-puzzle.pdf
+makeinfo boots-puzzle.texinfo --html -o dist/boots-puzzle.html
+cd dist
+tar -cvf boots-puzzle.html.tar boots-puzzle.html
+gzip boots-puzzle.html.tar
+cd ../../
+EOF
+  system(script)
+end
+
+# Packaging task are created automagically
 require 'rake/packagetask'
 Rake::PackageTask.new('boots-puzzle', BP_VERSION) do |p|
   p.need_tar_gz = true
@@ -158,20 +181,24 @@ Rake::PackageTask.new('boots-puzzle', BP_VERSION) do |p|
   p.package_files.include("logs/*")
 end
 
-desc "Display current version"
-task :version do
-  puts "Boots Puzzle v#{BP_VERSION} - Copyright (C) 2008 Pierre-Henri Trivier"
+# ----------------
+# Debian packaging
+
+task :set_version do
+  system("sed -e 's/BP_VERSION=.*/BP_VERSION=\"#{BP_VERSION}\"/g' -i src/boots-puzzle.rb")
 end
 
-desc "Builds documentation"
-task :doc do
-  script = <<EOF
-cd doc
-makeinfo boots-puzzle.texinfo --html -o boots-puzzle
-tar -cvf boots-puzzle.tar boots-puzzle
-gzip boots-puzzle.tar
-texi2pdf -c boots-puzzle.texinfo
-cd ../
-EOF
-  system(script)
+task :deblist do
+  $LOAD_PATH << "."
+  # This will make what is needed in the script variable
+  require 'boots-puzzle_list.rb'
+  f = File.open(List, "w")
+  f << Script
+  f.close
 end
+
+desc "Create a debian package using epm"
+task :deb => [:clean, :set_version, :test, :doc, :deblist] do
+  system("epm -f deb boots-puzzle")
+end
+

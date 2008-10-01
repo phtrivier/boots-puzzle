@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+BP_VERSION="0.3.1"
+
 $LOAD_PATH << "."
 $LOAD_PATH << "gui"
 $LOAD_PATH << "plugins/core"
