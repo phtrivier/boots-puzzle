@@ -142,11 +142,6 @@ task :clean do
   FileUtils.rm_rf("pkg")
 end
 
-# desc "Build a tarball of the content of the current dir "
-# task :tarball => [:clean] do
-
-# end
-
 BP_VERSION = File.open("VERSION").read.strip
 
 require 'rake/packagetask'
@@ -163,6 +158,20 @@ Rake::PackageTask.new('boots-puzzle', BP_VERSION) do |p|
   p.package_files.include("logs/*")
 end
 
+desc "Display current version"
 task :version do
   puts "Boots Puzzle v#{BP_VERSION} - Copyright (C) 2008 Pierre-Henri Trivier"
+end
+
+desc "Builds documentation"
+task :doc do
+  script = <<EOF
+cd doc
+makeinfo boots-puzzle.texinfo --html -o boots-puzzle
+tar -cvf boots-puzzle.tar boots-puzzle
+gzip boots-puzzle.tar
+texi2pdf -c boots-puzzle.texinfo
+cd ../
+EOF
+  system(script)
 end
