@@ -123,8 +123,6 @@ class GameWindow
 
     @game_mode = SplashScreenMode.new(self)
 
-    # TODO : Change the title of the screen
-#    self.caption =
     set_caption("Boots Puzzle v#{BP_VERSION} -- #{@adventure.name}")
 
   end
@@ -235,10 +233,6 @@ class GameWindow
     exit
   end
 
-#   def draw
-#     @game_mode.draw
-#   end
-
   # TODO : RENAME "draw_all"
   def draw_puzzle
 
@@ -268,7 +262,8 @@ class GameWindow
 
   end
 
-  # Draws an image of an arrow on each cell that is walkable and reachable using the current boots
+  # Draws an image of an arrow on each cell that is walkable and
+  # reachable using the current boots
   def draw_hint
     h = @puzzle.player.current_boots.hints(@puzzle)
     h.each do |dir, pos|
@@ -343,8 +338,6 @@ class GameWindow
   end
 
   def draw_message_ui
-    # TODO : Compute the actual positions of where we should start writing text
-    # TODO : hide the zone (in black) and write messages when they come in !
     y0 = @y0 + @s*H + 5 + 10
     x1 = 620
     height = 110

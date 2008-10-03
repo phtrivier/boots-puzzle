@@ -1,8 +1,11 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
+** TODO Get rid of the dependency on facets (dictionnary)
+** TODO Write a console ?
 * Game UI
-** Fix glitch on switch off 'on' icon
+** TODO Fix the ugly bitmap font (use a ttf if possible ... check if there is one that come for "free")
+** TODO Find a icon for the application (the bare foots ?)
 ** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
 ** TODO [#C] Externalize strings
 ** TODO Make controls configurable (and update the display of the controls...)
@@ -47,8 +50,6 @@ When you quit the game, you go back to this screen. If you press 'R'
 ** TODO [#B] Distribute each part separately with a debian like stuff (do it properly)
 *** Use dh_install if usable ?
 ** TODO [#B] Do a release (tar.gz file, plus a debian package repository on the
-** TODO Create a web page to distribute the tar / gz things on my free.fr account
-** TODO Blog about the web pages in my 'newly' public blog
 ** TODO [#B] Documentation
 *** Adventure format
 *** Puzzle format
