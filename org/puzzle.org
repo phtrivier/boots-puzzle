@@ -1,7 +1,6 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO Get rid of the dependency on facets (dictionnary)
 ** TODO Write a console ?
 * Game UI
 ** TODO Fix the ugly bitmap font (use a ttf if possible ... check if there is one that come for "free")
