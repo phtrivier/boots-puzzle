@@ -68,7 +68,7 @@ class GameWindow
   end
 
   def load_default_font
-    SDL::BMFont.open("#{@prefix}/gui/font.bmp",SDL::BMFont::TRANSPARENT)
+    SDL::BMFont.open("#{@prefix}/gui/img/font.bmp",SDL::BMFont::TRANSPARENT)
   end
 
   def draw_text_line(line, x, y, color)
