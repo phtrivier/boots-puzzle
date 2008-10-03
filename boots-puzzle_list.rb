@@ -1,5 +1,5 @@
 # This script is used to generates a boots-puzzle.list to be used by rake deb
-# 
+#
 
 header = <<HERE
 # This file should have been generated with 'rake deblist'
@@ -12,17 +12,12 @@ header = <<HERE
 %version #{BP_VERSION}
 %readme README
 %license LICENSE
-%requires g++
-%requires libgl1-mesa-dev
-%requires libpango1.0-dev
-%requires libboost-dev
 %requires ruby
 %requires ruby1.8
 %requires ruby1.8-dev
-%requires rubygems
-%requires libsdl-mixer1.2-dev
-
-%preinstall gem install gosu facets mocha
+%requires libsdl-ruby1.8
+%requires libmocha-ruby1.8
+%requires rake
 
 # Bin script
 f 755 root sys /usr/bin/boots-puzzle bin/boots-puzzle

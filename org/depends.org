@@ -1,9 +1,7 @@
 * Known dependencies
-** Gems
-*** rake
-*** facets
-*** mocha (for the unit tests)
-*** log4r
-** Other (might be possible to install by gem, too..)
-*** gosu (to play the game)
+** Non gems
+*** libruby-sdl
+*** libruby-mocha
 *** shoes (to run the editor)
+
+There is no dependency on gems anymore.
