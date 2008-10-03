@@ -1,4 +1,8 @@
 * Planning
+** v0.3.2
+*** Version & Help from wrapper script
+*** Better font
+*** Distribute with no dependency on gems at all !!!
 ** v0.4.0
 *** Finish the 'demo' adventure
 *** Fix bugs, improve distribution, etc...
