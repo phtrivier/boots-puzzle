@@ -26,16 +26,16 @@ class GameMode
     @actions = {}
   end
 
-  def update
+  def update(pressed_key)
     actions.each do |name, action|
-      action.evaluate
+      action.evaluate(pressed_key)
     end
   end
 end
 
 class StartGameAction < SingleKeyAction
   def initialize(w)
-    super(w,Gosu::Button::KbSpace)
+    super(w, SDL::Key::SPACE)
   end
 
   def act!
@@ -58,7 +58,7 @@ end
 
 class EndGameAction < SingleKeyAction
   def initialize(w)
-    super(w,Gosu::Button::KbSpace)
+    super(w,SDL::Key::SPACE)
   end
 
   def act!
@@ -82,7 +82,7 @@ end
 # TODO : make it simpler to define a single key action ?
 class LeaveQuoteAction < SingleKeyAction
   def initialize(window)
-    super(window, Gosu::Button::KbReturn)
+    super(window, SDL::Key::RETURN)
   end
 
   def act!
@@ -109,21 +109,23 @@ class InPlayGameMode < GameMode
 
   def initialize(window)
     super(window)
-    @actions = {  :next_boots => NextBootsAction.new(window, Gosu::Button::KbTab) ,
-      :up => MoveAction.new(window, Gosu::Button::KbUp, :up),
-      :down => MoveAction.new(window, Gosu::Button::KbDown, :down),
-      :right => MoveAction.new(window, Gosu::Button::KbRight, :right),
-      :left => MoveAction.new(window, Gosu::Button::KbLeft, :left),
-      :pick_boots => PickBootsAction.new(window, Gosu::Button::KbSpace),
-      :drop_boots => DropBootsAction.new(window, Gosu::Button::KbLeftControl),
-      :toggle_hint => ToggleHintAction.new(window, window.char_to_button_id("j")),
-      :show_controls => HelpAction.new(window, window.char_to_button_id("h")),
-      :reload => ReloadAction.new(window, window.char_to_button_id("r"))
+    @actions = {
+      :quit => QuitAction.new(window, SDL::Key::ESCAPE),
+      :next_boots => NextBootsAction.new(window, SDL::Key::TAB) ,
+      :up => MoveAction.new(window, SDL::Key::UP, :up),
+      :down => MoveAction.new(window, SDL::Key::DOWN, :down),
+      :right => MoveAction.new(window, SDL::Key::RIGHT, :right),
+      :left => MoveAction.new(window, SDL::Key::LEFT, :left),
+      :pick_boots => PickBootsAction.new(window, SDL::Key::SPACE),
+      :drop_boots => DropBootsAction.new(window, SDL::Key::LCTRL),
+      :toggle_hint => ToggleHintAction.new(window, SDL::Key::J),
+      :show_controls => HelpAction.new(window, SDL::Key::H),
+      :reload => ReloadAction.new(window, SDL::Key::R)
     }
   end
 
-  def update
-    super
+  def update(pressed_key)
+    super(pressed_key)
     window.check_level_finished
   end
 

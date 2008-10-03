@@ -1,3 +1,17 @@
+2008-10-03  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* action.rb (evaluate, triggered, released) [sdl] pressed key is
+	now passed as a parameter
+
+	* game_modes (update) [sdl] pressed key is passed ; changed key
+	codes to SDL
+
+	* gui.rb (init_screen, load_image, draw_on_screen, draw_on_cell)
+	(load_default_font, draw_text_line, set_caption, initialize, show)
+	(wait_for_key) [sdl] SDL is now used for input and display
+
+	* text_fitter (fit?) [sdl] SDL fixed font size is used instead of variable size
+
 2008-09-25  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* gui.rb (init_puzzle, reload_current_puzzle!) : allows to reload

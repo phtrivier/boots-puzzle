@@ -18,41 +18,72 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-begin
-  # In case you use Gosu via RubyGems.
-  require 'rubygems'
-rescue LoadError
-  # In case you don't.
-end
-
-require 'gosu'
-
-module ZOrder
-  Background, Stars, Player, UI = *0..3
-end
-
 require 'puzzle'
 require 'plugins'
 require 'action'
 require 'adventure'
 
+require 'sdl'
 require 'game_modes'
 require 'text_fitter'
 require 'text_cutter'
 # --------------------------------------------
 # Game UI
 
-class GameWindow < Gosu::Window
+class GameWindow
 
   attr_reader :puzzle, :font
 
-  White = Gosu::Color.new(0xffffffff)
   # Maximum dimension of puzzles
   H = 10
   W = 16
 
+  # ---------------------------------
+  # SDL Specific part
+
+  def init_screen(w,h)
+    SDL.init( SDL::INIT_VIDEO )
+    @screen = SDL::setVideoMode(w,h,24,SDL::SWSURFACE)
+    @white = @screen.mapRGB 255,255,255
+  end
+
+
+  def load_image(path)
+     SDL::Surface.load(path)
+  end
+
+  def draw_to_screen(img, x, y)
+    @screen.put(img, x, y)
+  end
+
+  # Draw a rectangle
+  # Point order is as follow :
+  # O x1,y1 --- O #x2,y1
+  # |           |
+  # O x1,y2 --- O x2,y2
+  def draw_rectangle(x1,y1,x2,y2,color)
+    # TODO : Make it possible to use w / h instead
+    # so fix all the calls to draw_rectangle
+    @screen.draw_rect(x1, y1, (x2-x1), (y2 -y1), color)
+  end
+
+  def load_default_font
+    SDL::BMFont.open("#{@prefix}/gui/font.bmp",SDL::BMFont::TRANSPARENT)
+  end
+
+  def draw_text_line(line, x, y, color)
+    @font.textout(@screen, line, x, y)
+  end
+
+  def set_caption(txt)
+    SDL::WM.set_caption(txt, "")
+  end
+
+  # ------------------------
+  # Relatively framework-agnostic part of the game
+
   def initialize(props)
-    super(640, 480, false)
+    init_screen(640,480)
 
     @prefix = props[:prefix]
     if (@prefix == nil)
@@ -63,7 +94,7 @@ class GameWindow < Gosu::Window
     Plugins.init("#{@prefix}/plugins")
     Plugins.read_manifests
 
-    @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+    @font = load_default_font()
 
     @fitter = TextFitter.new(@font, 600)
     @message_cutter = TextCutter.new(@fitter)
@@ -77,8 +108,28 @@ class GameWindow < Gosu::Window
 
     @last_message = nil
 
-    @adventure = nil
+    load_adventure(props)
 
+    # No hint at startup
+    @hint = false
+
+    init_hints_images
+
+    init_adventure_images
+
+    @images = { }
+
+    @player_img = load_image(to_image_path(@puzzle.player.src))
+
+    @game_mode = SplashScreenMode.new(self)
+
+    # TODO : Change the title of the screen
+#    self.caption =
+    set_caption("Boots Puzzle v#{BP_VERSION} -- #{@adventure.name}")
+
+  end
+
+  def load_adventure(props)
     adventure_name = props[:adventure_name]
 
     @adventure = Adventure.new
@@ -107,22 +158,6 @@ class GameWindow < Gosu::Window
 
     # Init the puzzle
     init_puzzle
-
-    # No hint at startup
-    @hint = false
-
-    init_hints_images
-
-    init_adventure_images
-
-    @images = { }
-
-    @player_img = Gosu::Image.new(self, to_image_path(@puzzle.player.src), false)
-
-    @game_mode = SplashScreenMode.new(self)
-
-    self.caption = "Boots Puzzle v#{BP_VERSION} -- #{@adventure.name}"
-
   end
 
   def init_puzzle
@@ -147,11 +182,6 @@ class GameWindow < Gosu::Window
     end
   end
 
-  # Load the image for an hint
-  def load_hint_image(dir)
-    load_gui_image("hint_#{dir}.png")
-  end
-
   def reload_current_puzzle!
     # TODO : FACTOR WITH WHAT IS DONE THE FIRST TIME?
     @adventure.load_current_level!
@@ -162,7 +192,12 @@ class GameWindow < Gosu::Window
   # Loads an image from the 'gui/img' folder
   # filename : name of the image file (eg background.png)
   def load_gui_image(filename)
-    Gosu::Image.new(self, "#{@prefix}/gui/img/#{filename}")
+    load_image("#{@prefix}/gui/img/#{filename}")
+  end
+
+  # Load the image for an hint
+  def load_hint_image(dir)
+    load_gui_image("hint_#{dir}.png")
   end
 
   def load_adventure_image(pic_filename)
@@ -173,15 +208,11 @@ class GameWindow < Gosu::Window
     else
       path = default_path
     end
-    Gosu::Image.new(self, path, false)
+    load_image(path)
   end
 
   def update
     @game_mode.update
-    # Move
-    #   @actions.each do |name, action|
-    #  action.evaluate
-    #end
   end
 
   def check_level_finished
@@ -204,11 +235,11 @@ class GameWindow < Gosu::Window
     exit
   end
 
-  def draw
-    # draw_puzzle
-    @game_mode.draw
-  end
+#   def draw
+#     @game_mode.draw
+#   end
 
+  # TODO : RENAME "draw_all"
   def draw_puzzle
 
     @x0 = 20
@@ -231,7 +262,6 @@ class GameWindow < Gosu::Window
 
     draw_ui
 
-#    puts "Should draw hint ? #{@hint}"
     if (@hint)
       draw_hint
     end
@@ -248,9 +278,9 @@ class GameWindow < Gosu::Window
   end
 
   def draw_background
-    @bg_image.draw(0,0,ZOrder::UI)
+    draw_to_screen(@bg_image, 0, 0)
     # Draw a rectangle around the game area
-    draw_rectangle(@x0-5, @y0-5, @x0 + W*@s + 5, @y0 + H*@s + 5, White)
+    draw_rectangle(@x0-5, @y0-5, @x0 + W*@s + 5, @y0 + H*@s + 5, @white)
   end
 
   def to_screen_coords(i,j)
@@ -261,34 +291,25 @@ class GameWindow < Gosu::Window
 
   def draw_on_cell(img, i,j)
     x,y = to_screen_coords(i,j)
-    img.draw(x,y,ZOrder::UI)
+    draw_to_screen(img, x,y)
   end
 
   def draw_player
-    # TODO Reduce
     i,j = @puzzle.player.pos
-    x,y = to_screen_coords(i,j)
-    @player_img.draw(x,y, ZOrder::UI)
+    draw_on_cell(@player_img, i, j)
   end
 
   def draw_cell(i,j,c)
-    # TODO Reduce
-    x,y = to_screen_coords(i,j)
-    i = get_image(c)
-    i.draw(x,y, ZOrder::UI)
+    draw_on_cell(get_image(c), i, j)
   end
 
   def draw_boot(i,j,c,b)
-    # TODO Reduce
-    x,y = to_screen_coords(i,j)
-    img = image(b.src)
-    img.draw(x,y, ZOrder::UI)
+    draw_on_cell(image(b.src), i, j)
   end
 
   def draw_ui
     draw_boots_ui
     draw_message_ui
-    # draw_keys_ui
   end
 
   # Draw the part of the UI where the current boot is displayed
@@ -301,19 +322,18 @@ class GameWindow < Gosu::Window
     y = @boots_ui_y0
 
     # Draw a nice line around everything
-    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*3) + (interval*2) + 10, White)
+    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*3) + (interval*2) + 10, @white)
 
     # Draw each boots, surrounding the selected one
     @puzzle.player.each_boots do |boot, selected|
 
       boot_image = image(boot.src)
-      boot_image.draw(x,y, ZOrder::UI)
+
+      draw_to_screen(boot_image, x, y)
 
       if (selected)
-
         # Draw a quad around the selected one ...
-        draw_rectangle(x-5, y-5, x+@s+5, y+@s+5, Gosu::Color.new(0xffff0000))
-
+        draw_rectangle(x-5, y-5, x+@s+5, y+@s+5, @white)
       end
 
       y = y + @s + interval
@@ -329,7 +349,7 @@ class GameWindow < Gosu::Window
     x1 = 620
     height = 110
 
-    draw_rectangle @x0 - 5, y0, x1, y0 + height, White
+    draw_rectangle @x0 - 5, y0, x1, y0 + height, @white
 
     # Print the text of last message
     if (@last_message != nil)
@@ -346,7 +366,7 @@ class GameWindow < Gosu::Window
       lines = ["!" + msg]
     end
     lines.each do |line|
-      @font.draw(line, x, y, ZOrder::UI, 1.0,1.0, White)
+      draw_text_line(line, x,y, @white)
       y = y + @text_h + 2
     end
   end
@@ -356,21 +376,9 @@ class GameWindow < Gosu::Window
     @last_message = ops[:msg]
   end
 
-  # Draw a rectangle
-  # Point order is as follow :
-  # O x1,y1 --- O #x2,y1
-  # |           |
-  # O x1,y2 --- O x2,y2
-  def draw_rectangle(x1,y1,x2,y2,color)
-    draw_line(x1,y1,color,x2,y1,color,ZOrder::UI)
-    draw_line(x2,y1,color,x2,y2,color,ZOrder::UI)
-    draw_line(x2,y2,color,x1,y2,color,ZOrder::UI)
-    draw_line(x1,y2,color,x1,y1,color,ZOrder::UI)
-  end
-
   # Load an image from its source ... potentially leaky
   def image(src)
-    Gosu::Image.new(self, to_image_path(src), false)
+    load_image(to_image_path(src))
   end
 
   # Locate the image (it must be available globally ?)
@@ -383,14 +391,7 @@ class GameWindow < Gosu::Window
       @images[cell.src] = image(cell.src)
     end
     res = @images[cell.src]
-
     res
-  end
-
-  def button_down(id)
-    if id == Gosu::Button::KbEscape then
-      close
-    end
   end
 
   def enter_game!
@@ -406,15 +407,15 @@ class GameWindow < Gosu::Window
   end
 
   def draw_splash_screen
-    @splash_screen.draw(0,0,ZOrder::UI)
+    draw_to_screen(@splash_screen, 0, 0)
   end
 
   def draw_end_screen
-    @end_screen.draw(0,0,ZOrder::UI)
+    draw_to_screen(@end_screen, 0, 0)
   end
 
   def draw_quote
-    @bg_image.draw(0,0,ZOrder::UI)
+    draw_to_screen(@bg_image, 0, 0)
     safe_draw_text(50,100, @quote_text_cutter, "'#{@puzzle.quote.text}'")
     if (@puzzle.quote.author != nil)
       safe_draw_text(450, 400, @quote_author_cutter , @puzzle.quote.author)
@@ -430,6 +431,31 @@ class GameWindow < Gosu::Window
     @last_message = "Use arrow keys to move.\n"+
       "Press Space to pick up boots, Ctrl to drop boots, Tab to change boots.\n" +
       "Press 'j' to show where you can move (and j again to hide)."
+  end
+
+  def show
+    # Enter the main loop ....
+    loop do
+      pressed_key = wait_for_key
+      @game_mode.update(pressed_key)
+      @game_mode.draw
+      # Update screen
+      @screen.update_rect(0,0,0,0)
+    end
+  end
+
+  def wait_for_key
+    res = nil
+    # handle keystrokes
+    while (res == nil) and (event = SDL::Event2.poll)
+      case event
+      when SDL::Event2::Quit then exit
+      when SDL::Event2::KeyDown
+        res = event.sym
+      end
+    end
+    SDL::Key.scan
+    res
   end
 
 end

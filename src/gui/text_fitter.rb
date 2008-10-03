@@ -26,7 +26,10 @@ class TextFitter
   end
 
   def fit?(text)
-    @font.text_width(text) < @max_width
+    # TODO : If using true type font, make
+    # it nicer
+#    @font.text_width(text) < @max_width
+    @font.width * text.size < @max_width
   end
 
   def tokens_fit?(tokens)
