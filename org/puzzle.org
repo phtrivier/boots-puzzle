@@ -1,8 +1,8 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO [#A] Make it possible to display the version and help from the wrapper script
-(Reuse code in Rakefile if possible)
+** TODO Load plugins from inside an adventure
+** TODO package adventures individually
 ** TODO Console ?
 * Game UI
 ** TODO [#B] Find a icon for the application (the bare foots ?)
