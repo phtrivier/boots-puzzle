@@ -1,3 +1,9 @@
+v0.3.2 - 2008/10/05
+
+ - Moved from GOSU to SDL
+ - No more dependency on gems !
+ - Added commands to display help and version in command line
+
 v0.3.1 - 2008/10/01
 
  - Everything is now distributed with one task (doc, debian package, tar.gz, etc...)
