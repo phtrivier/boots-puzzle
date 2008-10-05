@@ -71,12 +71,6 @@ def puts_version
   puts "Boots Puzzle v#{BP_VERSION} - Copyright (C) 2008 Pierre-Henri Trivier"
 end
 
-def puts_help
-  puts_copy_header
-  puts "Default controls : "
-  puts_controls(" ")
-end
-
 def has_arg?(long, short)
   ARGV.member?("--#{long}") || ARGV.member?("-#{short}")
 end
