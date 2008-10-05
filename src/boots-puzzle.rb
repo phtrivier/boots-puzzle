@@ -15,4 +15,11 @@ ARGV.each do |arg|
 end
 
 require 'boots-puzzle-wrapper'
-wrap_play(".")
+if (has_arg?("help", "h"))
+  puts_help
+elsif (has_arg?("version", "v"))
+  puts_version
+else
+  wrap_play(".")
+end
+

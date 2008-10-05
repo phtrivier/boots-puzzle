@@ -1,5 +1,9 @@
 2008-10-05  Pierre-Henri Trivier  <phtrivier@wilde>
 
+	* boots-puzzle.rb () [sdl] wrapper is used instead of direct call
+
+	* Rakefile (play, play_adventure) [sdl] wrapper is used
+
 	* gui.rb (load_default_font, draw_text_line) [sdl] TTF Font is
 	used instead of bitmap
 

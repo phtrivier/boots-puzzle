@@ -13,12 +13,10 @@ task :test => [:core_test, :plugins_test]
 
 desc "Run core tests"
 Rake::TestTask.new("core_test") do |t|
-
   t.libs << ["./src/test", "./src/plugins/core", "./src/gui"]
   t.pattern = 'src/test/*_test.rb'
   t.verbose = false
   t.warning = false
-
 end
 
 desc "Run plugins tests"
@@ -60,48 +58,31 @@ task :editor => [:test] do |t|
   editor_usage("")
 end
 
-def editor_usage(offset)
+def puts_editor_usage(offset)
   cmd2 = "Usage : shoes src/editor/editor.rb ADVENTURE_NAME [PUZZLE_NAME]"
   puts offset + cmd2
   ex = "Example : shoes src/editor/editor.rb foobar level_1"
   puts offset + ex
 end
 
-def gui_usage(offset)
+def puts_rake_usage(offset)
   puts offset + "Usage : rake play [adventure|a=ADVENTURE_NAME] [level|l=LEVEL_NAME]"
   puts offset + "Example : rake play adventure=foobar l=level_1"
 end
 
-def puts_with_offset(offset, lines)
-  lines.each do |line|
-    puts offset + line
-  end
-end
-
-def controls(offset)
-  puts_with_offset(offset+"- ",["Use arrow keys to move",
-                               "Use Space to pick boots on the ground",
-                               "Use Tab to change the boots you're wearing",
-                               "Use Ctrl to drop the boots you're wearing",
-                               "Use h to display a quick help reminder",
-                               "Use j to display a hint of where you can go"])
-end
-
 desc "Help"
 task :help do
-  puts "---------------------------------------------------"
-  puts "Boots puzzle (C) Pierre-Henri Trivier - 2008"
-  puts "This is free software ; see COPYING for details."
-  puts "There is NO WARRANTY (but then, that's only a game)"
-  puts "---------------------------------------------------"
+  $LOAD_PATH << "src"
+  require 'boots-puzzle-wrapper'
+  puts_copy_header
   puts "To launch the game (with a default adventure):"
-  gui_usage(" ")
+  puts_rake_usage(" ")
   puts "---"
   puts "Default controls : "
-  controls(" ")
+  puts_controls(" ")
   puts "---"
   puts "Puzzle editor :"
-  editor_usage(" ")
+  puts_editor_usage(" ")
 end
 
 desc "Remove emacs backup files"
@@ -125,7 +106,9 @@ BP_VERSION = File.open("VERSION").read.strip
 
 desc "Display current version"
 task :version do
-  puts "Boots Puzzle v#{BP_VERSION} - Copyright (C) 2008 Pierre-Henri Trivier"
+  $LOAD_PATH << "src"
+  require 'boots-puzzle-wrapper'
+  puts_version
 end
 
 desc "Builds documentation"
