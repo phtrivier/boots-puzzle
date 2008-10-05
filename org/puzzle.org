@@ -1,12 +1,11 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO Make it possible to display the version and help from the wrapper script
+** TODO [#A] Make it possible to display the version and help from the wrapper script
 (Reuse code in Rakefile if possible)
 ** TODO Console ?
 * Game UI
-** TODO [#A] Fix the ugly bitmap font (use a ttf if possible ... check if there is one that come for "free")
-** TODO [#A] Find a icon for the application (the bare foots ?)
+** TODO [#B] Find a icon for the application (the bare foots ?)
 ** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
 ** TODO [#C] Externalize strings
 ** TODO Make controls configurable (and update the display of the controls...)

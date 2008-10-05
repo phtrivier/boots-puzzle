@@ -68,11 +68,15 @@ class GameWindow
   end
 
   def load_default_font
-    SDL::BMFont.open("#{@prefix}/gui/img/font.bmp",SDL::BMFont::TRANSPARENT)
+    SDL::TTF.init
+    res = SDL::TTF.open("#{@prefix}/gui/fonts/VeraBd.ttf",14)
+    res.style = SDL::TTF::STYLE_NORMAL
+    res
   end
 
   def draw_text_line(line, x, y, color)
-    @font.textout(@screen, line, x, y)
+    r,g,b = @screen.get_rgb(color)
+    @font.draw_solid_utf8(@screen, line, x, y, r, g, b)
   end
 
   def set_caption(txt)

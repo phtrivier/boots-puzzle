@@ -1,3 +1,10 @@
+2008-10-05  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* gui.rb (load_default_font, draw_text_line) [sdl] TTF Font is
+	used instead of bitmap
+
+	* text_fitter.rb (fit?) [sdl] TTF Font instead of bitmap
+
 2008-10-03  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* action.rb (evaluate, triggered, released) [sdl] pressed key is

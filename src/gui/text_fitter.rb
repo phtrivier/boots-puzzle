@@ -26,18 +26,10 @@ class TextFitter
   end
 
   def fit?(text)
-    # TODO : If using true type font, make
-    # it nicer
-#    @font.text_width(text) < @max_width
-    @font.width * text.size < @max_width
+    @font.text_size(text)[0] < @max_width
   end
 
   def tokens_fit?(tokens)
-    # TODO : OPTIMZE THIS
-    # Use the size of a space
-    #    space_size = window.font.text_width(" ")
-    # Compute the size of each tokens, then
-    # compare with the max size
     fit?(tokens.join(" "))
   end
 
