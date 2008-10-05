@@ -24,6 +24,7 @@ f 755 root sys /usr/bin/boots-puzzle bin/boots-puzzle
 
 # Ruby main script
 f 755 root sys /usr/share/boots-puzzle/boots-puzzle.rb src/boots-puzzle.rb
+f 755 root sys /usr/share/boots-puzzle/boots-puzzle-wrapper.rb src/boots-puzzle-wrapper.rb
 
 HERE
 

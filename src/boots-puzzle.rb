@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-BP_VERSION="0.3.1"
+BP_VERSION="0.3.2"
 
 $LOAD_PATH << "."
 $LOAD_PATH << "gui"
@@ -14,18 +14,5 @@ ARGV.each do |arg|
   end
 end
 
-def from_env(long, short, default)
-  res = default
-  if (ENV[long])
-    res = ENV[long]
-  elsif (ENV[short])
-    res = ENV[short]
-  end
-  res
-end
-
-adventure_name = from_env("adventure", "a", "foobar")
-level_name = from_env("level", "l", nil)
-
-require "gui"
-play(:adventure_name => adventure_name, :level_name => level_name, :prefix => ".")
+require 'boots-puzzle-wrapper'
+wrap_play(".")

@@ -2,19 +2,9 @@ require 'rake'
 require 'rake/testtask'
 require 'fileutils'
 require 'rubygems'
-require 'log4r'
-require 'log4r/yamlconfigurator'
-require 'log4r/outputter/datefileoutputter'
-
-include Log4r
 
 # .list file for Debian
 List = "boots-puzzle.list"
-
-def log_config(conf)
-  cfg = YamlConfigurator
-  cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
-end
 
 task :default => [:test]
 
@@ -39,41 +29,28 @@ Rake::TestTask.new("plugins_test") do |t|
   t.warning = false
 end
 
-def from_env(long, short, default)
-  res = default
-  if (ENV[long])
-    res = ENV[long]
-  elsif (ENV[short])
-    res = ENV[short]
-  end
-  res
-end
+desc "Run an adventure"
+task :play => [:test] do |t|
 
-def play_adventure(adventure_name, level_name)
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
 
-  FileUtils.mkdir_p("logs")
-  log_config("dev")
+  require 'boots-puzzle-wrapper'
+  wrap_play("src")
 
-  require 'gui'
-
-  play(:adventure_name => adventure_name, :level_name => level_name, :prefix => "src")
-end
-
-desc "Run an adventure"
-task :play => [:test] do |t|
-
-  adventure_name = from_env("adventure", "a", "foobar")
-  level_name = from_env("level", "l", nil)
-
-  play_adventure(adventure_name, level_name)
 end
 
 desc "Run the demo adventure"
 task :demo do
-  play_adventure("demo", "level_0")
+
+  $LOAD_PATH << "./src"
+  $LOAD_PATH << "./src/gui"
+  $LOAD_PATH << "./src/plugins/core"
+
+  require 'boots-puzzle-wrapper'
+  play_adventure("demo", "level_0", "src")
+
 end
 
 desc "Run the puzzle editor"

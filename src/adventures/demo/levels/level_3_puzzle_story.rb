@@ -42,6 +42,8 @@ Story.for("level_3") do
     end
   end
 
+  tunnel :tunnel_left, :tunnel_top
+
   story_switch :sw_tunnel do
     on do |puzzle|
       puzzle.set_cell_by_name(:tunnel_top, Walkable.new)
