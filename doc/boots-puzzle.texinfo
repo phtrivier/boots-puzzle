@@ -1,19 +1,19 @@
 \input texinfo   @c -*-texinfo-*-
 @c %**start of header
 @setfilename boots-puzzle.info
-@settitle The Boots Puzzle Language
+@settitle Adventures in Boots-Puzzle
 @c %**end of header
 
 @c copyright info
 @copying
-This is the manual for the Boots Puzzle language.
+This is the manual for the Boots-Puzzle Engine.
 
 Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @end copying
 
 @c title page
 @titlepage
-@title The Boots Puzzle Language
+@title Adventures in Boots-Puzzle
 @subtitle Does anybody know Boots ?
 @author Pierre-Henri Trivier
 
@@ -31,9 +31,10 @@ Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @c top node
 @ifnottex
 @node Top, Introduction, (dir), (dir)
-@top The Boots Puzzle Language
+@top Adventures in Boots-Puzzle
 
-This is the manual for the Boots Puzzle language.
+This is the manual for people willing to create new adventures to play
+with the boots-puzzle program.
 @end ifnottex
 
 @c Navigation menu
@@ -42,8 +43,6 @@ This is the manual for the Boots Puzzle language.
 * Adventures::                  Creating an adventure.
 * Levels::                      What levels are, and why you should'nt really care.
 * Puzzle::                      What puzzles are, and why you have to care.
-* Cells::                       Those things you walk on. Or not.
-* Boots::                       Those things you walk with. Or not.
 * Story::                       Make things happen in your puzzles.
 * Plugins::                     Extend the Boots Puzzle game.
 * Index::                       Complete index
@@ -61,7 +60,15 @@ Adventures
 * Creating an adventure::
 * adventure.yml file::
 
-Plugin
+Plugins
+
+* Creating a plugin::
+* Cells::
+* Boots::
+* Tools::
+* Notorious plugins::
+
+Tools
 
 * Notorious plugins::
 
@@ -80,7 +87,7 @@ Notorious plugins
 @comment  node-name,  next,  previous,  up
 
 This is the manual for the Boots Puzzle Language, a short ruby-based DSL
-to make reflexion games.
+to make reflection games.
 
 @menu
 * Who's this for ?::
@@ -226,7 +233,12 @@ mkdir src/adventures/donjon
 emacs src/adventures/donjon/adventure.yml
 @end example
 
-You don't necessarily have to use emacs, of course, it's just an advice. If you are really lazy, you can copy the @file{adventure.yml} file from @file{foobar}, and edit it. Just remenber : @file{adventures} is the folder with, well, adventures, and @file{adventure.yml} is only the description of @emph{one} adventure. Grammar and everything.
+You don't necessarily have to use emacs, of course, it's just an
+advice. If you are really lazy, you can copy the @file{adventure.yml}
+file from @file{foobar}, and edit it. Just remenber :
+@file{adventures} is the folder with, well, adventures, and
+@file{adventure.yml} is only the description of @emph{one}
+adventure. Grammar and everything.
 
 @node adventure.yml file,  , Creating an adventure, Adventures
 @section adventure.yml file
@@ -235,55 +247,152 @@ Enough talking already. Here is an example of an adventure file for our adventur
 
 @example
 adventure:
+  name: foobar
   plugins:
   - water
   - tunnel
-  prefix: src/adventures/foobar/levels
-  name: foobar
   levels:
   - puzzle: level_1_puzzle
   - puzzle: level_2_puzzle
   - puzzle: level_3_puzzle
 @end example
 
-TODO : Describe everything !!
+Let's discuss in details what those lines means :
+
+@example
+adventure:
+@end example
+
+An adventure file is a valid YAML file, it must have a root, and
+it describes and adventure. So 'adventure' that is.
+
+@example
+  name: foobar
+@end example
+
+An adventure MUST have a name. This should be the name of the
+directory in which you created the adventure.yml file.  So something
+like @code{demo}, @code{foobar}, but probably not something with
+spaces, or strange characters.
+
+@example
+  plugins:
+  - water
+  - tunnel
+@end example
+
+This is a list of all plugins you need in this adventure. There isn't
+that much in boots-puzzle's core actually, so you are very likely to
+need some plugins to make your puzzles funny. Simply list all
+plugins's names, and they will be loaded when you play the adventure.
+[TODO : See Later for plugins]
+
+@example
+  levels:
+  - puzzle: level_1
+  - puzzle: level_2
+  - puzzle: level_3
+@end example
+This is a list of all puzzles in your adventure.  They are in order,
+so puzzle called @code{level_2} will be played after
+@code{level_1} and before @code{level_3}.
+[TODO : See later of how to call levels]
+
+Note that this example follows the nice conventions with level naming,
+so you don't have to tell boots-puzzle precisely which file contains
+the level. But you could.  You'll see that later.
+
+You'll need one more thing to set up your adventure : next to
+@file{adventure.yml}, create a new folder called @file{levels}. Rather
+boringly, this is where @command{boots-puzzle} will look for levels
+... which are described later.
+
+Call this a transition.
 
 @node Levels, Puzzle, Adventures, Top
 @chapter Levels
 
-A level is a puzzle (where things are) and a story (what things happen).
-etc...
+When you're in a room, two things really matter : what's there, and what happens there.
 
-@node Puzzle, Cells, Levels, Top
+When I say @samp{What's there}, I mean : @samp{Where is the entrance}?
+@samp{Where is the exit}? @samp{What is this flower pot doing here}
+etc...?
+
+When I say @samp{What happens there}, I mean : @samp{Should something
+strange occur when I walk on this hole that looks like a trap}? (Note
+: the answer is aaaaaarg).
+
+The former is what I call a 'Puzzle', or a puzzle definition.  It's
+really static. @samp{There is a door over there} kind of static. Just
+things that are there.
+
+The latter is what I call a 'Story', or a puzzle story.
+Action happens here. Romance and action and fun and elephants.
+
+A level is the combination of a puzzle and a story.  A level doesn't
+have a file of it's own, but rather it depends on two separate files
+(that we'll discuss later).
+
+Now, a level is kind of clever. If you say that you want a level
+called @samp{level_1}, then it will auto-magically look for the puzzle
+part in a file called @file{level_1_puzzle.rb} in the folder
+@file{levels}. And if there is a file called
+@file{level_1_puzzle_story.rb}, it will consider that this is the
+story for this level.
+
+Nothing brilliant. Just conventions.
+
+The downside is that you need to follow those conventions, too. So you
+must name you puzzle and story files apropriately.
+
+[TODO : describe how you're actually not that screwed if you don't do
+that exactly]
+
+Now, let's see what you should put in those puzzle and story.
+
+@node Puzzle, Story, Levels, Top
 @chapter Puzzle
 @comment  node-name,  next,  previous,  up
 
-A puzzle is a lot of places (cells), an entry, an exit, and boots scatered all around the place.
+A puzzle is a lot of places (cells), an entry, an exit, and boots
+scatered all around the place.
 
-@node Cells, Boots, Puzzle, Top
-@chapter Cells
-@comment  node-name,  next,  previous,  up
-
-@node Boots, Story, Cells, Top
-@chapter Boots
-@comment  node-name,  next,  previous,  up
-
-@node Story, Plugins, Boots, Top
+@node Story, Plugins, Puzzle, Top
 @chapter Story
 @comment  node-name,  next,  previous,  up
 
 @node Plugins, Index, Story, Top
-@chapter Plugin
+@chapter Plugins
+
+@menu
+* Creating a plugin::
+* Cells::
+* Boots::
+* Tools::
+* Notorious plugins::
+@end menu
+
+@node Creating a plugin, Cells, Plugins, Plugins
+@section Creating a plugin
+
+@node Cells, Boots, Creating a plugin, Plugins
+@section Cells
 @comment  node-name,  next,  previous,  up
+
+@node Boots, Tools, Cells, Plugins
+@section Boots
+@comment  node-name,  next,  previous,  up
+
+@node Tools, Notorious plugins, Boots, Plugins
+@section Tools
 
 @menu
 * Notorious plugins::
 @end menu
 
-@node Notorious plugins,  , Plugins, Plugins
+@node Notorious plugins,  , Tools, Plugins
 @section  Notorious plugins
 @comment  node-name,  next,  previous,  up
-
 
 @menu
 * Water::
@@ -292,7 +401,6 @@ A puzzle is a lot of places (cells), an entry, an exit, and boots scatered all a
 @node Water,  , Notorious plugins, Notorious plugins
 @subsection Water
 @comment  node-name,  next,  previous,  up
-
 
 
 @c ----------------------------------
