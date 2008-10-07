@@ -24,13 +24,12 @@ require "level"
 
 class Adventure
 
-  attr_reader :name, :plugins, :levels, :prefix
+  attr_reader :name, :plugins, :levels
 
   def initialize(name=nil)
     @name = name
     @plugins = []
     @levels = []
-    @prefix = ""
     @current_index = -1
   end
 
@@ -39,7 +38,6 @@ class Adventure
 
     @name = struct["adventure"]["name"]
     @plugins = struct["adventure"]["plugins"] || []
-    @prefix = struct["adventure"]["prefix"]
 
     read_levels = struct["adventure"]["levels"]
     if (read_levels != nil)
@@ -52,7 +50,6 @@ class Adventure
 
   def save
     adv = { "name" => @name,
-      "prefix" => @prefix,
       "plugins" => @plugins,
       "levels" => []
     }
@@ -97,7 +94,11 @@ class Adventure
   end
 
   def load_current_level!
-    current_level.load!(@prefix)
+    current_level.load!(prefix)
+  end
+
+  def prefix
+    "adventures/#{@name}/levels"
   end
 
   def load_plugins!

@@ -1,3 +1,8 @@
+2008-10-07  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* adventure.rb (initialize, load!, save, prefix) [sdl] prefix is
+	now computed
+
 2008-10-05  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* boots-puzzle.rb () [sdl] wrapper is used instead of direct call

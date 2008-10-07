@@ -28,7 +28,6 @@ class AdventureTest < BPTestCase
      @str = <<EOF
 adventure:
   name: "adv"
-  prefix : "levels"
   plugins:
     - "toto"
     - "tata"
@@ -63,7 +62,7 @@ EOF
     assert_equal "adv", @a.name
     assert_equal 3, @a.plugins.size
     assert_equal 3, @a.levels.size
-    assert_equal "levels", @a.prefix
+    assert_equal "adventures/adv/levels", @a.prefix
     assert_equal "foo_puzzle", @a.levels[0].puzzle_name
     assert_equal "FooPuzzle", @a.levels[0].puzzle_class_name
     assert_equal "baz_puzzle", @a.levels[2].puzzle_name
@@ -127,7 +126,7 @@ EOF
     @a.load!(@str)
 
     l = mock()
-    l.expects(:load!).with("levels")
+    l.expects(:load!).with("adventures/adv/levels")
     @a.levels[0] = l
 
     assert @a.has_next_level?
@@ -156,16 +155,13 @@ EOF
     s = <<EOF
 ---
 adventure:
-adventure:
   name: "adv"
-  prefix : "levels"
   plugins:
   levels:
 EOF
     @a.load!(s)
     assert_equal [], @a.levels
     assert_equal [], @a.plugins
-
   end
 
 end
