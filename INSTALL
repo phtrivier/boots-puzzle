@@ -3,26 +3,45 @@ Installing Boots Puzzle
 You should be running GNU/Linux on an i486.
 I have tested this on Ubuntu 8.04 (Hardy Heron), but it might work otherwise.
 
-* Install required gems
+There are a couple of dependencies to be able to run and or install the game.
+How you install those dependencies will depend on your system.
 
-** Install the rubygem application :
+- Dependencies
 
- sudo apt-get install rubygems
+** Ruby 1.8
+** Rake (I used 0.8.1)
+** SDL and its ruby bindings (I used SDL 1.2 and libsdl-ruby1.1.0-2)
+** Mocha (a ruby lib for mocking) to run the unit tests
+** Shoes (a ruby GUI toolkit) for the editor
 
-** Install the required gems
+- Ubuntu
 
- sudo gem install rake mocha facets gosu
+If you're here, that's because you are using the sources, but you might probably be better off with the debian package of boots-puzzle. You can get information on the home page of boots-puzzle (http://ph.on.things.free.fr/projects/boots-puzzle/index.html). It is normally a matter of adding a few lines to your apt source file, and then
 
-If gosu ask you for a version, you want to choose a version for ruby.
+ sudo apt-get install boots-puzzle.
 
-* Running
+There is no script to go 'easily' from the sources and install them on your machine, yet. No 'rake install' magic, sorry. But that will come, hopefully.
 
-This should launch the demo :
+You can launch the game from the sources, of course, provided you get the dependencies. On an Ubuntu machine (so probably on Debian), you can get away with 'apt' :
 
- rake play adventure=demo
+ sudo apt-get install ruby rake libsdl-ruby1.8 libmocha-ruby1.8
 
-This should give more info :
+However you need to get and install shoes from http://shoooes.net/
+
+- Other platforms
+
+I haven't tested it anywhere else, sorry. If you successfully install it on another system, drop a note !!
+
+- Running
+
+Once everything is installed, typing
+
+ rake version
+
+in the top level folder of the sources (that is, next to the Rakefile) should display the version number, something like
+
+ Boots Puzzle vx.y.z - Copyright (C) 2008 Pierre-Henri Trivier
+
+Then typing
 
  rake help
-
-
