@@ -85,7 +85,7 @@ test
 In particular, there should be an example of an adventure in the
 @file{src/adventures/foobar} folder.
 
-To run an adventure, you will need some ruby packages (most of them available by @command{rubygem}).
+To run an adventure, you will need some extra ruby packages, including :
 
 @itemize
 @item
@@ -94,9 +94,19 @@ To run an adventure, you will need some ruby packages (most of them available by
 @command{mocha}, a ruby Mocking framwork, used in tests cases
 @end itemize
 
-Still there ? Whao, you're not afraid by my lists. Okay, so adventures should be in folders under the @file{src/adventures} folder. For example, 'foobar' is the name of an adventure, so the adventure (that is, all file necessary to describe the adventure) should be in @file{src/adventures/foobar}.
+How you install those packages is a bit system-dependant, sorry. You
+should consult the INSTALL file that will give some detail, and
+hopefully help you. Otherwise drop a note !
 
-To run the adventure, go to the folder just above the @file{src} folder (you should see file @file{Rakefile}). Rake task @command{play} is used to play and adventure. To play adventure foobar, type :
+Still there ? Whao, you're not afraid by my lists. Okay, so adventures
+should be in folders under the @file{src/adventures} folder. For
+example, 'foobar' is the name of an adventure, so the adventure (that
+is, all file necessary to describe the adventure) should be in
+@file{src/adventures/foobar}.
+
+To run the adventure, go to the folder just above the @file{src}
+folder (you should see file @file{Rakefile}). Rake task @command{play}
+is used to play and adventure. To play adventure foobar, type :
 
 @example
 rake play adventure=foobar
@@ -108,14 +118,17 @@ Later, we will create and adventure called 'donjon'. To play it, you will type :
 rake play adventure=donjon
 @end example
 
-If you forget the adventure name, you will automatically play adventure foobar.
+If you forget the adventure name, you will automatically play
+adventure foobar.
 
 You'll see in a moment that an adventure is made of levels. If you
 know the name of a level in an adventure, you can go directly to this
-level. For example, to go directly to level called 'level_2' in adventure foobar :
+level. For example, to go directly to level called 'level_2' in
+adventure foobar :
 
 @example
 rake play adventure=foobar level=level_2
 @end example
 
-You can get more information about how to invoke @command{rake play} by calling @command{rake help}.
+You can get more information about how to invoke @command{rake play}
+by calling @command{rake help}.
