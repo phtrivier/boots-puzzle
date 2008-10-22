@@ -36,12 +36,6 @@ class Action
     if (triggered?(pressed_key))
       act!
     end
-#     if (triggered? and not @key_down)
-#       @key_down = true
-#       act!
-#     elsif (@key_down and released?)
-#       @key_down = false
-#     end
   end
 
 end
@@ -54,13 +48,7 @@ class SingleKeyAction < Action
 
   def triggered?(pressed_key)
     pressed_key == @k
-#    @w.button_down?(@k)
   end
-
-#   def released?
-#     !@w.button_down?(@k)
-#   end
-
 end
 
 class QuitAction < SingleKeyAction

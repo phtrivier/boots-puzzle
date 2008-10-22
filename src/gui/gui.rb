@@ -438,6 +438,7 @@ class GameWindow
       @game_mode.draw
       # Update screen
       @screen.update_rect(0,0,0,0)
+      SDL.delay(60)
     end
   end
 
@@ -451,10 +452,11 @@ class GameWindow
         res = event.sym
       end
       if (res == nil)
-        SDL.delay(50)
+        SDL.delay(60)
       end
     end
-    SDL::Key.scan
+# Could this be the cause of the CPU-intensitivy ?
+#    SDL::Key.scan
     res
   end
 

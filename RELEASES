@@ -1,3 +1,10 @@
+v0.3.3 - 2008/10/22
+
+ - Fixed INSTALL file
+ - Added delays in SDL display and input methods to try and fix
+   CPU at 100%
+ - Improved documentation
+
 v0.3.2 - 2008/10/05
 
  - Moved from GOSU to SDL
