@@ -2,5 +2,225 @@
 @chapter Puzzles
 @comment  node-name,  next,  previous,  up
 
-A puzzle is a lot of places (cells), an entry, an exit, and boots
-scatered all around the place.
+A puzzle is described in a file of its own. In this chapter I'll
+describe in detail what's in a puzzle. However you should note that
+you probably don't want to type those things down.  Rather, you should
+use the graphical editor that comes with the sources of the engine.
+It will make everything much easier.
+
+The documentation for the editor should be ... should be.
+
+Let's us open a puzzle file, and see what it looks like. Here is an
+example file :
+
+@example
+class Level1Puzzle < Puzzle
+ dim 16,10
+ rows do
+  row "################"
+  row "#I-----##----->#"
+  row "#------##------#"
+  row "################"
+  row "#------~~~~~~~~~"
+  row "#------~~~~~~~~~"
+  row "#------~~------#"
+  row "#------~~------#"
+  row "#>-----~~-----O#"
+  row "#######~~#######"
+ end
+
+ named_cells do
+  named_cell :tunnel_bottom, 8, 1
+  named_cell :tunnel_top, 1, 14
+  named_cell :entry_1, 1, 2
+  named_cell :entry_2, 2, 1
+  named_cell :on_palms, 1, 9
+  named_cell :water1, 8,7
+ end
+
+ boots do
+  boot 2,6,DoubleBoots
+  boot 1,9,Palms
+ end
+
+ quote :author => "Pen of Chaos",
+ :text => "A l'aventure compagnon\nJe suis partis vers l'horizon..."
+end
+@end example
+
+As first note : if you already know Ruby a bit, you might have
+remarked that all of this is valid Ruby code.
+
+This is not a coincidence : a puzzle is actually nothing but a ruby
+class definition.  Most of the lines are nothing but method calls, but
+those methods make it possible to define a brand new type of puzzles.
+
+As with adventures, let's look at it bits by bits.
+
+@example
+class Level1Puzzle < Puzzle
+@end example
+
+This is the beginning of any ruby definition.
+The name of the class is important, and should follow some conventions ; basically, it should
+be the same as the name of the file, in caml-case.
+And it should end up with 'Puzzle'.
+
+So if your puzzle is called @code{foo_bar_puzzle}, then you should
+named the puzzle class @code{FooBarPuzzle}.  Nothing too complicated.
+
+@example
+dim 16,10
+ rows do
+  row "################"
+  row "#I-----##----->#"
+  row "#------##------#"
+  row "################"
+  row "#------~~~~~~~~~"
+  row "#------~~~~~~~~~"
+  row "#------~~------#"
+  row "#------~~------#"
+  row "#>-----~~-----O#"
+  row "#######~~#######"
+ end
+@end example
+
+This is the part that describes the puzzle. This is the only section
+that you really must have.  All the rest is optionnal, but you will
+not have very funny puzzles ..
+
+The @code{dim} line is really here to give the dimensions (width and
+height) in columns of the puzzle.  Bad things happen if the dimensions
+don't match what's in the @code{rows} section.
+
+The @code{rows} section itslef contains one @code{row} line for each
+line of the puzzle.  Each line is a string of characters, and each
+character represent one cell of the puzzle.
+
+This puzzle uses mostly @samp{standard} kind of cells, so the letter are :
+
+@table @samp
+@item #
+This is a wall. You cannot walk on it, put boots on it, traverse
+it... well actually you might traverse it using double boots, but that
+is not the point. Think concrete, brick, solid wall.
+
+@item -
+This is a walkable cell. You can walk on it, put boots on it, traverse
+it, pretty much do whatever morals admits.
+
+@item I
+This is the entry of the puzzle. This is where your player will
+start. You must have exactly one in your puzzle. Otherwise getting in
+might be hard, and getting out pretty philosophical.
+
+@item O
+This is the exist of the puzzle. Your player will do its best to reach it.
+Again you must have exactly one in your puzzle.
+
+@end table
+
+Now the puzzle also uses a not-so-standard kind of cell, the @samp{>},
+which is a tunnel extremity defined by the @samp{tunnel}
+plugin. Tunnels are cool cell : when you walk on one extremity, you
+end up on the other (by the way, did I mention that Valve's
+@cite{Portal} is the greatest game in the universe ?). There are also
+a couple of cells with water (@samp{~}). You will see later that
+plugins can define new kinds of cell, and that they must give them a
+letter.
+
+@example
+ named_cells do
+  named_cell :tunnel_bottom, 8, 1
+  named_cell :tunnel_top, 1, 14
+  named_cell :entry_1, 1, 2
+  named_cell :entry_2, 2, 1
+  named_cell :on_palms, 1, 9
+  named_cell :water1, 8,7
+ end
+@end example
+
+The main tool to make things happen in a puzzle is to give a name to cells.
+This is what you do in this section : there is one @code{named_cell} line for each cell.
+A @code{name_cell} line contains 4 elements :
+
+@itemize
+@item
+The @code{name_cell} word, followed by a space
+@item
+The name of the cell, which must be a Ruby symbol. Don't be afraid, it
+simply mean that it must start with a colon (@samp{:}), be in lower
+case, and contain no spaces or strange chars. Really, that's all.
+@item
+A comma, the @strong{index} of the line of the cell.
+@item
+Another comma, and the @strong{index} of the column of the cell.
+@end itemize
+
+Wait, I have to check if it is the line and the column, or the other
+way round ...  Damn !! I had to check. But it's okay now. Think that the
+programmer was lazy and math-oriented, so he wrote @samp{i,j} pretty
+much everywhere.
+
+I say @strong{index}, because the first line has index @strong{0} (zero), not one.
+That's bloody maths, programming, things being stupider than you would hope... Well, that's it.
+First line, index 0. Enough said.
+
+@example
+boots do
+  boot 2,6,DoubleBoots
+  boot 1,9,Palms
+end
+@end example
+
+This is the section in which you say that some boots must lie on the floor at the beginning.
+For each boots, you put :
+
+@itemize
+@item
+The @code{boot} word, and a space
+@item
+The @strong{indexes} of the line and column of a cell, separated by a comma
+@item
+A comma, and the name of a type of boots. Boots are described later,
+don't worry.  @samp{DoubleBoots} and @samp{Palms} are actually the
+names of Ruby classes, but you will see it later that it is very easy to define new kinds of
+boots using plugins.
+@end itemize
+
+@example
+ quote :author => "Pen of Chaos",
+ :text => "A l'aventure compagnon\nJe suis partis vers l'horizon..."
+@end example
+
+Before the player starts playing your level, you can show him a little
+piece of funny text to give him a hint, make a joke, have fun.
+This is what the @code{quote} lines are for. You should really have :
+
+@itemize
+@item
+The @code{quote} word
+@item
+A space, then @code{:author =>} followed by the author of the quote, surrounded by double quote marks
+@item
+A comma, and then (potentially on a new line), then @code{:text =>} followed by the content of the quote.
+@end itemize
+
+If you need to have quotes on several lines, you can put @samp{\n} inside the quotes.
+You don't need to put the @samp{author} part if you don't know the author.
+
+Actually you don't need to put this section at all, since, as all
+sections except @code{dim} and @code{rows}, the quote is optionnal.
+
+@example
+end
+@end example
+
+That's the end of the file.
+
+This might looks horrible to type, but most of the time you won't
+write this by yourself. Instead you will use the level editor (which
+is described ... elsewhere !)
+
+Now, let's see how you can make things happen in this puzzle that you just described....
+
