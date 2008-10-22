@@ -1,0 +1,40 @@
+@node Plugins, Index, Stories, Top
+@chapter Plugins
+
+@menu
+* Creating a plugin::
+* Cells::
+* Boots::
+* Tools::
+* Notorious plugins::
+@end menu
+
+@node Creating a plugin, Cells, Plugins, Plugins
+@section Creating a plugin
+
+@node Cells, Boots, Creating a plugin, Plugins
+@section Cells
+@comment  node-name,  next,  previous,  up
+
+@node Boots, Tools, Cells, Plugins
+@section Boots
+@comment  node-name,  next,  previous,  up
+
+@node Tools, Notorious plugins, Boots, Plugins
+@section Tools
+
+@menu
+* Notorious plugins::
+@end menu
+
+@node Notorious plugins,  , Tools, Plugins
+@section  Notorious plugins
+@comment  node-name,  next,  previous,  up
+
+@menu
+* Water::
+@end menu
+
+@node Water,  , Notorious plugins, Notorious plugins
+@subsection Water
+@comment  node-name,  next,  previous,  up

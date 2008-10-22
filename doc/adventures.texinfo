@@ -1,0 +1,104 @@
+@node Adventures, Levels, Introduction, Top
+@chapter Adventures
+
+@quotation
+``A l'aventure compagnon, je suis parti vers l'horizon,
+J'aurais mieux fait de rester au lit, ce donjon il est pourri''
+
+@cite{Donjon de Naheulbeuk}, @url{http://www.penofchaos.com}
+@end quotation
+
+A Boots Puzzle adventure is a whole new world of traps, strange places, events, smelly boots and, maybe, fame and fortune.
+
+Or you might also see it as a bunch of ruby files to describe the levels, and a YAML file to order the levels. That would just be a bit less poetic.
+
+@menu
+* Creating an adventure::
+* adventure.yml file::
+@end menu
+
+@node Creating an adventure, adventure.yml file, Adventures, Adventures
+@section Creating an adventure
+
+To create a brand new adventure, first create a folder under @file{src/adventures}, and create and edit a file called @file{adventure.yml} in this folder :
+
+@example
+mkdir src/adventures/donjon
+emacs src/adventures/donjon/adventure.yml
+@end example
+
+You don't necessarily have to use emacs, of course, it's just an
+advice. If you are really lazy, you can copy the @file{adventure.yml}
+file from @file{foobar}, and edit it. Just remenber :
+@file{adventures} is the folder with, well, adventures, and
+@file{adventure.yml} is only the description of @emph{one}
+adventure. Grammar and everything.
+
+@node adventure.yml file,  , Creating an adventure, Adventures
+@section adventure.yml file
+
+Enough talking already. Here is an example of an adventure file for our adventure.
+
+@example
+adventure:
+  name: foobar
+  plugins:
+  - water
+  - tunnel
+  levels:
+  - puzzle: level_1_puzzle
+  - puzzle: level_2_puzzle
+  - puzzle: level_3_puzzle
+@end example
+
+Let's discuss in details what those lines means :
+
+@example
+adventure:
+@end example
+
+An adventure file is a valid YAML file, it must have a root, and
+it describes and adventure. So 'adventure' that is.
+
+@example
+  name: foobar
+@end example
+
+An adventure MUST have a name. This should be the name of the
+directory in which you created the adventure.yml file.  So something
+like @code{demo}, @code{foobar}, but probably not something with
+spaces, or strange characters.
+
+@example
+  plugins:
+  - water
+  - tunnel
+@end example
+
+This is a list of all plugins you need in this adventure. There isn't
+that much in boots-puzzle's core actually, so you are very likely to
+need some plugins to make your puzzles funny. Simply list all
+plugins's names, and they will be loaded when you play the adventure.
+[TODO : See Later for plugins]
+
+@example
+  levels:
+  - puzzle: level_1
+  - puzzle: level_2
+  - puzzle: level_3
+@end example
+This is a list of all puzzles in your adventure.  They are in order,
+so puzzle called @code{level_2} will be played after
+@code{level_1} and before @code{level_3}.
+[TODO : See later of how to call levels]
+
+Note that this example follows the nice conventions with level naming,
+so you don't have to tell boots-puzzle precisely which file contains
+the level. But you could.  You'll see that later.
+
+You'll need one more thing to set up your adventure : next to
+@file{adventure.yml}, create a new folder called @file{levels}. Rather
+boringly, this is where @command{boots-puzzle} will look for levels
+... which are described later.
+
+Call this a transition.

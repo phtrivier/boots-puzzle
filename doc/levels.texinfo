@@ -1,0 +1,40 @@
+@node Levels, Puzzles, Adventures, Top
+@chapter Levels
+
+When you're in a room, two things really matter : what's there, and what happens there.
+
+When I say @samp{What's there}, I mean : @samp{Where is the entrance}?
+@samp{Where is the exit}? @samp{What is this flower pot doing here}
+etc...?
+
+When I say @samp{What happens there}, I mean : @samp{Should something
+strange occur when I walk on this hole that looks like a trap}? (Note
+: the answer is aaaaaarg).
+
+The former is what I call a 'Puzzle', or a puzzle definition.  It's
+really static. @samp{There is a door over there} kind of static. Just
+things that are there.
+
+The latter is what I call a 'Story', or a puzzle story.
+Action happens here. Romance and action and fun and elephants.
+
+A level is the combination of a puzzle and a story.  A level doesn't
+have a file of it's own, but rather it depends on two separate files
+(that we'll discuss later).
+
+Now, a level is kind of clever. If you say that you want a level
+called @samp{level_1}, then it will auto-magically look for the puzzle
+part in a file called @file{level_1_puzzle.rb} in the folder
+@file{levels}. And if there is a file called
+@file{level_1_puzzle_story.rb}, it will consider that this is the
+story for this level.
+
+Nothing brilliant. Just conventions.
+
+The downside is that you need to follow those conventions, too. So you
+must name you puzzle and story files apropriately.
+
+[TODO : describe how you're actually not that screwed if you don't do
+that exactly]
+
+Now, let's see what you should put in those puzzle and story.

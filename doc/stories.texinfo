@@ -1,0 +1,5 @@
+@node Stories, Plugins, Puzzles, Top
+@chapter Stories
+@comment  node-name,  next,  previous,  up
+
+Blah Blah Blah.

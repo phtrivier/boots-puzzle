@@ -1,0 +1,6 @@
+@c ----------------------------------, , Plugins, Top
+@c End of the document
+@node Index,  , Plugins, Top
+@unnumbered Index
+
+@printindex cp

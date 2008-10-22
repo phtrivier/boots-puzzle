@@ -1,0 +1,6 @@
+@node Puzzles, Stories, Levels, Top
+@chapter Puzzles
+@comment  node-name,  next,  previous,  up
+
+A puzzle is a lot of places (cells), an entry, an exit, and boots
+scatered all around the place.
