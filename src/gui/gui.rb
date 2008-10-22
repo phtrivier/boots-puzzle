@@ -450,6 +450,9 @@ class GameWindow
       when SDL::Event2::KeyDown
         res = event.sym
       end
+      if (res == nil)
+        SDL.delay(50)
+      end
     end
     SDL::Key.scan
     res
