@@ -50,7 +50,7 @@ with the boots-puzzle program.
 * Index::
 @end menu
 
-@include introduction.textinfo
+@include introduction.texinfo
 @include adventures.texinfo
 @include levels.texinfo
 @include puzzles.texinfo
