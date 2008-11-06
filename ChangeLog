@@ -1,3 +1,11 @@
+2008-11-06  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* file_plugin_loader.rb (has_plugin?) added method to check
+	whether a plugin exists
+
+	* plugin_manager.rb (load_plugin_elements) several file loaders
+	can be used to load a plugin
+
 2008-10-22  Pierre-Henri Trivier  <phtrivier@wilde>
 
 	* gui.rb (show, wait_for_key) added delays to try and avoid CPU at 100%

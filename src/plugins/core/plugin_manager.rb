@@ -20,6 +20,8 @@
 
 require 'plugin'
 
+# This class is used to load and check dependency
+# between plugins.
 class PluginManager
 
   def meta
@@ -28,12 +30,12 @@ class PluginManager
     end
   end
 
-  attr_accessor :loader
+  attr_accessor :loaders
 
   def initialize(loader = nil)
     @plugins = { }
     @loading = []
-    @loader = loader
+    @loaders = loader ? [loader] : []
   end
 
   def manifest!(name, dependencies = [])
@@ -98,14 +100,24 @@ class PluginManager
     @loading.delete(name)
   end
 
+  # Try and load all elements of
+  # a plugin (see Plugin::ElementTypes),
+  # using all known file loaders in turn.
+  # The first file loader that has the plugin
+  # is used.
+  # FIXME : This can lead to problems if more than
+  # one file loader claims to have the plugin
+  #
+  # [plugin]:: Plugin object to be loaded
   def load_plugin_elements(plugin)
-    #puts "Loading plugin's element #{plugin.name}"
-    if (@loader != nil)
-      name = plugin.name
-      Plugin::ElementTypes.each do |type|
-        #puts "Checking with loader : #{@loader}, type : #{type} on plugin #{name}"
-        if (@loader.has_element?(name, type))
-          @loader.load_element(name, type)
+    name = plugin.name
+    @loaders.each do |loader|
+      if (loader.has_plugin?(name))
+        Plugin::ElementTypes.each do |type|
+          if (loader.has_element?(name, type))
+            loader.load_element(name, type)
+            some_loaded = true
+          end
         end
       end
     end

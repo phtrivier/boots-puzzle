@@ -34,6 +34,10 @@ class FilePluginLoader
     "#{plugin_dir(name)}/#{elem}"
   end
 
+  def has_plugin?(name)
+    File.exists?(plugin_dir(name))
+  end
+
   def has_element?(name, elem)
     !plugin_element_filenames(name, elem).empty?
   end

@@ -120,16 +120,38 @@ class PluginManagerTest < BPTestCase
   def test_loads_dependencies_using_the_file_loader
     file_loader = mock()
 
+    file_loader.expects(:has_plugin?).with("toto").returns(true)
     Plugin::ElementTypes.each do |type|
       file_loader.expects(:has_element?).with("toto", type).returns(true)
       file_loader.expects(:load_element).with("toto", type)
     end
 
-    @pm.loader = file_loader
+    @pm.loaders << file_loader
     @pm.manifest!("toto")
     assert !@pm.loaded?("toto")
     @pm.load!("toto")
     assert @pm.loaded?("toto")
+  end
+
+  def test_uses_several_loader
+    f1 = mock()
+    f2 = mock()
+
+    f1.expects(:has_plugin?).with("toto").returns(false)
+
+    f2.expects(:has_plugin?).with("toto").returns(true)
+    Plugin::ElementTypes.each do |type|
+      f2.expects(:has_element?).with("toto", type).returns(true)
+      f2.expects(:load_element).with("toto", type)
+    end
+
+    @pm.loaders << f1
+    @pm.loaders << f2
+    @pm.manifest!("toto")
+    @pm.load!("toto")
+    assert @pm.loaded?("toto")
+
+
   end
 
 end
