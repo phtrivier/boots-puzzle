@@ -43,8 +43,6 @@ require 'fileutils'
 # Init the plugins > This will be done in the adventure aftewards ?
 require 'plugins'
 
-Plugins.init("../plugins")
-Plugins.read_manifests
 # ----------------------
 
 module ImagePath
@@ -117,6 +115,11 @@ class LevelEditor < Shoes
       @adventure_name = ARGV[1]
       adventure_folder = "../adventures/#{@adventure_name}"
       @levels_folder =  "#{adventure_folder}/levels"
+
+
+      Plugins.init("../plugins")
+      Plugins.add_root("#{adventure_folder}/plugins")
+      Plugins.read_manifests!
 
       @adventure_file = "#{adventure_folder}/adventure.yml"
       begin
