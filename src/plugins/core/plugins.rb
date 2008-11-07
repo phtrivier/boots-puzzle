@@ -49,9 +49,19 @@ class Plugins
     @@manager.loaded?(name)
   end
 
-  def self.manifest(name, deps = [])
+  def self.manifest!(name, deps = [])
     @@manager.manifest!(name, deps)
   end
+
+  def self.read_manifests!()
+    @@manager.read_manifests!
+  end
+
+  class << self
+    alias_method(:read_manifests, :read_manifests!)
+    alias_method(:manifest,:manifest!)
+  end
+
 
   # Declare that you need plugins to be loaded
   # args : a list (or an array) of plugin names
@@ -73,14 +83,8 @@ class Plugins
     end
   end
 
-  def self.read_manifests()
-    # TODO : Move read manifests to the plugin manager itself
-    # TODO : Move loading filenames to the file_loader itself
-    # (file_loader.read_manifests)
-    Dir["#{@@root}/*/manifest.rb"].each do |filename|
-      # Manifests are reloaded each time (usefull for tests)
-      load filename
-    end
+  def self.add_root(root)
+    @@manager.loaders << FilePluginLoader.new(root)
   end
 
 end

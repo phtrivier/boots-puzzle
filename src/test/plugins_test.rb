@@ -25,15 +25,16 @@ class PluginsTest < BPTestCase
 
   def setup
     Plugins.init("src/test/testdir/plugins_test/plugins")
-    Plugins.read_manifests
   end
 
   def test_can_load_manifest_file_for_a_plugin
+    Plugins.read_manifests!
     assert Plugins.manifested?("b")
     assert Plugins.manifested?("c")
   end
 
   def test_loads_plugin_if_needed
+    Plugins.read_manifests!
     assert Plugins.manifested?("b")
     assert Plugins.manifested?("c")
     Plugins.need("b")
@@ -41,6 +42,7 @@ class PluginsTest < BPTestCase
   end
 
   def test_recursively_loads_plugin_if_needed
+    Plugins.read_manifests!
     assert Plugins.manifested?("b")
     assert Plugins.manifested?("c")
     Plugins.need("c")
@@ -49,6 +51,7 @@ class PluginsTest < BPTestCase
   end
 
   def test_unneed_plugin_is_not_loaded
+    Plugins.read_manifests!
     # "d" is not required by any one
     assert Plugins.manifested?("d")
     Plugins.need("c")
@@ -68,6 +71,7 @@ class PluginsTest < BPTestCase
   end
 
   def test_sloppyness_forgiving_message
+    Plugins.read_manifests!
     begin
       Plugin.manifest("toto")
       bad("No such method")
@@ -79,15 +83,23 @@ class PluginsTest < BPTestCase
 
   # Test needing several at a time
   def test_needing_several_plugins_without_array
+    Plugins.read_manifests!
     Plugins.need("b", "c")
     assert Plugins.loaded?("b")
     assert Plugins.loaded?("c")
   end
 
   def test_needing_several_plugins_with_array
+    Plugins.read_manifests!
     Plugins.need(["b", "c"])
     assert Plugins.loaded?("b")
     assert Plugins.loaded?("c")
+  end
+
+  def test_can_load_manifests_file_from_different_places
+    Plugins.add_root("src/test/testdir/plugins_test/extra_dir/plugins")
+    Plugins.read_manifests!
+    assert Plugins.manifested?("foobar")
   end
 
 end

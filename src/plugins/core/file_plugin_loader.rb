@@ -52,4 +52,11 @@ class FilePluginLoader
     end
   end
 
+  def read_manifests!
+    Dir["#{@root}/*/manifest.rb"].each do |filename|
+      # Manifests are reloaded each time (usefull for tests)
+      load filename
+    end
+  end
+
 end
