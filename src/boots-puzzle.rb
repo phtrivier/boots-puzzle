@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-BP_VERSION="0.3.3"
+BP_VERSION="0.3.4.5"
 
 $LOAD_PATH << "."
 $LOAD_PATH << "gui"
@@ -47,6 +47,6 @@ if (has_arg?("help", "h"))
 elsif (has_arg?("version", "v"))
   puts_version
 else
-  wrap_play(".")
+  wrap_play(File.expand_path("."))
 end
 

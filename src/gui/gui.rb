@@ -90,10 +90,7 @@ class GameWindow
   def initialize(props)
     init_screen(640,480)
 
-    @prefix = props[:prefix]
-    if (@prefix == nil)
-      @prefix = "."
-    end
+    @prefix = props[:prefix] || "."
 
     @font = load_default_font()
 
@@ -131,8 +128,9 @@ class GameWindow
   def load_adventure(props)
 
     adventure_name = props[:adventure_name]
+    adventure_path = props[:adventure_roots]
 
-    adventure_loader = AdventureLoader.new(@prefix)
+    adventure_loader = AdventureLoader.new(@prefix, adventure_path)
 
     @adventure = adventure_loader.load!(adventure_name)
 

@@ -26,11 +26,12 @@ class Adventure
 
   attr_reader :name, :plugins, :levels
 
-  def initialize(name=nil)
+  def initialize(prefix="adventures", name=nil)
     @name = name
     @plugins = []
     @levels = []
     @current_index = -1
+    @prefix = prefix
   end
 
   def load!(yaml)
@@ -94,11 +95,11 @@ class Adventure
   end
 
   def load_current_level!
-    current_level.load!(prefix)
+    current_level.load!(level_prefix)
   end
 
-  def prefix
-    "adventures/#{@name}/levels"
+  def level_prefix
+    "#{@prefix}/#{@name}/levels"
   end
 
   def load_plugins!
