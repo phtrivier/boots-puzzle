@@ -23,6 +23,8 @@ def puts_options(offset)
                             "-a=<ADVENTURE_NAME>           (Synonym for --adventure)",
                             "--level=<LEVEL_NAME>          Start at a given level",
                             "-l=<LEVEL_NAME>               (Synonym for --level",
+                            "--root=<PATH>                 Provide the location in which adventure folder is given (must be an absolute path)",
+                            "-r=<PATH>                     (Synonym for -r",
                             "--help | -h                   Display with help",
                             "--version | -v                Display version number"
                            ])
