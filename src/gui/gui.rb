@@ -94,10 +94,6 @@ class GameWindow
       @prefix = "."
     end
 
-    # Init the plugin system
-    Plugins.init("#{@prefix}/plugins")
-    Plugins.read_manifests
-
     @font = load_default_font()
 
     @fitter = TextFitter.new(@font, 600)
@@ -132,11 +128,23 @@ class GameWindow
   end
 
   def load_adventure(props)
+
     adventure_name = props[:adventure_name]
 
     @adventure = Adventure.new
     begin
-      @adventure.load!(File.open("#{@prefix}/adventures/#{adventure_name}/adventure.yml"))
+
+      # TODO(pht) Make it possible to use the current folder as a root
+      # (better yet, use file_loader to load adventures ... and an adventure_loader
+      # to do the job !!
+      adventure_root = "#{@prefix}/adventures/#{adventure_name}"
+
+      # Init the plugin system
+      Plugins.init("#{@prefix}/plugins")
+      Plugins.add_root("#{adventure_root}/plugins")
+      Plugins.read_manifests!
+
+      @adventure.load!(File.open("#{adventure_root}/adventure.yml"))
     rescue Exception => e
       puts "Unable to open adventure #{adventure_name} : #{e}"
       exit
