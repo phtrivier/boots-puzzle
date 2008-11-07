@@ -154,4 +154,14 @@ class PluginManagerTest < BPTestCase
 
   end
 
+  def test_read_manifests_through_file_loader
+    f1 = mock()
+    f2 = mock()
+    f1.expects(:read_manifests!)
+    f2.expects(:read_manifests!)
+    @pm.loaders << f1
+    @pm.loaders << f2
+    @pm.read_manifests!
+  end
+
 end

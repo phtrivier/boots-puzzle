@@ -123,4 +123,10 @@ class PluginManager
     end
   end
 
+  def read_manifests!
+    @loaders.each do |loader|
+      loader.read_manifests!
+    end
+  end
+
 end

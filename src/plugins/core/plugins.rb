@@ -74,6 +74,9 @@ class Plugins
   end
 
   def self.read_manifests()
+    # TODO : Move read manifests to the plugin manager itself
+    # TODO : Move loading filenames to the file_loader itself
+    # (file_loader.read_manifests)
     Dir["#{@@root}/*/manifest.rb"].each do |filename|
       # Manifests are reloaded each time (usefull for tests)
       load filename
