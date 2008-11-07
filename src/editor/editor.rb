@@ -21,19 +21,6 @@
 $LOAD_PATH << "../plugins/core"
 $LOAD_PATH << "../adventures"
 
-# require 'rubygems'
-# require 'log4r'
-# require 'log4r/yamlconfigurator'
-# require 'log4r/outputter/datefileoutputter'
-
-# include Log4r
-
-# def log_config(conf)
-#   cfg = YamlConfigurator
-#   cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
-# end
-# log_config("dev")
-
 require 'adventure'
 require 'puzzle'
 require 'tools'
