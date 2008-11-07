@@ -38,6 +38,8 @@ require 'adventure'
 require 'puzzle'
 require 'tools'
 require 'fileutils'
+require 'adventure_loader'
+
 
 # ----------------------
 # Init the plugins > This will be done in the adventure aftewards ?
@@ -113,22 +115,12 @@ class LevelEditor < Shoes
       exit
     else
       @adventure_name = ARGV[1]
-      adventure_folder = "../adventures/#{@adventure_name}"
-      @levels_folder =  "#{adventure_folder}/levels"
+      @prefix = ".."
 
+      adventure_loader = AdventureLoader.new(@prefix)
+      @adventure = adventure_loader.load!(@adventure_name)
 
-      Plugins.init("../plugins")
-      Plugins.add_root("#{adventure_folder}/plugins")
-      Plugins.read_manifests!
-
-      @adventure_file = "#{adventure_folder}/adventure.yml"
-      begin
-        @adventure = Adventure.new(@adventure_name)
-        @adventure.load!(File.open(@adventure_file))
-        @adventure.load_plugins!
-      rescue RuntimeError => e
-        alert("Unable to load adventure #{@adventure_name} : #{e}. Will quit.")
-      end
+      @levels_folder = adventure_loader.levels_folder(@adventure_name)
 
       # TODO : MOVE THIS TO LOAD_PUZZLE ?
       if (ARGV[2] == nil)
