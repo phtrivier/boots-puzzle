@@ -21,30 +21,17 @@
 $LOAD_PATH << "../plugins/core"
 $LOAD_PATH << "../adventures"
 
-# require 'rubygems'
-# require 'log4r'
-# require 'log4r/yamlconfigurator'
-# require 'log4r/outputter/datefileoutputter'
-
-# include Log4r
-
-# def log_config(conf)
-#   cfg = YamlConfigurator
-#   cfg.load_yaml_file("./conf/#{conf}/log4r.yml")
-# end
-# log_config("dev")
-
 require 'adventure'
 require 'puzzle'
 require 'tools'
 require 'fileutils'
+require 'adventure_loader'
+
 
 # ----------------------
 # Init the plugins > This will be done in the adventure aftewards ?
 require 'plugins'
 
-Plugins.init("../plugins")
-Plugins.read_manifests
 # ----------------------
 
 module ImagePath
@@ -115,17 +102,12 @@ class LevelEditor < Shoes
       exit
     else
       @adventure_name = ARGV[1]
-      adventure_folder = "../adventures/#{@adventure_name}"
-      @levels_folder =  "#{adventure_folder}/levels"
+      @prefix = ".."
 
-      @adventure_file = "#{adventure_folder}/adventure.yml"
-      begin
-        @adventure = Adventure.new(@adventure_name)
-        @adventure.load!(File.open(@adventure_file))
-        @adventure.load_plugins!
-      rescue RuntimeError => e
-        alert("Unable to load adventure #{@adventure_name} : #{e}. Will quit.")
-      end
+      adventure_loader = AdventureLoader.new(@prefix)
+      @adventure = adventure_loader.load!(@adventure_name)
+
+      @levels_folder = adventure_loader.levels_folder(@adventure_name)
 
       # TODO : MOVE THIS TO LOAD_PUZZLE ?
       if (ARGV[2] == nil)

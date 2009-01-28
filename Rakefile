@@ -35,7 +35,7 @@ task :play => [:test] do |t|
   $LOAD_PATH << "./src/plugins/core"
 
   require 'boots-puzzle-wrapper'
-  wrap_play("src")
+  wrap_play(File.expand_path("./src"))
 
 end
 

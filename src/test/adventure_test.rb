@@ -62,7 +62,7 @@ EOF
     assert_equal "adv", @a.name
     assert_equal 3, @a.plugins.size
     assert_equal 3, @a.levels.size
-    assert_equal "adventures/adv/levels", @a.prefix
+    assert_equal "adventures/adv/levels", @a.level_prefix
     assert_equal "foo_puzzle", @a.levels[0].puzzle_name
     assert_equal "FooPuzzle", @a.levels[0].puzzle_class_name
     assert_equal "baz_puzzle", @a.levels[2].puzzle_name
@@ -163,5 +163,7 @@ EOF
     assert_equal [], @a.levels
     assert_equal [], @a.plugins
   end
+
+
 
 end

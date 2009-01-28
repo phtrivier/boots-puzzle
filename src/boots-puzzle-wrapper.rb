@@ -32,15 +32,24 @@ end
 
 # Play
 # Prefix : folder where sources should be
-def wrap_play(prefix)
+def wrap_play(default_prefix)
   adventure_name = from_env("adventure", "a", "foobar")
   level_name = from_env("level", "l", nil)
-  play_adventure(adventure_name, level_name, prefix)
+  root = from_env("root", "r", nil)
+
+  # If a root is provided, we must use it first
+  adventure_roots = []
+  if (root != nil)
+    adventure_roots << File.expand_path(root)
+  end
+  adventure_roots << "#{default_prefix}/adventures"
+
+  play_adventure(adventure_name, level_name, default_prefix, adventure_roots)
 end
 
-def play_adventure(adventure_name, level_name, prefix)
+def play_adventure(adventure_name, level_name, prefix, adventure_roots)
   require 'gui'
-  play(:adventure_name => adventure_name, :level_name => level_name, :prefix => prefix)
+  play(:adventure_name => adventure_name, :prefix => prefix, :level_name => level_name, :adventure_roots => adventure_roots)
 end
 
 # ----------------------

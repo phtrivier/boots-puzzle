@@ -27,6 +27,7 @@ require 'sdl'
 require 'game_modes'
 require 'text_fitter'
 require 'text_cutter'
+require 'adventure_loader'
 # --------------------------------------------
 # Game UI
 
@@ -89,14 +90,7 @@ class GameWindow
   def initialize(props)
     init_screen(640,480)
 
-    @prefix = props[:prefix]
-    if (@prefix == nil)
-      @prefix = "."
-    end
-
-    # Init the plugin system
-    Plugins.init("#{@prefix}/plugins")
-    Plugins.read_manifests
+    @prefix = props[:prefix] || "."
 
     @font = load_default_font()
 
@@ -132,16 +126,13 @@ class GameWindow
   end
 
   def load_adventure(props)
-    adventure_name = props[:adventure_name]
 
-    @adventure = Adventure.new
-    begin
-      @adventure.load!(File.open("#{@prefix}/adventures/#{adventure_name}/adventure.yml"))
-    rescue Exception => e
-      puts "Unable to open adventure #{adventure_name} : #{e}"
-      exit
-    end
-    @adventure.load_plugins!
+    adventure_name = props[:adventure_name]
+    adventure_path = props[:adventure_roots]
+
+    adventure_loader = AdventureLoader.new(@prefix, adventure_path)
+
+    @adventure = adventure_loader.load!(adventure_name)
 
     if (@adventure.has_next_level?)
 

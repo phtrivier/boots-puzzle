@@ -4,6 +4,7 @@ adventure:
   - water
   - tunnel
   - switch
+  - hello
   name: foobar
   levels:
   - puzzle: level_1_puzzle
