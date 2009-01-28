@@ -8,9 +8,12 @@ J'aurais mieux fait de rester au lit, ce donjon il est pourri''
 @cite{Donjon de Naheulbeuk}, @url{http://www.penofchaos.com}
 @end quotation
 
-A Boots Puzzle adventure is a whole new world of traps, strange places, events, smelly boots and, maybe, fame and fortune.
+A Boots Puzzle adventure is a whole new world of traps, strange
+places, events, smelly boots and, maybe, fame and fortune.
 
-Or you might also see it as a bunch of ruby files to describe the levels, and a YAML file to order the levels. That would just be a bit less poetic.
+Or you might also see it as a bunch of ruby files to describe the
+levels, and a YAML file to order the levels. That would just be a bit
+less poetic.
 
 @menu
 * Creating an adventure::

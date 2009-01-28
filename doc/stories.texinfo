@@ -2,4 +2,130 @@
 @chapter Stories
 @comment  node-name,  next,  previous,  up
 
-TO BE DONE...
+@quotation
+``Il y a trois choses essentielles pour faire un bon film : primo, une bonne histoire ;
+secondo une bonne histoire, tertio une bonne histoire.''
+@cite{Jean Gabin (or Michel Audiard, I can't remember)}
+@end quotation
+
+Next to a level, the static part of you puzzle, you can add dynamic events. Things that will happen in reaction to
+some action by the player.
+
+Remember in last section when you gave name to cells using the
+@code{named_cells} and @code{named_cell} commands ?  Actually, there
+is only one type of event : when the player walks on a named cell. The
+role of the story file is to control what happens when the player walk on a particular scene.
+
+The bad news is that you must specify it as code, in the Ruby programming language. This means you need to respect the syntax and the rules of the language, which are not necessarily straighforward (although it is not that difficult).
+
+The good news is that you can pretty much do whatever you want to react to an event, because you have access to the full power of a great programming language. You have access to the data structure representing the whole puzzle, and you can use plugins to make funny things happen. For example, the 'switch' plugin makes it possible to add some, well, switches in you puzzles, that makes things happen when you switch (sic) then on and off. You can display message, you can move things from a place to another... you can completely change the layout of the puzzle, teleport you player, who knows ! Let's see how it is done.
+
+@node A simple Story, A longer Story, Stories, Stories
+@section A simple Story
+@comment  node-name,  next,  previous,  up
+
+The Story file should be next to your puzzle file. It should have the same name, with ``_story.rb'' in the end.
+The content of the file should be something like this :
+
+@example
+Story.for("level_1") do
+
+  story_event :some_cell_name do |puzzle|
+    puzzle.message("Some message.")
+  end
+
+  story_once [:some_other_cell_name, :yet_another_cell_name] do |puzzle|
+    puzzle.message("Some other message. You will only see that once.")
+  end
+
+end
+@end example
+
+As usual, lets discuss in detail :
+
+@example
+Story.for("level_1") do
+@end example
+
+This introduce the story file. This means that this story should be in
+a file called @file{level_1_puzzle_story.rb}, sitting next to
+@file{level_1_story.rb}.
+
+@example
+  story_event :some_cell_name do |puzzle|
+    puzzle.message("Some message.")
+  end
+@end example
+
+This is an example of a story event. The word @code{story_event} is
+the most generic way to describe an event.  The word
+@code{:some_cell_name} means that the event should happen when the
+player walks on a cell called @code{:some_cell:name}. The @code{do |puzzle|} is Ruby syntax do introduce a block of code.Th code that comes until the @code{end} will be executed, and this code can use the @code{puzzle} variable to represent the current puzzle.
+
+@example
+    puzzle.message("Some message.")
+@end example
+
+This is the code that is executed when the player walks on the
+cell. In this case, we simply call the @code{message} function of the
+puzzle object, which displays a message in the ``text zone'', in the
+bottom of the screen. There are many functions you can call on a
+puzzle, and the fact is that plugins you use in your adventure will
+probably add more functions that you can call.
+
+I'll skip the @code{end} line, which is just the end of the block of
+code, and as a matter of fact the end of the event description.
+
+@example
+  story_once [:some_other_cell_name, :yet_another_cell_name] do |puzzle|
+    puzzle.message("Some other message. You will only see that once.")
+  end
+@end example
+
+This is a slighly different way to introduce an event. Instead of using the @code{story_event} function, we use the @code{story_once} one. The difference is that the former executes the event whenever the player walks on the cell, whereas the latter only executes it once.
+
+Suppose you want your player to set up some booby-trap, so that when she walks on a given cell, a door gets closed behind her. You probably want to close the door, and display the sardonic laughter of the distant evil genious who trapped the player (ok, everyone knows the evil genious gets kicked in the end, but never mind). You don't the evil genious to repeat itself whenever the player walks on that cell again (that would sound like an evil-voice-mail to me.) @code{story_once} will do just that.
+
+The other tricky thing is the @code{[:some_other_cell_name, :yet_another_cell_name]} part. Here, instead of giving the name of one cell, you can give the name of several, provided you write them behind brackets (@code{[}), separated by commas (@code{,}). This will look familiar to Ruby programmers.
+
+After that, it is really just the same thing.
+
+@node A longer Story,  , A simple Story, Stories
+@section A longer Story
+
+To see that plugins make things funnier, let's have a look at this other level :
+
+@example
+Story.for("level_2") do
+
+  tunnel(:tunnel_left, :tunnel_top)
+
+  story_switch :sw do
+
+    on do |puzzle|
+      puzzle.set_cell_by_name(:tunnel_top, Walkable.new)
+      puzzle.set_cell_by_name(:tunnel_bottom, TunnelExtremityCell.new)
+      puzzle.tunnel(:tunnel_left, :tunnel_bottom)
+    end
+
+    off do |puzzle|
+      puzzle.set_cell_by_name(:tunnel_bottom, Walkable.new)
+      puzzle.set_cell_by_name(:tunnel_top, TunnelExtremityCell.new)
+      puzzle.tunnel(:tunnel_left, :tunnel_top)
+    end
+
+  end
+end
+@end example
+
+This story only makes sense in an adventure that use the ``switch'' and ``tunnels'' plugins.
+
+The line @code{tunnel(:tunnel_left, :tunnel_top)} means that there should be a wormhole-like tunnel between cells named @code{:tunnel_left} and @code{:tunnel_top}. When you walk on one, you are immediatly transported to the other side, and vice-versa. All this in one line !
+
+The @code{story_switch} function, introduced by the ``switch'' plugin, makes it possible to create a switch (here, on the cell name @code{sw}, and make things happen when the switch is turned on (that's what is after the @code{on do |puzzle|} line) or off (the @code{off do |puzzle|} part, you get the thing). By default, switches are turned off. In this case, you can see that we use the @code{set_cell} function of the @code{puzzle} object to change things in the puzzle.
+
+@quotation Note
+Actually, we do something trickier : we dynamically create tunnels in the puzzle, as we go. If you want the detail, this is because all the functions of the story file are actually executed on the puzzle object when it is created. So, writing @code{tunnel(:cell1, :cell2)} in the story file does the same as writing @code{puzzle.tunnel(:cell1, :cell2)} in an event. Simply, the code in the story file is evaluated at startup, whereas the event code is only executed when you walk on stuff.
+@end quotation
+
+This is the lesson here : you can make very interesting things happen with stories and plugins combined. Oh, gosh !! I haven't told you what a plugin really is. I guess I'll have to do that in next section ... (I'm becoming really good at transitions, don't you think ? You don't ? Never mind.)

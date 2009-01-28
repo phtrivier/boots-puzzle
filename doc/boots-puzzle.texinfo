@@ -15,7 +15,7 @@ Copyright @copyright{} 2008 Pierre-Henri Trivier.
 @titlepage
 @title Adventures in Boots-Puzzle
 @subtitle Does anybody know Boots ?
-@author Pierre-Henri Trivier
+@author Pierre-Henri Trivier (@email{phtrivier@@yahoo.fr})
 
 @c copyright page
 @page
@@ -42,13 +42,13 @@ with the boots-puzzle program.
 
 @c Body of the document
 @menu
-* Introduction::                
-* Adventures::                  
-* Levels::                      
-* Puzzles::                     
-* Stories::                     
-* Plugins::                     
-* Index::                       
+* Introduction::
+* Adventures::
+* Levels::
+* Puzzles::
+* Stories::
+* Plugins::
+* Index::
 @end menu
 
 @include introduction.texinfo
