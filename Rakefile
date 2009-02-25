@@ -1,7 +1,6 @@
 require 'rake'
 require 'rake/testtask'
 require 'fileutils'
-require 'rubygems'
 
 # .list file for Debian
 List = "boots-puzzle.list"
