@@ -46,7 +46,7 @@ task :demo do
   $LOAD_PATH << "./src/plugins/core"
 
   require 'boots-puzzle-wrapper'
-  play_adventure("demo", "level_0", "src")
+  play_adventure("demo", "level_0", "src", ["src/adventures"])
 
 end
 
