@@ -1,6 +1,11 @@
 @node Plugins, Index, Stories, Top
 @chapter Plugins
 
+@quotation
+``C'est branché, ton machin ?''
+@cite{My Dad, whenever some computer thingy doesn't work}
+@end quotation
+
 @menu
 * Creating a plugin::
 * Cells::
@@ -12,7 +17,48 @@
 @node Creating a plugin, Cells, Plugins, Plugins
 @section Creating a plugin
 
-TO BE DONE...
+A plugin is a way to extend an adventure by
+@itemize
+@item
+creating new kinds of cells (that look or behave differently)
+@item
+creating new kinds of boots (that make you move differently)
+@item
+patching the code from any class in the game, to change its behavior
+@end itemize
+
+It is not advised to change things that happen in the game, but rather
+to add new things.  Also, the plugin system is pretty crude, in the
+sense that it probably does not handle very well several plugins
+concurrently trying to modify the same things. 
+
+To create a plugin, you should create a folder with the name of the plugin in the @file{plugins} subfolder of your adventure. 
+For example, to add a plugin ``hello'' to our ``demo'' adventure, you would add a folder @file{adventures/demo/plugins/hello}.
+
+Then, you need to describe the plugin, basically by giving its name, and telling the game whether this plugins depends on 
+some other plugin. You do this by adding a @file{manifest.rb} file in the @file{plugins/hello} folder. The file should look like this : 
+
+@example
+Plugins.manifest("hello", ["events"])
+@end example
+
+This means that you are declaring a plugin called ``hello'', and it depends on one plugin, which is called ``events''. 
+If you need to depend on several plugins, the file would look like this : 
+
+@example
+Plugins.manifest("hello", ["events", "water"])
+@end example
+
+If you don't depend on any plugin, you can simplify things : 
+
+@example
+Plugins.manifest("hello")
+@end example
+
+@node Plugin Loading
+@section Plugin Loading
+
+TODO
 
 @node Cells, Boots, Creating a plugin, Plugins
 @section Cells

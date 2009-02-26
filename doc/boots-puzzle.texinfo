@@ -40,15 +40,16 @@ with the boots-puzzle program.
 @c ------------------------
 
 
+
 @c Body of the document
 @menu
-* Introduction::
-* Adventures::
-* Levels::
-* Puzzles::
-* Stories::
-* Plugins::
-* Index::
+* Introduction::                
+* Adventures::                  
+* Levels::                      
+* Puzzles::                     
+* Stories::                     
+* Plugins::                     
+* Index::                       
 @end menu
 
 @include introduction.texinfo
