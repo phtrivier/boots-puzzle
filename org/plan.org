@@ -1,8 +1,12 @@
 * Planning
-** v0.3.2
-*** Version & Help from wrapper script
-*** Better font
-*** Distribute with no dependency on gems at all !!!
+** v0.3.4
+*** TODO Fix nondependency on gems
+*** TODO Finish manual
+**** What is a plugin ?
+**** How do you create it (cells, boots, etc..)
+** v0.3.5
+*** TODO Document the editor a little
+*** TODO Fix stupid bugs on the editor
 ** v0.4.0
-*** Finish the 'demo' adventure
+*** Finish the 'demo' adventure (more levels)
 *** Fix bugs, improve distribution, etc...

@@ -1,9 +1,8 @@
 * Bugs
 ** TODO [BP-0] Log4j had to be disabled as it breaks the
 * Game Engine
-** TODO Load plugins from inside an adventure
-** TODO package adventures individually
-** TODO Console ?
+** DONE Load plugins from inside an adventure
+** DONE package adventures individually
 * Game UI
 ** TODO [#B] Find a icon for the application (the bare foots ?)
 ** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
@@ -47,13 +46,11 @@ When you quit the game, you go back to this screen. If you press 'R'
 ** adding assertions
 ** saving / loading
 * Publicity
-** TODO [#B] Distribute each part separately with a debian like stuff (do it properly)
-*** Use dh_install if usable ?
-** TODO [#B] Do a release (tar.gz file, plus a debian package repository on the
+** DONE [#B] Distribute each part separately with a debian like stuff (do it properly)
+** DONE Do a release (tar.gz file, plus a debian package repository on the web site)
 ** TODO [#B] Documentation
-*** Adventure format
-*** Puzzle format
-*** Plugin system
+*** TODO Manual
+**** TODO Document the plugin system
 ** TODO Do a screencast (with at least the first levels ... or something)
 ** TODO set up a bug tracker (or move to bazaar and launchpad ?)
 *** Waiting for Savannah guys to answer ...
