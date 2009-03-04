@@ -115,7 +115,10 @@ class LevelEditor < Shoes
         alert("The adventure could not be loaded")
         exit
       else
+        # TODO(pht) : Get rid of the @adventure_file_name 
+        # (move this to the AdventureLoader)
         @adventure_file_name = adventure_loader.adventure_file_name
+        # TODO(pht) : Get rid of the @levels_folder things
         @levels_folder = adventure_loader.levels_folder(@adventure_name)
       end
 
@@ -141,6 +144,9 @@ class LevelEditor < Shoes
           @level.load!(@levels_folder, false)
           @puzzle_name = @level.puzzle_name
           @puzzle = @level.puzzle
+          # TODO(pht) : Get rid of @file_name and @puzzle_class
+          # (those are only used to save the adventure, and
+          # this is not the editor's responsibility)
           @file_name = "#{@levels_folder}/" + @level.puzzle_file
           @puzzle_class = @level.puzzle_class_name
         end
@@ -441,6 +447,7 @@ class LevelEditor < Shoes
 
   # Save the puzzle
   def save_puzzle
+    # TODO(pht) : Let the AdventureLoader do this
     res = @puzzle.serialize(@puzzle_class)
     debug res
 
@@ -525,6 +532,10 @@ class LevelEditor < Shoes
 
         debug "Clicked on #{i}, #{j} ... original type was #{t}"
 
+        # TODO : Actually, make a command with the tools, execute
+        # the command, and put the command on top of the stack.
+        # Then Implement undo! for each tools that I can use, and be done
+        # with it !!
         if (b == LEFT_BUTTON)
           @tool_slots[:left].tool.act(self, i,j)
           dirty(true)
@@ -606,6 +617,11 @@ class LevelEditor < Shoes
   def debug(msg)
     puts msg
   end
+
+  # TODO : Implement 'undoing' : each action should correspond to a
+  # Command object, that goes into a stack ; 
+  # each command is able to undo itself
+  # TODO : Add a undo action on Ctrl-Z
 
 end
 
