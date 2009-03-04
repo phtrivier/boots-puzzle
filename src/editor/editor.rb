@@ -18,8 +18,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-$LOAD_PATH << "../plugins/core"
-$LOAD_PATH << "../adventures"
+$LOAD_PATH << "./src/editor"
+$LOAD_PATH << "./src/plugins/core"
+$LOAD_PATH << "/home/phtrivier/prj/fun/boots-puzzle/src/plugins/core"
+$LOAD_PATH << "./src/adventures"
 
 require 'adventure'
 require 'puzzle'
@@ -36,7 +38,8 @@ require 'plugins'
 
 module ImagePath
   def to_image_path(src)
-    "../plugins/#{src}"
+    # FIXME : This is too much path dependent ... it sucks !!
+    "/home/phtrivier/prj/fun/boots-puzzle/src/plugins/#{src}"
   end
 end
 
@@ -71,7 +74,7 @@ class LevelEditor < Shoes
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
-  Transparent = "img/transparent.png"
+  Transparent = "/home/phtrivier/prj/fun/boots-puzzle/src/editor/img/transparent.png"
 
   attr_accessor :puzzle
 
@@ -102,12 +105,20 @@ class LevelEditor < Shoes
       exit
     else
       @adventure_name = ARGV[1]
-      @prefix = ".."
+#      @prefix = ".."
+      @prefix = "/home/phtrivier/prj/fun/boots-puzzle/src"
 
-      adventure_loader = AdventureLoader.new(@prefix)
+      adventure_loader = AdventureLoader.new(@prefix, ["/home/phtrivier/prj/fun/boots-puzzle/src/adventures"])
+
       @adventure = adventure_loader.load!(@adventure_name)
+      if (@adventure == nil) 
+        alert("The adventure could not be loaded")
+        exit
+      else
+        @adventure_file_name = adventure_loader.adventure_file_name
+        @levels_folder = adventure_loader.levels_folder(@adventure_name)
+      end
 
-      @levels_folder = adventure_loader.levels_folder(@adventure_name)
 
       # TODO : MOVE THIS TO LOAD_PUZZLE ?
       if (ARGV[2] == nil)
@@ -194,7 +205,8 @@ class LevelEditor < Shoes
       @puzzle = Puzzle.empty(w,h)
       @adventure.levels << @level
       # We should save the puzzle and the adventure now
-      File.open(@adventure_file, "w") << @adventure.save
+      puts "About to create adventure file #{@adventure_file_name}"
+      File.open(@adventure_file_name, "w") << @adventure.save
       @file_name = "#{@levels_folder}/" + @level.puzzle_file
       @puzzle_class = @level.puzzle_class_name
       save_puzzle
@@ -269,7 +281,7 @@ class LevelEditor < Shoes
   end
 
   def build_available_tool_line(tools)
-    flow :margin_top =>'5px', :margin_left => '5px' do
+    flow :margin_top => 5, :margin_left => 5 do
       tools.each do |tool|
         cell_tool_button(tool)
       end
@@ -588,6 +600,11 @@ class LevelEditor < Shoes
     rescue CellError => e
       alert(e.message)
     end
+  end
+
+  # DISAPPEARED IN LATER VERSION OF SHOES ? 
+  def debug(msg)
+    puts msg
   end
 
 end

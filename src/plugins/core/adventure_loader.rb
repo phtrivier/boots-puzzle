@@ -21,6 +21,9 @@ require "plugins"
 require "adventure"
 
 class AdventureLoader
+
+  attr_reader :adventure_file_name
+
   def initialize(prefix, adventure_roots)
     @prefix = prefix
     @adventure_roots = adventure_roots
@@ -41,12 +44,15 @@ class AdventureLoader
     Plugins.init("#{@prefix}/plugins")
 
     @adventure_roots.each do |root|
-      #puts "Trying to load adventure from #{root} ; Adventure is present ? #{has_adventure?(root, adventure_name)}"
+      puts "Trying to load adventure from #{root} ; Adventure is present ? #{has_adventure?(root, adventure_name)}"
       if (has_adventure?(root, adventure_name))
         @loaded_adventure_folder = "#{root}/#{adventure_name}"
+        puts "loaded_adventure_forlder : #{@loaded_adventure_folder}"
         adventure = Adventure.new(root)
+        puts "Manifesting plugins with root #{root} and adventure name #{adventure_name}"
         manifest_plugins!(root, adventure_name)
-        adventure.load!(File.open("#{@loaded_adventure_folder}/adventure.yml"))
+        @adventure_file_name = "#{@loaded_adventure_folder}/adventure.yml"
+        adventure.load!(File.open(@adventure_file_name))
         adventure.load_plugins!
         break
       end
@@ -54,6 +60,8 @@ class AdventureLoader
 
     adventure
   end
+
+  
 
   def has_adventure?(root, name)
     File.exists?("#{root}/#{name}/adventure.yml")
