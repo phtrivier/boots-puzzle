@@ -83,3 +83,10 @@ end
 def has_arg?(long, short)
   ARGV.member?("--#{long}") || ARGV.member?("-#{short}")
 end
+
+def wrap_editor
+  adv = from_env("adventure", "a", "foobar")
+  level = from_env("level", "l", "")
+
+  system("./shoes2.run src/editor/editor.rb #{adv} #{level}")
+end

@@ -38,8 +38,15 @@ task :play => [:test] do |t|
 
 end
 
-task :ed do 
-  system("./shoes2.run src/editor/editor.rb demo level_4")
+desc "Run the puzzle editor"
+task :editor do 
+  # TODO : Make it take arguments in a nicer style "adventure" , level
+  # beter yet : make it ll=
+  $LOAD_PATH << "./src"
+  $LOAD_PATH << "./src/editor"
+  $LOAD_PATH << "./src/plugins/core"
+  require 'boots-puzzle-wrapper'
+  wrap_editor
 end
 
 desc "Run the demo adventure"
@@ -55,16 +62,11 @@ task :demo do
 end
 
 desc "Run the puzzle editor"
-task :editor => [:test] do |t|
-  puts "--------------------------------"
-  puts "Sorry, editor can not be run at the moment (don't know why ...)"
-  editor_usage("")
-end
 
 def puts_editor_usage(offset)
-  cmd2 = "Usage : shoes src/editor/editor.rb ADVENTURE_NAME [PUZZLE_NAME]"
+  cmd2 = "Usage : rake editor adventure=ADVENTURE_NAME [level=PUZZLE_NAME]"
   puts offset + cmd2
-  ex = "Example : shoes src/editor/editor.rb foobar level_1"
+  ex = "Example : rake editor adventure=foobar level=level_1"
   puts offset + ex
 end
 
