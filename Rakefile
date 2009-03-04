@@ -38,6 +38,10 @@ task :play => [:test] do |t|
 
 end
 
+task :ed do 
+  system("./shoes2.run src/editor/editor.rb demo level_4")
+end
+
 desc "Run the demo adventure"
 task :demo do
 
@@ -193,3 +197,5 @@ end
 
 desc "Releases all artefacts for a new version"
 task :release => [:apt, :package]
+
+
