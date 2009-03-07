@@ -58,7 +58,9 @@ with the boots-puzzle program.
 @include puzzles.texinfo
 @include stories.texinfo
 @include plugins.texinfo
+@include editor.texinfo
 @include index.texinfo
+
 
 @bye
 
