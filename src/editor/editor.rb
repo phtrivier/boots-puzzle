@@ -234,11 +234,11 @@ class LevelEditor < Shoes
         build_palette_panel
       end
 
-      stack :width => '65%' do
+      stack :width => '60%' do
         build_puzzle_grid_panel
       end
 
-      stack :width => '20%' do
+      stack :width => '25%' do
         build_named_cells_panel
       end
     end
@@ -379,13 +379,15 @@ class LevelEditor < Shoes
     para "Named cells"
 
     flow do
-      flow :width => "40%" do
+      flow :width => "30%" do
         para "Position"
       end
-      flow :width => "40%" do
+      flow :width => "30%" do
         para "Name"
       end
-
+      flow :width => "20%" do
+        para ""
+      end
     end
 
     create_named_cells_list
@@ -481,14 +483,14 @@ class LevelEditor < Shoes
 
       @named_cells_list.append do
         flow do
-          flow :width => "40%" do
+          flow :width => "30%" do
              image to_image_path(icon)
             para "[#{pos[0]},#{pos[1]}]"
           end
-          flow :width => "40%" do
+          flow :width => "30%" do
             para name
           end
-          flow :width => "10%" do
+          flow :width => "20%" do
             button "X" do
               @puzzle.unname_cell(name)
               dirty(true)
@@ -610,11 +612,6 @@ class LevelEditor < Shoes
     end
   end
 
-  # DISAPPEARED IN LATER VERSION OF SHOES ? 
-  def debug(msg)
-    puts msg
-  end
-
   # TODO : Implement 'undoing' : each action should correspond to a
   # Command object, that goes into a stack ; 
   # each command is able to undo itself
@@ -622,5 +619,5 @@ class LevelEditor < Shoes
 
 end
 
-LevelEditor.app :title => "Puzzle editor", :width => 1000, :height => 500
+LevelEditor.app :title => "Puzzle editor", :width => 1100, :height => 600
 
