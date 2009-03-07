@@ -18,10 +18,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
 
-$LOAD_PATH << "./src/editor"
-$LOAD_PATH << "./src/plugins/core"
-$LOAD_PATH << "/home/phtrivier/prj/fun/boots-puzzle/src/plugins/core"
-$LOAD_PATH << "./src/adventures"
+$LOAD_PATH << "../plugins/core"
+$LOAD_PATH << "../adventures"
+$LOAD_PATH << "."
 
 require 'adventure'
 require 'puzzle'
@@ -38,8 +37,7 @@ require 'plugins'
 
 module ImagePath
   def to_image_path(src)
-    # FIXME : This is too much path dependent ... it sucks !!
-    "/home/phtrivier/prj/fun/boots-puzzle/src/plugins/#{src}"
+    "../plugins/#{src}"
   end
 end
 
@@ -74,7 +72,7 @@ class LevelEditor < Shoes
 
   LEFT_BUTTON = 1
   RIGHT_BUTTON = 3
-  Transparent = "/home/phtrivier/prj/fun/boots-puzzle/src/editor/img/transparent.png"
+  Transparent = "./img/transparent.png"
 
   attr_accessor :puzzle
 
@@ -105,10 +103,9 @@ class LevelEditor < Shoes
       exit
     else
       @adventure_name = ARGV[1]
-#      @prefix = ".."
-      @prefix = "/home/phtrivier/prj/fun/boots-puzzle/src"
+      @prefix = ".."
 
-      adventure_loader = AdventureLoader.new(@prefix, ["/home/phtrivier/prj/fun/boots-puzzle/src/adventures"])
+      adventure_loader = AdventureLoader.new(@prefix, ["../adventures"])
 
       @adventure = adventure_loader.load!(@adventure_name)
       if (@adventure == nil) 
