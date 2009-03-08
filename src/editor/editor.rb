@@ -92,6 +92,8 @@ class LevelEditor < Shoes
      load_adventure
      # load_or_init_puzzle
 
+     @command_stack = ToolStack.new
+
      show_editor
   end
 
@@ -250,6 +252,8 @@ class LevelEditor < Shoes
     keypress do |k|
       if (k==:control_s)
         save_and_undirty
+      elsif (k==:control_z)
+        @command_stack.undo!
       elsif (k==:control_q)
         if (@dirty_state != "" and confirm("Save before quitting ?"))
           save_puzzle
@@ -535,12 +539,19 @@ class LevelEditor < Shoes
         # the command, and put the command on top of the stack.
         # Then Implement undo! for each tools that I can use, and be done
         # with it !!
+
+        tool = nil
         if (b == LEFT_BUTTON)
-          @tool_slots[:left].tool.act(self, i,j)
-          dirty(true)
+#          @tool_slots[:left].tool.act(self, i,j)
+          tool = @tool_slots[:left].tool
         elsif (b == RIGHT_BUTTON)
-          @tool_slots[:right].tool.act(self, i,j)
+#          @tool_slots[:right].tool.act(self, i,j)
+          tool = @tool_slots[:right].tool
+        end
+
+        if (tool != nil)
           dirty(true)
+          @command_stack.command!(tool, self, i,j)
         end
 
       end
@@ -566,6 +577,10 @@ class LevelEditor < Shoes
     img = @cells[i][j].img # Replace if with a list of images ...
     img.path = to_image_path(t.new.src)
     update_editor_cell(i,j)
+  end
+
+  def editor_cell_type(i,j)
+    @puzzle.cell(i,j).class
   end
 
   def update_editor_cell(i,j)

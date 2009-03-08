@@ -29,13 +29,38 @@ class ToolsRegistry
 
 end
 
-class CellTool
+# Parent class for all tools
+class Tool < Struct.new(:name, :type)
+  def initialize(name, type)
+    @name = name
+    @type = type
+  end
+
+  def record_state(editor, i, j)
+    state = {}
+    state[:old_i] = i
+    state[:old_j] = j
+    state
+  end
+
+  def undo!(state, editor)
+  end
+end
+
+# Tools that modify the type of a cell
+class CellTool < Tool
   def initialize(type)
     @type = type
   end
 
   def src
     @type.new.src
+  end
+
+  def record_state(editor, i, j)
+    state = super(editor, i,j)
+    state[:old_type] = editor.editor_cell_type(i,j)
+    state
   end
 
   def act(editor, i,j)
@@ -48,7 +73,11 @@ class CellTool
     rescue CellError => e
       alert(e.message)
     end
+  end
 
+  def undo!(state, editor)
+    i,j = state[:old_i], state[:old_j]
+    editor.change_editor_cell(i,j, state[:old_type])
   end
 
   # Defines and register a cell tool for
@@ -96,12 +125,12 @@ class CellTool
 
 end
 
-# TODO : Improve this
-class BootsTool < Struct.new(:type)
+# Tools that put a pair of boots on a cell
+class BootsTool < Tool
   def initialize(type)
     @type = type
   end
-
+  
   def src
     @type.new.src
   end
@@ -113,6 +142,12 @@ class BootsTool < Struct.new(:type)
     rescue CellError => e
       alert("You cannot put a pair of boots on a non walkable cell")
     end
+  end
+
+  def undo!(state, editor)
+    i,j = state[:old_i], state[:old_j]
+    editor.puzzle.remove_boot(i,j)
+    editor.update_editor_cell(i,j)
   end
 
   # Class function to define boots tool more easily

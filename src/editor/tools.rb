@@ -24,8 +24,10 @@
 #  act : the method to call when the tool is applied to the editor
 require 'tools_registry'
 
+
 # TODO : MAKE A TOOL ONLY FOR IN AND OUT
-class GateTool < Struct.new(:name, :type)
+class GateTool < CellTool
+
   def act(editor, i, j)
     begin
       editor.change_editor_cell(i,j,@type)
@@ -37,6 +39,7 @@ class GateTool < Struct.new(:name, :type)
   def src
     @type.new.src
   end
+
 end
 
 class InTool < GateTool
@@ -53,7 +56,10 @@ class OutTool < GateTool
   end
 end
 
-class ResetBootsTool
+class ResetBootsTool < Tool
+  def initialize
+  end
+
   def src
     "../editor/img/reset_boots.png"
   end
@@ -61,13 +67,36 @@ class ResetBootsTool
     editor.puzzle.remove_boot(i,j)
     editor.update_editor_cell(i,j)
   end
+
+  def record_state(editor, i, j)
+    state = super(editor, i,j)
+    puts "CHecking for boots : #{editor.puzzle.boot_at?(i,j)}"
+    if (editor.puzzle.boot_at?(i,j))
+      state[:boots_type] = editor.puzzle.boot_at(i,j).class
+    end
+    state
+  end
+
+  def undo!(state, editor)
+    puts "Undoing reset boot tool with state #{state}"
+    boot_class = state[:boots_type]
+    if (boot_class != nil)
+      i,j = state[:old_i], state[:old_j]
+      editor.puzzle.boot(i,j, boot_class)
+      editor.update_editor_cell(i,j)
+    end
+  end
+
 end
 
-class NameCellTool
+class NameCellTool < Tool
 
   Icon = "../editor/img/named_cell_0.png"
   Icons = (0..5).collect do |i|
     "../editor/img/named_cell_#{i}.png"
+  end
+
+  def initialize
   end
 
   def src
@@ -76,6 +105,55 @@ class NameCellTool
 
   def act(editor, i, j)
     editor.add_named_cell(i,j)
+  end
+
+  def undo!(state, editor)
+    # TODO
+  end
+  
+end
+
+class Command
+
+  attr_reader :tool
+
+  def initialize(tool, editor, i,j)
+    @tool = tool
+    @old_state = tool.record_state(editor, i,j)
+    @old_editor = editor
+  end
+
+  def to_s
+    "Command #{@tool}, #{@old_state}"
+  end
+  
+  def undo!
+    @tool.undo!(@old_state, @old_editor)
+  end
+end
+
+class ToolStack
+
+  def initialize
+    @commands = []
+  end
+
+  def command!(tool, editor, i, j)
+    @commands.push(Command.new(tool, editor, i, j))
+    tool.act(editor, i,j)
+    puts "After command : State of the command stack #{@commands}"
+  end
+
+  def undo!
+    if (!empty?)
+      to_undo = @commands.pop
+      to_undo.undo!
+      puts "After undo : State of the command stack #{@commands}"
+    end
+  end
+
+  def empty?
+    @commands.empty?
   end
 
 end
