@@ -1,3 +1,9 @@
+v0.3.4 - 2009/03/02
+
+ - Fixed Debian package (was still dependant on gems, actually)
+ - Adventures can be loaded separately
+ - Documentation
+
 v0.3.3 - 2008/10/22
 
  - Fixed INSTALL file
@@ -36,7 +42,6 @@ v0.1.0 - 2008/08/24
 
  - Initial version that I can show to the world without feeling too
     shamefull.
-
  - Sort-of working puzzle system, plugin system, the editor can
     open adventure files, and you can edit individual levels. Some
     plugins are even started ! Definitely a lot to do...
