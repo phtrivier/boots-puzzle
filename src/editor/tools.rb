@@ -70,7 +70,6 @@ class ResetBootsTool < Tool
 
   def record_state(editor, i, j)
     state = super(editor, i,j)
-    puts "CHecking for boots : #{editor.puzzle.boot_at?(i,j)}"
     if (editor.puzzle.boot_at?(i,j))
       state[:boots_type] = editor.puzzle.boot_at(i,j).class
     end
@@ -78,7 +77,6 @@ class ResetBootsTool < Tool
   end
 
   def undo!(state, editor)
-    puts "Undoing reset boot tool with state #{state}"
     boot_class = state[:boots_type]
     if (boot_class != nil)
       i,j = state[:old_i], state[:old_j]
@@ -139,16 +137,19 @@ class ToolStack
   end
 
   def command!(tool, editor, i, j)
+
+    if (@commands.length > 20) 
+      @commands.delete_at(0)
+    end
+
     @commands.push(Command.new(tool, editor, i, j))
     tool.act(editor, i,j)
-    puts "After command : State of the command stack #{@commands}"
   end
 
   def undo!
     if (!empty?)
       to_undo = @commands.pop
       to_undo.undo!
-      puts "After undo : State of the command stack #{@commands}"
     end
   end
 

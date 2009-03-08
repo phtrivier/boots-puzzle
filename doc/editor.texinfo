@@ -57,3 +57,4 @@ The 'Remove boot' boot tool (the red cross) is used to remove a pair of boots fr
 
 You can use @key{Ctrl-S} to save the current puzzle.
 
+You can usually use @key{Ctrl-Z} to cancel the last action you did.
