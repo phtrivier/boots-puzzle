@@ -132,3 +132,4 @@ rake play adventure=foobar level=level_2
 
 You can get more information about how to invoke @command{rake play}
 by calling @command{rake help}.
+

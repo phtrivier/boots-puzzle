@@ -1,3 +1,59 @@
-@node Editor
+@node Editor, Index, Plugins, Top
 @chapter Editor
+
+Boots-puzzle comes with an editor to make creating puzzle easier.
+This editor is really just a nice front end on top of editing levels
+file. There still need to be some text editing to reference and create
+plugins as you need them.
+
+@node Launching the editor
+@section Launching the editor
+
+You should first get a full release of boots-puzzle (that's a tar.gz file, normally). It should contain a 'src/editor' file.
+
+The editor can only edit levels for adventures that are in the src/adventures folder. You should create the adventure folder and the @file{adventure.yml} file first. If you plan on using some plugins, you should have then in the @file{src/plugins} folder or in a @file{plugins} folder under your adventure folder. You should reference them in the @file{adventure.yml} file before launching the editor.
+
+The task to launch the editor is : @command{rake editor [adventure=ADVENTURE_NAME] [level=LEVEL_NAME]}. If you don't specify and adventure name, the editor will try and open the @command{demo} adventure. If you specifiy the name of an adventure that does not exists, it will crash miserably (I'm trying to fix that). If you specify the name of a level that exists, it will open it. If you specifiy a name that is not the one of a level, or if you don't specify name, you'll be asked if you want to add a level.
+
+@node The Editor
+@section The Editor
+
+After lauching the editor, you should see a screen like this : 
+
+@image{img/editor_01, 150mm}
+
+The first line contains the name of the adventure, the name of the level, and a @command{save} button.
+
+On the left, there is a column with all cell tools available, all boots available, and the tools currently affected to the right and left button of your mouse. 
+
+In the middle, there is the current level. 
+
+On the right, a list of all named cells.
+
+In the bottom, two entry fields makes it possible to enter the quote for the level.
+
+@node Editing
+@section Editing
+
+At any moment, two left and right button of the mouse are affected to a given tools. 
+Cell tools are used to change the layout of the puzzle. 
+For example, to add a wall cell, first affect the 'wall' tool to your left button. To do so, click with the left button on the 'wall' tool in the 'available tools' section. 
+Then click on any given cell in the puzzle with the left button. 
+
+The same goes for boots ; you can select a kind of boots in the 'available boots' section, and put them in the puzzle.
+
+@node Special tools
+@section
+
+The 'Name cell' tool (the green losange) is used to give a name to a tool. 
+When you use it on a cell, you are asked a name for the cell.
+A new losange is added on the puzzle, and the name of the cell is displayed in the 'named cell' section.
+You can remove the named cell by clicking on the cross next to it in the list. 
+
+The 'Remove boot' boot tool (the red cross) is used to remove a pair of boots from a puzzle. 
+
+@node Keyboards shortcuts
+@section
+
+You can use @key{Ctrl-S} to save the current puzzle.
 

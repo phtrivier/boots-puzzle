@@ -1,4 +1,4 @@
-@c ----------------------------------, , Plugins, Top
+@c ----------------------------------, , Editor, Top
 @c End of the document
 @node Index,  , Plugins, Top
 @unnumbered Index

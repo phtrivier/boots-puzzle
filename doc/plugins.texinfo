@@ -1,4 +1,4 @@
-@node Plugins, Index, Stories, Top
+@node Plugins, Editor, Stories, Top
 @chapter Plugins
 
 @quotation

@@ -41,6 +41,7 @@ with the boots-puzzle program.
 
 
 
+
 @c Body of the document
 @menu
 * Introduction::                
@@ -49,6 +50,7 @@ with the boots-puzzle program.
 * Puzzles::                     
 * Stories::                     
 * Plugins::                     
+* Editor::                      
 * Index::                       
 @end menu
 
