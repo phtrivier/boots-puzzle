@@ -43,7 +43,7 @@ Then click on any given cell in the puzzle with the left button.
 The same goes for boots ; you can select a kind of boots in the 'available boots' section, and put them in the puzzle.
 
 @node Special tools
-@section
+@section Special tools
 
 The 'Name cell' tool (the green losange) is used to give a name to a tool. 
 When you use it on a cell, you are asked a name for the cell.
@@ -53,7 +53,7 @@ You can remove the named cell by clicking on the cross next to it in the list.
 The 'Remove boot' boot tool (the red cross) is used to remove a pair of boots from a puzzle. 
 
 @node Keyboards shortcuts
-@section
+@section Keyboards shortcuts
 
 You can use @key{Ctrl-S} to save the current puzzle.
 
