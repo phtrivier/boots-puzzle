@@ -115,7 +115,6 @@ class LevelEditor < Shoes
         exit
       end
 
-      # TODO : MOVE THIS TO LOAD_PUZZLE ?
       if (ARGV[2] == nil)
         alert("No puzzle name given ... We'll create a new one ")
         create_new_puzzle
@@ -242,10 +241,10 @@ class LevelEditor < Shoes
 
   def build_names_panel
     para "Adventure name : "
-    para @adventure_name
+    para @adventure.name
     para "--"
     para "Puzzle name : "
-    para @puzzle_name
+    para @adventure_loader.level.puzzle_name
   end
 
   def make_cell_tools_line(tools, length)
@@ -426,7 +425,6 @@ class LevelEditor < Shoes
 
   # Save the puzzle
   def save_puzzle
-    # TODO(pht) : Let the AdventureLoader do this
     @adventure_loader.save_puzzle
   end
 

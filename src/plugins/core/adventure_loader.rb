@@ -22,7 +22,7 @@ require "adventure"
 
 class AdventureLoader
 
-  attr_reader :adventure, :puzzle
+  attr_reader :adventure, :level, :puzzle
   
 
   def initialize(prefix, adventure_roots)
