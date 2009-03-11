@@ -10,11 +10,26 @@
 ** TODO Make controls configurable (and update the display of the controls...)
 ** TODO Make the UI exstensible (addition to the plug-in system)
 * Puzzle Editor
-** TODO [#A] Factor the code that loads / save the adventure / level out of the editor's GUI
+** DONE [#A] Factor the code that loads / save the adventure / level out of the editor's GUI
 ** TODO [#B] Use a file loader to load the adventure / and or the level
 (should be possible, if you select a level, you load the adventure, and that's all)
+*** TODO Ask if you want to open an existing level or create a new one
+*** TODO If they want to open an existing level 
+**** TODO use ask_open_file to open an level file (default to the content of the "adventure" folder)
+**** TODO use the result to guess the name of the adventure (that's one or two folders on the top) 
+**** and where adventure should be loaded from (basically, that's the parent folder !!)
+**** TODO use the name of the file, and the name of the adventure, and the prefixes, to load everything (note that it all comes
+**** down to configuring the adventure_loader !!
+*** TODO If they want to create a level
+**** TODO use ask_open_dir to open an adventure folder (default to the content of the "adventure" folder)
+**** TODO use the result to guess the name and location of the adventure
+**** TODO Ask the name and dimensions of the new level
+**** TODO Then load everything
 ** TODO [#C] Continuous saving
-*** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
+*** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file (using a backup file at this point, ending with ~, ignored by the game engine)
+** TODO Implement "brushes" (select several cells by dragging a rectangle)
+*** Note : you can change the "transparent.png" to something like a "selected.png", slighly less transparent, when doing so ?
+** TODO Implement "drag / dropping" ? 
 ** TODO Externalize strings (good exercise :))
 * Plugins
 ** TODO [#A] chess moves
