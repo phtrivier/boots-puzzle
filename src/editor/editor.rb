@@ -507,10 +507,8 @@ class LevelEditor < Shoes
 
         tool = nil
         if (b == LEFT_BUTTON)
-#          @tool_slots[:left].tool.act(self, i,j)
           tool = @tool_slots[:left].tool
         elsif (b == RIGHT_BUTTON)
-#          @tool_slots[:right].tool.act(self, i,j)
           tool = @tool_slots[:right].tool
         end
 
