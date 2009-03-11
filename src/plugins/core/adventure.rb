@@ -107,11 +107,9 @@ class Adventure
   end
 
   def level_by_name(str)
-
     @levels.find do |level|
       level.named_like?(str)
     end
-
   end
 
   def has_level_named?(str)

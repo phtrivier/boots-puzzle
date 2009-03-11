@@ -1,25 +1,23 @@
 * Bugs
-** TODO [BP-0] Log4j had to be disabled as it breaks the
+** TODO [BP-0] Log4j had to be disabled as it breaks the tests
 * Game Engine
 ** DONE Load plugins from inside an adventure
 ** DONE package adventures individually
 * Game UI
+** TODO Add buttons to quit, restart the puzzle, show the help
 ** TODO [#B] Find a icon for the application (the bare foots ?)
-** TODO [#C] Make startup and end screen more customized (created with a mini DSL-like file)
 ** TODO [#C] Externalize strings
 ** TODO Make controls configurable (and update the display of the controls...)
 ** TODO Make the UI exstensible (addition to the plug-in system)
-** TODO Add a pause (pressing p, and a resume thing)
-Pause : (when pressing p)
-  Press 'R' to resume
-You start the adventure by pressing 'Space', and then that's it).
-When you quit the game, you go back to this screen. If you press 'R'
 * Puzzle Editor
-** TODO [#C] Undo ?
+** TODO [#A] Factor the code that loads / save the adventure / level out of the editor's GUI
+** TODO [#B] Use a file loader to load the adventure / and or the level
+(should be possible, if you select a level, you load the adventure, and that's all)
 ** TODO [#C] Continuous saving
 *** Save puzzle in a temp file every 10 secs ; when you save it, simply rename the draft to the final file
 ** TODO Externalize strings (good exercise :))
 * Plugins
+** TODO [#A] chess moves
 ** TODO property
 *** Make it easier to define a new property on cells (such as 'burnable', walkable, etc...)
 ==> cell_property :walkable true
@@ -27,7 +25,6 @@ When you quit the game, you go back to this screen. If you press 'R'
 *** Change water plugin to use
 ** TODO burning
    (Same as swimming, but with burning stuff, and you need shoes that are )
-** TODO chess moves
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
 * Demo adventure
@@ -54,7 +51,6 @@ When you quit the game, you go back to this screen. If you press 'R'
 ** TODO Do a screencast (with at least the first levels ... or something)
 ** TODO set up a bug tracker (or move to bazaar and launchpad ?)
 *** Waiting for Savannah guys to answer ...
-** TODO Build an installer for shoes app ?
 * Misc
 ** TODO Provide a Rake task to create a new plugin (with the manifest, the test folder, etc...)
 ** TODO Improve Logging (how to log into rake tests ?)

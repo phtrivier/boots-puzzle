@@ -107,20 +107,13 @@ class LevelEditor < Shoes
       @adventure_name = ARGV[1]
       @prefix = ".."
 
-      adventure_loader = AdventureLoader.new(@prefix, ["../adventures"])
+      @adventure_loader = AdventureLoader.new(@prefix, ["../adventures"])
 
-      @adventure = adventure_loader.load!(@adventure_name)
+      @adventure = @adventure_loader.load!(@adventure_name)
       if (@adventure == nil) 
         alert("The adventure could not be loaded")
         exit
-      else
-        # TODO(pht) : Get rid of the @adventure_file_name 
-        # (move this to the AdventureLoader)
-        @adventure_file_name = adventure_loader.adventure_file_name
-        # TODO(pht) : Get rid of the @levels_folder things
-        @levels_folder = adventure_loader.levels_folder(@adventure_name)
       end
-
 
       # TODO : MOVE THIS TO LOAD_PUZZLE ?
       if (ARGV[2] == nil)
@@ -130,27 +123,19 @@ class LevelEditor < Shoes
       else
         puzzle_name = ARGV[2]
 
-        @level = @adventure.level_by_name(puzzle_name)
-        if (@level == nil)
+        if (@adventure_loader.adventure.has_level_named?(puzzle_name))
+          @adventure_loader.load_level(puzzle_name)
+        else
           if (!confirm("There is no puzzle with the name #{puzzle_name} in adventure #{@adventure_name}" +
                        ". Do you want to create one ?"))
             close
           else
             create_new_puzzle(puzzle_name)
           end
-        else
-          # The level can be loaded and the puzzle initialized
-          @level.load!(@levels_folder, false)
-          @puzzle_name = @level.puzzle_name
-          @puzzle = @level.puzzle
-          # TODO(pht) : Get rid of @file_name and @puzzle_class
-          # (those are only used to save the adventure, and
-          # this is not the editor's responsibility)
-          @file_name = "#{@levels_folder}/" + @level.puzzle_file
-          @puzzle_class = @level.puzzle_class_name
         end
-
       end
+
+      @puzzle = @adventure_loader.puzzle
 
     end
 
@@ -205,16 +190,7 @@ class LevelEditor < Shoes
       close
       exit
     else
-      @level = Level.new(puzzle_name)
-      @puzzle_name = @level.puzzle_name
-      @puzzle = Puzzle.empty(w,h)
-      @adventure.levels << @level
-      # We should save the puzzle and the adventure now
-      puts "About to create adventure file #{@adventure_file_name}"
-      File.open(@adventure_file_name, "w") << @adventure.save
-      @file_name = "#{@levels_folder}/" + @level.puzzle_file
-      @puzzle_class = @level.puzzle_class_name
-      save_puzzle
+      @adventure_loader.add_level(puzzle_name, w, h)
     end
 
   end
@@ -451,16 +427,7 @@ class LevelEditor < Shoes
   # Save the puzzle
   def save_puzzle
     # TODO(pht) : Let the AdventureLoader do this
-    res = @puzzle.serialize(@puzzle_class)
-    debug res
-
-    if (!File.exists?(@levels_folder))
-      FileUtils.mkdir_p(@levels_folder)
-    end
-
-    File.open(@file_name, "w+") do |f|
-      f << res
-    end
+    @adventure_loader.save_puzzle
   end
 
   def create_named_cells_list
