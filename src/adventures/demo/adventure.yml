@@ -5,9 +5,11 @@ adventure:
   - tunnel
   - events
   - switch
+  - chess
   name: demo
   levels: 
   - puzzle: level_0_puzzle
   - puzzle: level_1_puzzle
   - puzzle: level_2_puzzle
   - puzzle: level_3_puzzle
+  - puzzle: level_4_puzzle
