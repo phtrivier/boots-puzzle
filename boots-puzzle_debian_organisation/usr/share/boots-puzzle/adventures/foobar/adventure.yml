@@ -1,0 +1,12 @@
+--- 
+adventure: 
+  plugins: 
+  - water
+  - tunnel
+  - switch
+  - hello
+  name: foobar
+  levels: 
+  - puzzle: level_1_puzzle
+  - puzzle: level_2_puzzle
+  - puzzle: level_4_puzzle

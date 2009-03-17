@@ -7,9 +7,9 @@ header = <<HERE
 
 %product boots-puzzle
 %copyright 2008 by Pierre-Henri Trivier
-%vendor Pierre-Henri Trivier
-%description Extendible puzzle game
+%vendor Pierre-Henri Trivier <phtrivier@yahoo.fr>
 %version #{BP_VERSION}
+%description Extendible Puzzle Game
 %readme README
 %license LICENSE
 %requires ruby
@@ -21,6 +21,10 @@ header = <<HERE
 
 # Bin script
 f 755 root sys /usr/bin/boots-puzzle bin/boots-puzzle
+
+# Licence
+f 644 root sys /usr/share/doc/boots-puzzle/copyright copyright
+f 644 root sys /usr/share/doc/boots-puzzle/changelog changelog
 
 # Ruby main script
 f 755 root sys /usr/share/boots-puzzle/boots-puzzle.rb src/boots-puzzle.rb

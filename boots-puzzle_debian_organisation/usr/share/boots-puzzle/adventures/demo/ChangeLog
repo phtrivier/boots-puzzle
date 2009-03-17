@@ -1,0 +1,14 @@
+2008-09-25  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* adventure.yml (levels) : Added level 3
+
+	* level_3_puzzle.rb, level_3_puzzle_story.rb : Added level where
+	switches are used to move walls around
+
+2008-09-23  Pierre-Henri Trivier  <phtrivier@wilde>
+
+	* level_2_puzzle.rb, level_2_puzzle_story.rb : Added level where
+	switch are used
+
+	* adventure.yml (plugins) : Switch plugin is now used
+	(levels) : Added level2
