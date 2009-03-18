@@ -1,9 +1,13 @@
 require 'rake'
 require 'rake/testtask'
 require 'fileutils'
+require 'templates/templates'
 
 # .list file for Debian
 List = "boots-puzzle.list"
+
+# ----------------
+# Running 
 
 task :default => [:test]
 
@@ -28,20 +32,15 @@ end
 
 desc "Run an adventure"
 task :play => [:test] do |t|
-
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
-
   require 'boots-puzzle-wrapper'
   wrap_play(File.expand_path("./src"))
-
 end
 
 desc "Run the puzzle editor"
 task :editor do 
-  # TODO : Make it take arguments in a nicer style "adventure" , level
-  # beter yet : make it ll=
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/editor"
   $LOAD_PATH << "./src/plugins/core"
@@ -51,17 +50,15 @@ end
 
 desc "Run the demo adventure"
 task :demo do
-
   $LOAD_PATH << "./src"
   $LOAD_PATH << "./src/gui"
   $LOAD_PATH << "./src/plugins/core"
-
   require 'boots-puzzle-wrapper'
   play_adventure("demo", "level_0", "src", ["src/adventures"])
-
 end
 
-desc "Run the puzzle editor"
+# -----------
+# Usage
 
 def puts_editor_usage(offset)
   cmd2 = "Usage : rake editor adventure=ADVENTURE_NAME [level=PUZZLE_NAME]"
@@ -90,6 +87,9 @@ task :help do
   puts_editor_usage(" ")
 end
 
+# -----------
+# Cleanup
+
 desc "Remove emacs backup files"
 task :clean do
   Dir["**/*~"].each do |filename|
@@ -104,6 +104,7 @@ task :clean do
   FileUtils.rm_rf(List)
 end
 
+# ----------------
 # Packaging
 
 # Version should be in a file called, ahem .. VERSION
@@ -153,7 +154,58 @@ task :set_version do
   system("sed -e 's/BP_VERSION=.*/BP_VERSION=\"#{BP_VERSION}\"/g' -i src/boots-puzzle.rb")
 end
 
-task :deblist do
+def debian_top_folder_name
+  "boots-puzzle_#{BP_VERSION}_i386"
+end
+
+def debian_control_folder_name
+  debian_top_folder_name + "/DEBIAN"
+end
+  
+def debian_binaries_folder_name
+  debian_top_folder_name + "/usr/games"
+end
+
+def debian_app_folder_name
+  debian_top_folder_name + "/usr/share/boots-puzzle"
+end
+
+def debian_doc_folder_name
+  debian_top_folder_name + "/usr/share/doc"
+end
+
+
+task :make_debfolder do
+  FileUtils.rm_rf(debian_top_folder_name)
+  FileUtils.mkdir_p(debian_top_folder_name)
+  FileUtils.mkdir_p(debian_control_folder_name)
+  FileUtils.mkdir_p(debian_binaries_folder_name,:mode => 0755)
+  FileUtils.mkdir_p(debian_app_folder_name, :mode => 0755)
+  FileUtils.mkdir_p(debian_doc_folder_name, :mode => 0755)
+  FileUtils.chown_R("root", "root", [debian_top_folder_name + "/usr"])
+end
+
+# Create a copyright file
+def make_copyright
+  from_template(debian_doc_folder_name + "/copyright", "templates/deb-pkg/copyright.erb")
+end
+
+def make_control_file
+  from_template(debian_control_folder_name + "/control", "templates/deb-pkg/control.erb")
+end
+
+task :fill_debfolder => [:make_debfolder] do
+  # Generate and copy the copyright file
+  make_copyright
+  # Generate and copy the control file
+  make_control_file
+end
+
+# TODO : Create the debian build folder and move things appropriately
+
+# TODO : Zip the change log file and move it
+
+task :deblist  do
   $LOAD_PATH << "."
   # This will make what is needed in the script variable
   require 'boots-puzzle_list.rb'
@@ -163,9 +215,12 @@ task :deblist do
 end
 
 desc "Create a debian package using epm"
-task :deb => [:clean, :set_version, :test, :doc, :deblist] do
+task :deb => [:clean, :set_version, :test, :deblist] do
   system("epm -f deb boots-puzzle")
 end
+
+# ----------------
+# Apt repository
 
 desc "Set up an apt-repository with the sources"
 task :apt => [:deb] do
@@ -190,14 +245,16 @@ Origin: Pierre-Henri Trivier
 Label: boots-puzzle-apt
 Architecture: i386
 HERE
-
+  
   File.open("apt/Release", "w") do |f|
     f << release_content
   end
 
 end
 
-desc "Releases all artefacts for a new version"
-task :release => [:apt, :package]
+# -----------------
+# Release
 
+desc "Releases all artefacts for a new version"
+task :release => [:doc, :apt, :package]
 
