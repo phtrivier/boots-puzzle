@@ -171,7 +171,7 @@ def debian_app_folder_name
 end
 
 def debian_doc_folder_name
-  debian_top_folder_name + "/usr/share/doc"
+  debian_top_folder_name + "/usr/share/doc/boots-puzzle"
 end
 
 
@@ -199,9 +199,22 @@ task :fill_debfolder => [:make_debfolder] do
   make_copyright
   # Generate and copy the control file
   make_control_file
+  # Copy all source files
+  FileUtils.cp_r("src/adventures", debian_app_folder_name)
+  FileUtils.cp_r("src/plugins", debian_app_folder_name)
+  FileUtils.cp_r("src/gui", debian_app_folder_name)
+  FileUtils.cp("src/boots-puzzle.rb", debian_app_folder_name)
+  FileUtils.cp("src/boots-puzzle-wrapper.rb", debian_app_folder_name)
+  # Copy binairies
+  FileUtils.cp("misc/boots-puzzle", debian_binaries_folder_name)
+  # Change the mode of the binaries
+  FileUtils.chmod(0755, debian_binaries_folder_name + "/boots-puzzle")
 end
 
 # TODO : Create the debian build folder and move things appropriately
+task :deb => [:clean, :set_version, :test, :fill_debfolder] do
+  exec("dpkg -b #{debian_top_folder_name}")
+end
 
 # TODO : Zip the change log file and move it
 
@@ -215,7 +228,7 @@ task :deblist  do
 end
 
 desc "Create a debian package using epm"
-task :deb => [:clean, :set_version, :test, :deblist] do
+task :deb_epm => [:clean, :set_version, :test, :deblist] do
   system("epm -f deb boots-puzzle")
 end
 

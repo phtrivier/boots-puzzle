@@ -19,7 +19,7 @@ Story.for("level_4") do
     off do |puzzle|
       puzzle.set_cell_by_name(:tunnel_right_bottom, Walkable.new)
       puzzle.set_cell_by_name(:tunnel_right_top, TunnelExtremityCell.new)
-      puzzle.tunnel(:tunnel_left, :tunnel_top)
+      puzzle.tunnel(:tunnel_left, :tunnel_right_top)
     end
 
   end
