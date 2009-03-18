@@ -176,13 +176,14 @@ end
 
 
 task :make_debfolder do
+  puts "Generating deb folder..."
   FileUtils.rm_rf(debian_top_folder_name)
   FileUtils.mkdir_p(debian_top_folder_name)
   FileUtils.mkdir_p(debian_control_folder_name)
   FileUtils.mkdir_p(debian_binaries_folder_name,:mode => 0755)
   FileUtils.mkdir_p(debian_app_folder_name, :mode => 0755)
   FileUtils.mkdir_p(debian_doc_folder_name, :mode => 0755)
-  FileUtils.chown_R("root", "root", [debian_top_folder_name + "/usr"])
+#  FileUtils.chown_R("root", "root", [debian_top_folder_name + "/usr"])
 end
 
 # Create a copyright file
@@ -195,11 +196,13 @@ def make_control_file
 end
 
 task :fill_debfolder => [:make_debfolder] do
+  puts "Copying docs..."
   # Generate and copy the copyright file
   make_copyright
   # Generate and copy the control file
   make_control_file
   # Copy all source files
+  puts "Copying source files..."
   FileUtils.cp_r("src/adventures", debian_app_folder_name)
   FileUtils.cp_r("src/plugins", debian_app_folder_name)
   FileUtils.cp_r("src/gui", debian_app_folder_name)
@@ -209,11 +212,18 @@ task :fill_debfolder => [:make_debfolder] do
   FileUtils.cp("misc/boots-puzzle", debian_binaries_folder_name)
   # Change the mode of the binaries
   FileUtils.chmod(0755, debian_binaries_folder_name + "/boots-puzzle")
+  # Copy and compress the change log file
+  puts "Copying change logs..."
+  FileUtils.cp("deb-pkg/changelog", debian_doc_folder_name)
+  FileUtils.cp("deb-pkg/changelog", debian_doc_folder_name + "/changelog.Debian")
+  puts "Compressing changelogs..."
+  system("gzip -9 #{debian_doc_folder_name}/changelog")
+  system("gzip -9 #{debian_doc_folder_name}/changelog.Debian")
 end
 
 # TODO : Create the debian build folder and move things appropriately
 task :deb => [:clean, :set_version, :test, :fill_debfolder] do
-  exec("dpkg -b #{debian_top_folder_name}")
+  system("dpkg -b #{debian_top_folder_name} boots-puzzle-#{BP_VERSION}-linux-2.6-intel.deb")
 end
 
 # TODO : Zip the change log file and move it
@@ -240,7 +250,7 @@ task :apt => [:deb] do
   FileUtils.rm_rf("apt")
   FileUtils.mkdir_p("apt/binary")
   FileUtils.mkdir_p("apt/sources")
-  Dir["linux-2.6-intel/*.deb"].each do |file|
+  Dir["*.deb"].each do |file|
     FileUtils.cp(file, "apt/binary")
   end
 
