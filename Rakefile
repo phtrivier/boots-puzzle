@@ -101,6 +101,9 @@ task :clean do
   FileUtils.rm_rf("pkg")
   FileUtils.rm_rf("doc/dist")
   FileUtils.rm_rf("linux-2.6-intel")
+  Dir["*.deb"].each do |filename|
+    FileUtils.rm(filename)
+  end
   FileUtils.rm_rf(List)
 end
 
