@@ -22,5 +22,6 @@ pkg
 pkg/*
 boots-puzzle.list
 linux-2.6-intel
-apt/*
+apt*/*
 boots-puzzle_*_i386
+*.deb
