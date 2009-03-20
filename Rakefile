@@ -221,7 +221,6 @@ task :fill_debfolder => [:make_debfolder] do
   system("gzip -9 #{debian_doc_folder_name}/changelog.Debian")
 end
 
-# TODO : Create the debian build folder and move things appropriately
 task :deb => [:clean, :set_version, :test, :fill_debfolder] do
   system("dpkg -b #{debian_top_folder_name} boots-puzzle-#{BP_VERSION}-linux-2.6-intel.deb")
 end
