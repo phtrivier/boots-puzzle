@@ -108,7 +108,7 @@ class GameWindow
 
     load_adventure(props)
 
-    # No hint at startup
+    # Hints at startup by default
     @hint = false
 
     init_hints_images
@@ -417,8 +417,8 @@ class GameWindow
 
   def show_controls!
     @last_message = "Use arrow keys to move.\n"+
-      "Press Space to pick up boots, Ctrl to drop boots, Tab to change boots.\n" +
-      "Press 'j' to show where you can move (and j again to hide)."
+      "Press Space to change boots, Ctrl to drop boots.\n" +
+      "Press 'j' to show or hide where you can move."
   end
 
   def show

@@ -71,6 +71,7 @@ class MoveAction < SingleKeyAction
 
   def act!
     @w.puzzle.try_move!(@dir)
+    @w.puzzle.try_pick!
   end
 end
 

@@ -111,12 +111,11 @@ class InPlayGameMode < GameMode
     super(window)
     @actions = {
       :quit => QuitAction.new(window, SDL::Key::ESCAPE),
-      :next_boots => NextBootsAction.new(window, SDL::Key::TAB) ,
+      :next_boots => NextBootsAction.new(window, SDL::Key::SPACE) ,
       :up => MoveAction.new(window, SDL::Key::UP, :up),
       :down => MoveAction.new(window, SDL::Key::DOWN, :down),
       :right => MoveAction.new(window, SDL::Key::RIGHT, :right),
       :left => MoveAction.new(window, SDL::Key::LEFT, :left),
-      :pick_boots => PickBootsAction.new(window, SDL::Key::SPACE),
       :drop_boots => DropBootsAction.new(window, SDL::Key::LCTRL),
       :toggle_hint => ToggleHintAction.new(window, SDL::Key::J),
       :show_controls => HelpAction.new(window, SDL::Key::H),

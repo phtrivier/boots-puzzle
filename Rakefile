@@ -3,9 +3,6 @@ require 'rake/testtask'
 require 'fileutils'
 require 'templates/templates'
 
-# .list file for Debian
-List = "boots-puzzle.list"
-
 # ----------------
 # Running 
 
@@ -104,7 +101,6 @@ task :clean do
   Dir["*.deb"].each do |filename|
     FileUtils.rm(filename)
   end
-  FileUtils.rm_rf(List)
 end
 
 # ----------------
@@ -226,22 +222,6 @@ end
 
 task :deb => [:clean, :set_version, :test, :fill_debfolder] do
   system("dpkg -b #{debian_top_folder_name} boots-puzzle-#{BP_VERSION}-linux-2.6-intel.deb")
-end
-
-# TODO : Zip the change log file and move it
-
-task :deblist  do
-  $LOAD_PATH << "."
-  # This will make what is needed in the script variable
-  require 'boots-puzzle_list.rb'
-  f = File.open(List, "w")
-  f << Script
-  f.close
-end
-
-desc "Create a debian package using epm"
-task :deb_epm => [:clean, :set_version, :test, :deblist] do
-  system("epm -f deb boots-puzzle")
 end
 
 # ----------------
