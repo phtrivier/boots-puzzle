@@ -28,6 +28,7 @@ require 'game_modes'
 require 'text_fitter'
 require 'text_cutter'
 require 'adventure_loader'
+require 'button'
 # --------------------------------------------
 # Game UI
 
@@ -115,16 +116,40 @@ class GameWindow
 
     init_adventure_images
 
+    init_buttons
+
     @images = { }
 
     @player_img = load_image(to_image_path(@puzzle.player.src))
 
-    @game_mode = SplashScreenMode.new(self)
+    go_to_splash_screen
 
     set_caption("Boots Puzzle v#{BP_VERSION} -- #{@adventure.name}")
 
   end
 
+  def go_to_splash_screen
+    @game_mode = SplashScreenMode.new(self)
+  end
+
+  def init_buttons
+    @buttons = ButtonGroup.new(550, 205, 70, 30, 5)
+
+    @buttons.add_button("Quit") do 
+      quit
+    end
+    @buttons.add_button("Retry") do
+      reload_current_puzzle!
+    end
+    @buttons.add_button("Help") do
+      show_controls!
+    end
+    @buttons.add_button("Home") do
+      go_to_splash_screen
+    end
+
+  end
+  
   def load_adventure(props)
 
     adventure_name = props[:adventure_name]
@@ -300,6 +325,16 @@ class GameWindow
   def draw_ui
     draw_boots_ui
     draw_message_ui
+    draw_buttons
+  end
+
+  def draw_buttons
+    @buttons.each do |b|
+      draw_rectangle(b.x, b.y, b.x + b.w, b.y + b.h, @white)
+      # TODO : nicely compute the ideal x position, assuming
+      # the button is whide enough
+      draw_text_line(b.label, b.x + 5, b.y + 5, @white)
+    end
   end
 
   # Draw the part of the UI where the current boot is displayed
@@ -438,6 +473,8 @@ class GameWindow
     # handle keystrokes
     while (res == nil) and (event = SDL::Event2.poll)
       case event
+      when SDL::Event2::MouseButtonUp
+        check_button_clicks(event)
       when SDL::Event2::Quit then exit
       when SDL::Event2::KeyDown
         res = event.sym
@@ -449,6 +486,12 @@ class GameWindow
 # Could this be the cause of the CPU-intensitivy ?
 #    SDL::Key.scan
     res
+  end
+
+  def check_button_clicks(event)
+    @buttons.each do |button|
+      button.check(event)
+    end
   end
 
 end

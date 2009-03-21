@@ -39,6 +39,7 @@ class StartGameAction < SingleKeyAction
   end
 
   def act!
+    @w.init_puzzle
     @w.enter_game!
   end
 end
