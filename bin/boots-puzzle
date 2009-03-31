@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
+CURRENT_DIR=`pwd`
 cd /usr/share/boots-puzzle
-./boots-puzzle.rb $1 $2 $3
+./boots-puzzle.rb $1 $2 $3 --root=$CURRENT_DIR
