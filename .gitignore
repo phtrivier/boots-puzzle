@@ -25,3 +25,4 @@ linux-2.6-intel
 apt*/*
 boots-puzzle_*_i386
 *.deb
+tmp/*
