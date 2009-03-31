@@ -4,14 +4,15 @@
 ** DONE Load plugins from inside an adventure
 ** DONE package adventures individually
 * Game UI
-** TODO Controls
+** DONE Controls
 *** DONE Autopicking of the boots
 *** DONE Space to navigate through the boots
 *** DONE Control to drop a boot (not used at the moment)
 *** DONE Update the doc
+*** TODO "Long press button" update > If you keep a button pressed, you should try and
+move accordingly
 ** TODO Automatic fading of transition screen (after x seconds, using SDL ticks ?)
-** TODO Add buttons to quit, restart the puzzle, show the help
-*** TODO  Quit goes back to the header screen, on which 'quit' actually quits
+** DONE Add buttons to quit, restart the puzzle, show the help
 ** TODO [#B] Find a icon for the application (the bare foots ?)
 ** TODO [#C] Externalize strings
 ** TODO Make controls configurable (and update the display of the controls...)
@@ -50,16 +51,11 @@
 ** TODO wall breaker
 ** TODO purely decorative plugin (with funny kinds of walls, etc...)
 * Demo adventure
-** TODO 3 Levels with double boots, water, switches
+** DONE 3 Levels with double boots, water, switches
 *** TODO Improve the levels if possible (not very pretty yet ..)
 ** TODO 3 Levels with chess moves
 *** TODO Do the plugin
 *** TODO Design the levels
-** TODO 3 Levels with [?????]
-*** dialogs ?
-*** doors that open / closes ?
-*** enemies ?
-*** things to collect (other than boots ?)
 * Test Editor
 ** recording
 ** adding assertions

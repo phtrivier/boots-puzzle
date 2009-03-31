@@ -457,8 +457,16 @@ class GameWindow
   end
 
   def show
+
+    # TODO(pht) test this
+    SDL::Key.enable_key_repeat(10,10)
+
     # Enter the main loop ....
     loop do
+      # Maybe here, wait_for_key, but raise an exception
+      # every so often, so that you can update things in the maze
+      # at regular interval (just to say 'hey, men, 2 seconds have passed', 
+      # move a bit)
       pressed_key = wait_for_key
       @game_mode.update(pressed_key)
       @game_mode.draw
