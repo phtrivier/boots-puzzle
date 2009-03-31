@@ -85,7 +85,7 @@ class Plugins
 
   def self.add_root(root)
     @@manager.loaders << FilePluginLoader.new(root)
-    puts "Plugins loaders : #{@@manager.loaders}"
+#    puts "Plugins loaders : #{@@manager.loaders}"
   end
 
 end

@@ -50,9 +50,9 @@ class AdventureLoader
       if (has_adventure?(root, adventure_name))
         @loaded_adventure_folder = "#{root}/#{adventure_name}"
         @levels_folder = levels_folder(@adventure_name)
-        puts "loaded_adventure_forlder : #{@loaded_adventure_folder}"
+#        puts "loaded_adventure_forlder : #{@loaded_adventure_folder}"
         @adventure = Adventure.new(root)
-        puts "Manifesting plugins with root #{root} and adventure name #{adventure_name}"
+#       puts "Manifesting plugins with root #{root} and adventure name #{adventure_name}"
         manifest_plugins!(root, adventure_name)
         @adventure_file_name = "#{@loaded_adventure_folder}/adventure.yml"
         @adventure.load!(File.open(@adventure_file_name))
