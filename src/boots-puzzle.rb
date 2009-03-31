@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-BP_VERSION="0.3.6"
+BP_VERSION="0.3.7"
 
 $LOAD_PATH << "."
 $LOAD_PATH << "gui"
