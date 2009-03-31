@@ -208,7 +208,7 @@ task :fill_debfolder => [:make_debfolder] do
   FileUtils.cp("src/boots-puzzle.rb", debian_app_folder_name)
   FileUtils.cp("src/boots-puzzle-wrapper.rb", debian_app_folder_name)
   # Copy binairies
-  FileUtils.cp("misc/boots-puzzle", debian_binaries_folder_name)
+  FileUtils.cp("src/bin/boots-puzzle", debian_binaries_folder_name)
   # Change the mode of the binaries
   FileUtils.chmod(0755, debian_binaries_folder_name + "/boots-puzzle")
   # Copy and compress the change log file

@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-cd /usr/share/boots-puzzle
-./boots-puzzle.rb $1 $2
