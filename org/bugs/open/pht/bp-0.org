@@ -1,0 +1,13 @@
+* Number
+0
+* Status
+Open
+* How ?
+Require logging in level.rb. (log4r and the module)
+Run the editor
+* Seen ?
+The editor crashes (no such file to load -- log4r)
+* Expected ?
+No error.
+* Comments ?
+Log4r has been disabled in level.rb, in waiting...

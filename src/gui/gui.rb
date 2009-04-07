@@ -37,8 +37,8 @@ class GameWindow
   attr_reader :puzzle, :font
 
   # Maximum dimension of puzzles
-  H = 10
-  W = 16
+  H = 14
+  W = 21
 
   # ---------------------------------
   # SDL Specific part
@@ -88,21 +88,57 @@ class GameWindow
   # ------------------------
   # Relatively framework-agnostic part of the game
 
+  SCREEN_W = 800
+  SCREEN_H = 600
+
+  TILE_SIZE = 32
+  WINDOW_OFF_X = 20
+  WINDOW_OFF_Y = 20
+
+  RECTANGLE_OFF = 5
+
+  QUOTE_TEXT_X = 50
+  QUOTE_TEXT_Y = 110
+
+  QUOTE_AUTHOR_X = 450
+  QUOTE_AUTHOR_Y = 400
+
+  QUOTE_TEXT_ZONE_W = 300
+  QUOTE_AUTHOR_ZONE_W = 200
+
+  START_TEXT_X = 50
+  START_TEXT_Y = 450
+
+  BOOTS_UI_X = 738
+  BOOTS_UI_Y = 25
+  BOOTS_UI_DELTA = 25
+
+  BOOTS_MAX_COUNT = 3
+
+  BUTTONS_X = 710
+  BUTTONS_Y = 205
+  BUTTONS_W = 70
+  BUTTONS_H = 30
+  BUTTONS_DELTA = 5
+
+  MESSAGE_ZONE_W = 750
+  MESSAGE_ZONE_H = 110
+
   def initialize(props)
-    init_screen(640,480)
+    init_screen(SCREEN_W,SCREEN_H)
 
     @prefix = props[:prefix] || "."
 
     @font = load_default_font()
 
-    @fitter = TextFitter.new(@font, 600)
+    @fitter = TextFitter.new(@font, MESSAGE_ZONE_W)
     @message_cutter = TextCutter.new(@fitter)
     @text_h = @font.height
 
-    @quote_text_fitter = TextFitter.new(@font, 300)
+    @quote_text_fitter = TextFitter.new(@font, QUOTE_TEXT_ZONE_W)
     @quote_text_cutter = TextCutter.new(@quote_text_fitter)
 
-    @quote_author_fitter = TextFitter.new(@font, 200)
+    @quote_author_fitter = TextFitter.new(@font, QUOTE_AUTHOR_ZONE_W)
     @quote_author_cutter = TextCutter.new(@quote_author_fitter)
 
     @last_message = nil
@@ -133,7 +169,7 @@ class GameWindow
   end
 
   def init_buttons
-    @buttons = ButtonGroup.new(550, 205, 70, 30, 5)
+    @buttons = ButtonGroup.new(BUTTONS_X, BUTTONS_Y, BUTTONS_W, BUTTONS_H, BUTTONS_DELTA)
 
     @buttons.add_button("Quit") do 
       quit
@@ -256,9 +292,9 @@ class GameWindow
   # TODO : RENAME "draw_all"
   def draw_puzzle
 
-    @x0 = 20
-    @y0 = 20
-    @s = 32
+    @x0 = WINDOW_OFF_X
+    @y0 = WINDOW_OFF_Y
+    @s = TILE_SIZE
 
     draw_background
 
@@ -295,7 +331,8 @@ class GameWindow
   def draw_background
     draw_to_screen(@bg_image, 0, 0)
     # Draw a rectangle around the game area
-    draw_rectangle(@x0-5, @y0-5, @x0 + W*@s + 5, @y0 + H*@s + 5, @white)
+    d = RECTANGLE_OFF
+    draw_rectangle(@x0-d, @y0-d, @x0 + W*@s + d, @y0 + H*@s + d, @white)
   end
 
   def to_screen_coords(i,j)
@@ -333,21 +370,21 @@ class GameWindow
       draw_rectangle(b.x, b.y, b.x + b.w, b.y + b.h, @white)
       # TODO : nicely compute the ideal x position, assuming
       # the button is whide enough
-      draw_text_line(b.label, b.x + 5, b.y + 5, @white)
+      draw_text_line(b.label, b.x + RECTANGLE_OFF, b.y + RECTANGLE_OFF, @white)
     end
   end
 
   # Draw the part of the UI where the current boot is displayed
   def draw_boots_ui
-    @boots_ui_x0 = 580
-    @boots_ui_y0 = 25
-    interval = 25
+    @boots_ui_x0 = BOOTS_UI_X
+    @boots_ui_y0 = BOOTS_UI_Y
+    interval = BOOTS_UI_DELTA
 
     x = @boots_ui_x0
     y = @boots_ui_y0
 
     # Draw a nice line around everything
-    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*3) + (interval*2) + 10, @white)
+    draw_rectangle(x-10, y-10, x + @s + 10, y + 5 + (@s*BOOTS_MAX_COUNT) + (interval*2) + 10, @white)
 
     # Draw each boots, surrounding the selected one
     @puzzle.player.each_boots do |boot, selected|
@@ -358,7 +395,7 @@ class GameWindow
 
       if (selected)
         # Draw a quad around the selected one ...
-        draw_rectangle(x-5, y-5, x+@s+5, y+@s+5, @white)
+        draw_rectangle(x-RECTANGLE_OFF, y-RECTANGLE_OFF, x+@s+RECTANGLE_OFF, y+@s+RECTANGLE_OFF, @white)
       end
 
       y = y + @s + interval
@@ -369,8 +406,8 @@ class GameWindow
 
   def draw_message_ui
     y0 = @y0 + @s*H + 5 + 10
-    x1 = 620
-    height = 110
+    x1 = @x0 + MESSAGE_ZONE_W + 10
+    height = MESSAGE_ZONE_H
 
     draw_rectangle @x0 - 5, y0, x1, y0 + height, @white
 
@@ -439,11 +476,11 @@ class GameWindow
 
   def draw_quote
     draw_to_screen(@bg_image, 0, 0)
-    safe_draw_text(50,100, @quote_text_cutter, "'#{@puzzle.quote.text}'")
+    safe_draw_text(QUOTE_TEXT_X,QUOTE_TEXT_Y, @quote_text_cutter, "'#{@puzzle.quote.text}'")
     if (@puzzle.quote.author != nil)
-      safe_draw_text(450, 400, @quote_author_cutter , @puzzle.quote.author)
+      safe_draw_text(QUOTE_AUTHOR_X, QUOTE_AUTHOR_Y, @quote_author_cutter , @puzzle.quote.author)
     end
-    safe_draw_text(50, 450, @message_cutter, "(Press Return to start level)")
+    safe_draw_text(START_TEXT_X, START_TEXT_Y, @message_cutter, "(Press Return to start level)")
   end
 
   def toggle_hint!

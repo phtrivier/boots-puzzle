@@ -1,0 +1,27 @@
+* RatLab
+A boots-puzzle adventure.
+
+* Scenario 
+
+The story is told by the professor of some experiement (hum, this is bit portal-like)
+What if you're actually insane ? 
+Nothing ever told us why the girl in portal was there. 
+That could be the storyline.
+Someone set you there for a purpose.
+You have been bad, or something. You have commited some very bad actions. Or you ran completely crazy.
+So people are trying to check you cognitive capabilities.
+
+Some puzzles should be purely storytelling (you meet people, they tell you stuff.
+That's 80's like, but who cares.
+
+
+-> There is only a "npc" plugin, where, when you hit a npc, it tells you stuff.
+And then, things can happen after you talk to the guy for the first / second / last time.
+
+-> If I make the UI screen a bit bigger, how hard would it be ? 
+
+
+I don't want to add AI yet. Or maybe they can move a bit using some known rules, but then I need to know when I update things
+(every seconds or so ?)
+
+-> can I change the animation of the guy depending of the 
