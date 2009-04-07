@@ -1,3 +1,11 @@
+#! /usr/bin/env ruby
+# 
+# This is a silly script to extract some very rude timing information
+# from bzr or git commit logs.
+#
+# Authors PH TRIVIER
+#
+
 require "fileutils"
 
 days = { }

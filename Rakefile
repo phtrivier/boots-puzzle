@@ -13,7 +13,7 @@ task :test => [:core_test, :plugins_test]
 
 desc "Run core tests"
 Rake::TestTask.new("core_test") do |t|
-  t.libs << ["./src/test", "./src/plugins/core", "./src/gui"]
+  t.libs.push("./src/test", "./src/plugins/core", "./src/gui")
   t.pattern = 'src/test/*_test.rb'
   t.verbose = false
   t.warning = false
@@ -21,7 +21,7 @@ end
 
 desc "Run plugins tests"
 Rake::TestTask.new("plugins_test") do |t|
-  t.libs << ["./src/test", "./src/test/plugins/**/*", "./src/plugins/core", "./src/plugins/**/*"]
+  t.libs.push("./src/test", "./src/test/plugins/**/*", "./src/plugins/core", "./src/plugins/**/*")
   t.pattern = "src/test/plugins/**/*_test.rb"
   t.verbose = false
   t.warning = false
