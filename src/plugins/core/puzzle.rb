@@ -36,6 +36,11 @@ require 'quote'
 require 'directions'
 
 class Puzzle
+
+  # Maximum dimensions of a puzzle
+  MAX_H = 14
+  MAX_W = 21
+
   include BlockUtils
   include Naming
   include Notification

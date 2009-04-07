@@ -37,8 +37,8 @@ class GameWindow
   attr_reader :puzzle, :font
 
   # Maximum dimension of puzzles
-  H = 14
-  W = 21
+  PUZZLE_MAX_H = Puzzle::MAX_H
+  PUZZLE_MAX_W = Puzzle::MAX_W
 
   # ---------------------------------
   # SDL Specific part
@@ -332,7 +332,7 @@ class GameWindow
     draw_to_screen(@bg_image, 0, 0)
     # Draw a rectangle around the game area
     d = RECTANGLE_OFF
-    draw_rectangle(@x0-d, @y0-d, @x0 + W*@s + d, @y0 + H*@s + d, @white)
+    draw_rectangle(@x0-d, @y0-d, @x0 + PUZZLE_MAX_W*@s + d, @y0 + PUZZLE_MAX_H*@s + d, @white)
   end
 
   def to_screen_coords(i,j)
@@ -405,7 +405,7 @@ class GameWindow
   end
 
   def draw_message_ui
-    y0 = @y0 + @s*H + 5 + 10
+    y0 = @y0 + @s*PUZZLE_MAX_H + 5 + 10
     x1 = @x0 + MESSAGE_ZONE_W + 10
     height = MESSAGE_ZONE_H
 

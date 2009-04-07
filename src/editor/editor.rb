@@ -147,8 +147,8 @@ class LevelEditor < Shoes
 
   def create_new_puzzle(puzzle_name=nil)
     # TODO : Make this method shorter ?
-    h = 10
-    w = 16
+    h = Puzzle::MAX_H
+    w = Puzzle::MAX_W
     all_good = true
 
     puzzle_name = ask "What is the name of the puzzle ?" unless puzzle_name
@@ -161,7 +161,7 @@ class LevelEditor < Shoes
         alert("Invalid puzzle name, sorry...")
         all_good = false
       else
-        if (!confirm "Do you want standard size (10 lines, 16 columns ?)")
+        if (!confirm "Do you want standard size (#{h} lines, #{w} columns ?)")
           all_good = false
           h_dialog = ask "How many lines ?"
           if (h_dialog.to_i <= 0)
@@ -207,15 +207,15 @@ class LevelEditor < Shoes
     end
 
     flow do
-      stack :width => '15%' do
+      stack :width => '10%' do
         build_palette_panel
       end
 
-      stack :width => '60%' do
+      stack :width => '70%' do
         build_puzzle_grid_panel
       end
 
-      stack :width => '25%' do
+      stack :width => '20%' do
         build_named_cells_panel
       end
     end
@@ -597,5 +597,5 @@ class LevelEditor < Shoes
 
 end
 
-LevelEditor.app :title => "Puzzle editor", :width => 1100, :height => 600
+LevelEditor.app :title => "Puzzle editor", :width => 1300, :height => 800
 
