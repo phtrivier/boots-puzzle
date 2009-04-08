@@ -235,8 +235,28 @@ class LevelEditor < Shoes
         end
         exit
       end
+
+      debug "Keypress handler for second stuff, key was #{k}"
+      if (k==:control_w)
+        @left_locked = !@left_locked
+      elsif (k==:control_x)
+        @right_locked = !@right_locked
+      end
+      update_lock_state
+
     end
 
+  end
+
+  def update_lock_state
+    msg = ""
+    if (@left_locked)
+      msg = msg + "L"
+    end
+    if (@right_locked)
+      msg = msg + "R"
+    end
+    @locked_state.text = msg
   end
 
   def build_names_panel
@@ -418,6 +438,7 @@ class LevelEditor < Shoes
       end
     end
     @dirty_state = para ""
+    @locked_state = para ""
   end
 
   # ----------------------------------------------------
@@ -496,8 +517,8 @@ class LevelEditor < Shoes
 
       @cells[i][j] = EditorCell.new(t, img, boot_img, name_img)
 
+    
       click do |b, l, t|
-
         debug "Clicked on #{i}, #{j} ... original type was #{t}"
 
         # TODO : Actually, make a command with the tools, execute
@@ -516,7 +537,21 @@ class LevelEditor < Shoes
           dirty(true)
           @command_stack.command!(tool, self, i,j)
         end
+      end
 
+
+      hover do |me|
+        debug "Hovering on #{me} ; control or shift pressed : #{@left_locked}, #{@right_locked}"
+        tool = nil
+        if (@right_locked)
+          tool = @tool_slots[:right].tool
+        elsif (@right_locked)
+          tool = @tool_slots[:locked].tool
+        end
+        if (tool != nil)
+          dirty(true)
+          @command_stack.command!(tool, self, i,j)
+        end
       end
 
     end
