@@ -3,25 +3,31 @@ A boots-puzzle adventure.
 
 * Scenario 
 
-The story is told by the professor of some experiement (hum, this is bit portal-like)
-What if you're actually insane ? 
-Nothing ever told us why the girl in portal was there. 
-That could be the storyline.
-Someone set you there for a purpose.
-You have been bad, or something. You have commited some very bad actions. Or you ran completely crazy.
-So people are trying to check you cognitive capabilities.
+'ratlab' is the latest brew of real-TV show. People are followed
+trying to solved tricky puzzles involving alternative displacement
+techniques. (TODO : acronym pun with boots)
 
-Some puzzles should be purely storytelling (you meet people, they tell you stuff.
-That's 80's like, but who cares.
+The story is told by "The Producer" (hint : could be fun to meet the producer in the end)
 
+Stages are : 
 
--> There is only a "npc" plugin, where, when you hit a npc, it tells you stuff.
-And then, things can happen after you talk to the guy for the first / second / last time.
+1) casting
+2) a few days to learn how to play
+3) a few rounds of elimination (but you stay inside the show)
+4) a round when you are excluded from the show
+5) a final round where you try to unmask how completely 'truqué' (hoaxed, arranged, fixed?) the show was
+6) final showdown with the Producer
 
--> If I make the UI screen a bit bigger, how hard would it be ? 
+Extra characters 
 
+- you, eager to play and to win, only interested in fame and money, some kind of a anti-hero
+- the host, completely clueless, provides some of the fun and
+  constently make stupid remarks. Also, always confuses the show with other known ones, so 
+  you can make plenty of inside jokes...
+- the assistant (would probably understand the whole point of the show if he had a second between getting coffee for the
+  producer and finding a girl for the host - or the other way around)
+- the producer, cynical, treating all participants like meat, showing up occasionnaly to fire someone
 
-I don't want to add AI yet. Or maybe they can move a bit using some known rules, but then I need to know when I update things
-(every seconds or so ?)
+Places
 
--> can I change the animation of the guy depending of the 
+- the player's room (I like the idea that you come back to this place from time to time, and that you

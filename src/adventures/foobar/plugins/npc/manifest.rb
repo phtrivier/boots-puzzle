@@ -1,0 +1,1 @@
+Plugins.manifest("npc", ["chat"])

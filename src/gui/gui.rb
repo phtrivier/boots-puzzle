@@ -50,7 +50,7 @@ class GameWindow
   end
 
 
-  def load_image(path)
+  def load_sdl_image(path)
      SDL::Surface.load(path)
   end
 
@@ -156,7 +156,7 @@ class GameWindow
 
     @images = { }
 
-    @player_img = load_image(to_image_path(@puzzle.player.src))
+    @player_img = load_sdl_image(to_global_image_path(@puzzle.player.src))
 
     go_to_splash_screen
 
@@ -191,9 +191,9 @@ class GameWindow
     adventure_name = props[:adventure_name]
     adventure_path = props[:adventure_roots]
 
-    adventure_loader = AdventureLoader.new(@prefix, adventure_path)
+    @adventure_loader = AdventureLoader.new(@prefix, adventure_path)
 
-    @adventure = adventure_loader.load!(adventure_name)
+    @adventure = @adventure_loader.load!(adventure_name)
 
     if (@adventure.has_next_level?)
 
@@ -246,7 +246,7 @@ class GameWindow
   # Loads an image from the 'gui/img' folder
   # filename : name of the image file (eg background.png)
   def load_gui_image(filename)
-    load_image("#{@prefix}/gui/img/#{filename}")
+    load_sdl_image("#{@prefix}/gui/img/#{filename}")
   end
 
   # Load the image for an hint
@@ -255,14 +255,18 @@ class GameWindow
   end
 
   def load_adventure_image(pic_filename)
-    default_path = "#{@prefix}/gui/img/#{pic_filename}"
-    adventure_image_path = "#{@prefix}/adventures/#{@adventure.name}/img/#{pic_filename}"
-    if (File.exists?(adventure_image_path))
-      path = adventure_image_path
-    else
-      path = default_path
-    end
-    load_image(path)
+
+#    default_path = "#{@prefix}/gui/img/#{pic_filename}"
+##    adventure_image_path = "#{@prefix}/adventures/#{@adventure.name}/img/#{pic_filename}"
+#     adventure_image_path = @adventure_loader.image_path(pic_filename)
+#     if (File.exists?(adventure_image_path))
+#       path = adventure_image_path
+#     else
+#       path = default_path
+#     end
+
+    path = to_clever_image_path(pic_filename)
+    load_sdl_image(path)
   end
 
   def update
@@ -356,7 +360,7 @@ class GameWindow
   end
 
   def draw_boot(i,j,c,b)
-    draw_on_cell(image(b.src), i, j)
+    draw_on_cell(get_image(b), i, j)
   end
 
   def draw_ui
@@ -389,7 +393,7 @@ class GameWindow
     # Draw each boots, surrounding the selected one
     @puzzle.player.each_boots do |boot, selected|
 
-      boot_image = image(boot.src)
+      boot_image = get_image(boot)
 
       draw_to_screen(boot_image, x, y)
 
@@ -436,19 +440,45 @@ class GameWindow
     @last_message = ops[:msg]
   end
 
-  # Load an image from its source ... potentially leaky
-  def image(src)
-    load_image(to_image_path(src))
+  # Load an image from its source.
+  # It will first try and locate the image in the globally available "plugins"
+  # folder. Than it will try and locate it in the adventure's img/ folder.
+  def load_image(src)
+    load_sdl_image(to_clever_image_path(src))
   end
 
   # Locate the image (it must be available globally ?)
-  def to_image_path(src)
+  def to_global_image_path(src)
     "#{@prefix}/plugins/#{src}"
+  end
+
+  # This tries to locate an image by its source, looking into 
+  # several locations 
+  # * globally (assuming the paths starts as a subfolder of the global plugins/ folder)
+  # * in the default ui img folder (gui/img"
+  # * in the adventure's own /img folder
+  # * in the adventure's /plugins folder
+  def to_clever_image_path(src)
+    path = nil
+    potential_paths = ["#{@prefix}/plugins/#{src}", 
+                       "#{@prefix}/gui/img/#{src}", 
+                       @adventure_loader.global_image_path(src),
+                       @adventure_loader.plugins_image_path(src)]
+
+    potential_paths.each do |p|
+      if File.exists?(p)
+        path = p
+        break
+      end
+    end
+    
+    path
+
   end
 
   def get_image(cell)
     if (not @images.has_key?(cell.src))
-      @images[cell.src] = image(cell.src)
+      @images[cell.src] = load_image(cell.src)
     end
     res = @images[cell.src]
     res

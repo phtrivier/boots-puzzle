@@ -33,7 +33,7 @@ class Plugin
   end
 
   # Sloppyness forgiving error message
-  def self.manifest(name)
+  def self.manifest(name, options=[])
     raise RuntimeError.new("Manifest syntax error for plugin #{name} : use Plugins.manifest (with an 's') instead of Plugin.manifest in #{name}/manifest.rb.")
   end
 

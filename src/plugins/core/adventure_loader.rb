@@ -77,6 +77,8 @@ class AdventureLoader
       end
     rescue Exception => e
       puts "Unable to open adventure #{adventure_name} : #{e}"
+      puts e.backtrace
+      puts "Will exit now."
       exit
     end
     @adventure
@@ -140,6 +142,15 @@ class AdventureLoader
     @puzzle = @level.puzzle
     @file_name = "#{@levels_folder}/" + @level.puzzle_file
     @puzzle_class = @level.puzzle_class_name
+  end
+
+  # Path to an image located in the img/ folder of an adventure
+  def global_image_path(pic_filename)
+    "#{@loaded_adventure_folder}/img/#{pic_filename}"
+  end
+
+  def plugins_image_path(pic_filename)
+    "#{@loaded_adventure_folder}/plugins/#{pic_filename}"
   end
 
 end

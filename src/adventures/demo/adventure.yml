@@ -13,3 +13,4 @@ adventure:
   - puzzle: level_2_puzzle
   - puzzle: level_3_puzzle
   - puzzle: level_4_puzzle
+  - puzzle: level_6_puzzle
