@@ -62,8 +62,6 @@ class EventsTest < PluginTestCase
     assert_equal "Bob", chat_cell.chatter[:name]
     assert_equal 0, chat_cell.chat_count
 
-    # TODO : Check the inner method is called when 
-    # you invoke static_walkthingy (and that the count is incremented)
     chat_cell.static_contact!(pu, :up)
     assert_equal 1, @read_count
     assert_equal "Bob says : 1", m.message_read
@@ -72,7 +70,6 @@ class EventsTest < PluginTestCase
     assert_equal 2, @read_count
     assert_equal "Bob says : 2", m.message_read
 
-    # TODO : Find a way to compute the path the the image ?
     assert_equal "toto.gif", chat_cell.src
 
   end
