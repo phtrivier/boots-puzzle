@@ -8,9 +8,9 @@ Story.for("level_0") do
   story_event :hole do |pu|
 
     if (pu.player.boots.size == 1)
-      pu.message("Try and take the double boots over there... (use SPC)")
+      pu.message("Try and take the double boots over there...")
     else
-      pu.message("Try to use double boots (use TAB to toogle)")
+      pu.message("Try to use double boots (use SPC to toogle)")
     end
 
   end
