@@ -49,7 +49,6 @@ class GameWindow
     @white = @screen.mapRGB 255,255,255
   end
 
-
   def load_sdl_image(path)
      SDL::Surface.load(path)
   end

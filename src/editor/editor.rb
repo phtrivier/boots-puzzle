@@ -632,5 +632,5 @@ class LevelEditor < Shoes
 
 end
 
-LevelEditor.app :title => "Puzzle editor", :width => 1300, :height => 800
+LevelEditor.app :title => "Puzzle editor", :width => 380, :height => 480
 
