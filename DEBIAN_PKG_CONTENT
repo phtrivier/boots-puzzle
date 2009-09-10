@@ -1,0 +1,170 @@
+boots-puzzle_0.3.8_i386/usr
+|-- games
+|   `-- boots-puzzle
+`-- share
+    |-- boots-puzzle
+    |   |-- adventures
+    |   |   |-- demo
+    |   |   |   |-- ChangeLog
+    |   |   |   |-- adventure.yml
+    |   |   |   |-- img
+    |   |   |   |   |-- background.png
+    |   |   |   |   |-- end_screen.png
+    |   |   |   |   `-- splash_screen.png
+    |   |   |   `-- levels
+    |   |   |       |-- level_0_puzzle.rb
+    |   |   |       |-- level_0_puzzle_story.rb
+    |   |   |       |-- level_1_puzzle.rb
+    |   |   |       |-- level_1_puzzle_story.rb
+    |   |   |       |-- level_2_puzzle.rb
+    |   |   |       |-- level_2_puzzle_story.rb
+    |   |   |       |-- level_3_puzzle.rb
+    |   |   |       |-- level_3_puzzle_story.rb
+    |   |   |       |-- level_4_puzzle.rb
+    |   |   |       |-- level_4_puzzle_story.rb
+    |   |   |       `-- level_6_puzzle.rb
+    |   |   `-- foobar
+    |   |       |-- adventure.yml
+    |   |       |-- levels
+    |   |       |   |-- level-5_puzzle.rb
+    |   |       |   |-- level_1_puzzle.rb
+    |   |       |   |-- level_1_puzzle_story.rb
+    |   |       |   |-- level_2_puzzle.rb
+    |   |       |   |-- level_2_puzzle_story.rb
+    |   |       |   |-- level_3_puzzle.rb
+    |   |       |   |-- level_4_puzzle.rb
+    |   |       |   |-- level_4_puzzle_story.rb
+    |   |       |   `-- level_5_puzzle.rb
+    |   |       `-- plugins
+    |   |           |-- hello
+    |   |           |   |-- manifest.rb
+    |   |           |   `-- patches
+    |   |           |       `-- say_hello.rb
+    |   |           `-- npc
+    |   |               |-- img
+    |   |               |   |-- alice.png
+    |   |               |   `-- bob.png
+    |   |               |-- manifest.rb
+    |   |               `-- patches
+    |   |                   `-- declare_npcs.rb
+    |   |-- boots-puzzle-wrapper.rb
+    |   |-- boots-puzzle.rb
+    |   |-- gui
+    |   |   |-- action.rb
+    |   |   |-- background_spirale.png
+    |   |   |-- button.rb
+    |   |   |-- fonts
+    |   |   |   |-- Vera.ttf
+    |   |   |   |-- VeraBd.ttf
+    |   |   |   `-- VeraMono.ttf
+    |   |   |-- game_modes.rb
+    |   |   |-- gui.rb
+    |   |   |-- img
+    |   |   |   |-- background.png
+    |   |   |   |-- end_screen.png
+    |   |   |   |-- hint_down.png
+    |   |   |   |-- hint_left.png
+    |   |   |   |-- hint_right.png
+    |   |   |   |-- hint_up.png
+    |   |   |   `-- splash_screen.png
+    |   |   |-- text_cutter.rb
+    |   |   `-- text_fitter.rb
+    |   `-- plugins
+    |       |-- chat
+    |       |   |-- cells
+    |       |   |   `-- chat_cell.rb
+    |       |   |-- manifest.rb
+    |       |   `-- patches
+    |       |       |-- add_chat_methods_to_puzzle.rb
+    |       |       `-- chat.rb
+    |       |-- chess
+    |       |   |-- boots
+    |       |   |   `-- knight_boots.rb
+    |       |   |-- img
+    |       |   |   |-- knight_left_boots.png
+    |       |   |   `-- knight_right_boots.png
+    |       |   |-- manifest.rb
+    |       |   `-- tools
+    |       |       `-- knight_tool.rb
+    |       |-- core
+    |       |   |-- adventure.rb
+    |       |   |-- adventure_loader.rb
+    |       |   |-- block_utils.rb
+    |       |   |-- boots.rb
+    |       |   |-- cell.rb
+    |       |   |-- dictionary.rb
+    |       |   |-- directions.rb
+    |       |   |-- errors.rb
+    |       |   |-- file_plugin_loader.rb
+    |       |   |-- img
+    |       |   |   |-- bare_feet.png
+    |       |   |   |-- double_boots.png
+    |       |   |   |-- in.png
+    |       |   |   |-- out.png
+    |       |   |   |-- player.png
+    |       |   |   |-- walkable.png
+    |       |   |   `-- wall.png
+    |       |   |-- level.rb
+    |       |   |-- name.rb
+    |       |   |-- naming.rb
+    |       |   |-- notification.rb
+    |       |   |-- player.rb
+    |       |   |-- plugin.rb
+    |       |   |-- plugin_manager.rb
+    |       |   |-- plugins.rb
+    |       |   |-- puzzle.rb
+    |       |   |-- quote.rb
+    |       |   |-- story.rb
+    |       |   `-- tools_registry.rb
+    |       |-- events
+    |       |   |-- manifest.rb
+    |       |   `-- patches
+    |       |       `-- patch_puzzle.rb
+    |       |-- static
+    |       |   |-- cells
+    |       |   |   `-- static_cell.rb
+    |       |   |-- manifest.rb
+    |       |   `-- patches
+    |       |       `-- make_puzzle_remember_players_last_direction.rb
+    |       |-- switch
+    |       |   |-- cells
+    |       |   |   `-- switch_cell.rb
+    |       |   |-- img
+    |       |   |   |-- switch_off.png
+    |       |   |   `-- switch_on.png
+    |       |   |-- manifest.rb
+    |       |   |-- patches
+    |       |   |   `-- add_story_events_for_switch.rb
+    |       |   `-- tools
+    |       |       `-- switch_cell_tool.rb
+    |       |-- tunnel
+    |       |   |-- cells
+    |       |   |   `-- tunnel_extremity_cell.rb
+    |       |   |-- img
+    |       |   |   `-- tunnel_extremity_cell.png
+    |       |   |-- manifest.rb
+    |       |   |-- patches
+    |       |   |   `-- patch_puzzle.rb
+    |       |   `-- tools
+    |       |       `-- tunnel_extremity_tool.rb
+    |       `-- water
+    |           |-- boots
+    |           |   `-- palms.rb
+    |           |-- cells
+    |           |   `-- water_cell.rb
+    |           |-- img
+    |           |   |-- palms.png
+    |           |   `-- water_cell.png
+    |           |-- manifest.rb
+    |           |-- patches
+    |           |   `-- make_cells_swimmable.rb
+    |           `-- tools
+    |               |-- palms_tool.rb
+    |               `-- water_cell_tool.rb
+    `-- doc
+        `-- boots-puzzle
+            |-- changelog.Debian.gz
+            |-- changelog.gz
+            `-- copyright
+
+51 directories, 116 files
