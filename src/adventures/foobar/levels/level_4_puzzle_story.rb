@@ -14,5 +14,6 @@ Story.for("level_4") do
     puzzle.chat "Oh my god, they killed Kenny !!"
   end
 
+  decorate_cell(:book, :book1)
 
 end

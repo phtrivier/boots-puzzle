@@ -30,6 +30,7 @@ class ChatCell < StaticCell
     else
       res = @chatter[:sprite]
     end
+    res
   end
 
 end

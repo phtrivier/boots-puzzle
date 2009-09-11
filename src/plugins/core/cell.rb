@@ -81,9 +81,13 @@ class Cell
   # by the event handler), a boolean telling whether
   # the event occured already.
   def walk!(puzzle)
-    @story_events.each do |name, events|
-      events.each do |event|
-        event.occur!(puzzle)
+    if (@story_events != nil)
+      @story_events.each do |name, events|
+        events.each do |event|
+          if (event != nil)
+            event.occur!(puzzle)
+          end
+        end
       end
     end
   end

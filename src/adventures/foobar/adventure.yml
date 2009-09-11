@@ -6,6 +6,7 @@ adventure:
   - switch
   - hello
   - npc
+  - decoration
   name: foobar
   levels: 
   - puzzle: level_1_puzzle

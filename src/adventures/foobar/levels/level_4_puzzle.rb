@@ -20,6 +20,7 @@ class Level4Puzzle < Puzzle
  named_cells do
   named_cell :chatter1, 4, 4
   named_cell :chatter2, 9, 4
+    named_cell :book, 10, 5
  end
 
 
