@@ -459,10 +459,10 @@ class GameWindow
   # * in the adventure's /plugins folder
   def to_clever_image_path(src)
     path = nil
-    potential_paths = ["#{@prefix}/plugins/#{src}", 
-                       "#{@prefix}/gui/img/#{src}", 
-                       @adventure_loader.global_image_path(src),
-                       @adventure_loader.plugins_image_path(src)]
+    potential_paths = [@adventure_loader.global_image_path(src),
+                       @adventure_loader.plugins_image_path(src),
+                       "#{@prefix}/plugins/#{src}", 
+                       "#{@prefix}/gui/img/#{src}"]
 
     potential_paths.each do |p|
       if File.exists?(p)
