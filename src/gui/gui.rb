@@ -346,7 +346,13 @@ class GameWindow
 
   def draw_on_cell(img, i,j)
     x,y = to_screen_coords(i,j)
-    draw_to_screen(img, x,y)
+    if (img.is_a? Array)
+      img.each do |single_image|
+        draw_to_screen(single_image, x,y)
+      end
+    else
+      draw_to_screen(img, x,y)
+    end
   end
 
   def draw_player
@@ -476,10 +482,24 @@ class GameWindow
   end
 
   def get_image(cell)
-    if (not @images.has_key?(cell.src))
-      @images[cell.src] = load_image(cell.src)
+    if (cell.src.is_a? Array)
+      get_images(cell.src)
+    else
+      get_single_image(cell.src)
     end
-    res = @images[cell.src]
+  end
+
+  def get_images(srcs)
+    srcs.collect do |src|
+      get_single_image(src)
+    end
+  end
+
+  def get_single_image(src)
+    if (not @images.has_key?(src))
+      @images[src] = load_image(src)
+    end
+    res = @images[src]
     res
   end
 

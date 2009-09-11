@@ -3,6 +3,7 @@ class ChatCell < StaticCell
   attr_accessor :chatter
   attr_accessor :chat_count
   attr_writer :block
+  attr_writer :background_cell
 
   def initialize()
     super
@@ -18,7 +19,17 @@ class ChatCell < StaticCell
   end
 
   def src
-    @chatter[:sprite]
+    res = nil
+    if (@background_cell != nil)
+      if (@background_cell.src.is_a? Array)
+        res = @background_cell.src
+        res << @chatter[:sprite]
+      else
+        res = [@background_cell.src, @chatter[:sprite]]
+      end
+    else
+      res = @chatter[:sprite]
+    end
   end
 
 end

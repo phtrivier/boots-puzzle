@@ -70,7 +70,9 @@ class EventsTest < PluginTestCase
     assert_equal 2, @read_count
     assert_equal "Bob says : 2", m.message_read
 
-    assert_equal "toto.gif", chat_cell.src
+    # Several images have to be drawn so that the chatter appears
+    # correcly
+    assert_equal ["core/img/walkable.png", "toto.gif"], chat_cell.src
 
   end
 
