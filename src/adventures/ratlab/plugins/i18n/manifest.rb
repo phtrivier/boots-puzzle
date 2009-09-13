@@ -1,1 +1,1 @@
-Plugins.manifest("i18n")
+Plugins.manifest("i18n", ["chat"])

@@ -1,4 +1,9 @@
 class Puzzle
+
+  def chat_i18n(key, chatter_name=nil, args=[])
+    chat(i18n(key,args),chatter_name)
+  end
+
   def i18n(key, args=[])
 
     ensure_translations_loaded!
