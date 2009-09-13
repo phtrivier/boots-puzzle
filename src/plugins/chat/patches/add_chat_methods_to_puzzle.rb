@@ -2,8 +2,13 @@ class Puzzle
 
   attr_accessor :current_chatter
 
-  def chat(txt)
-    message("#{@current_chatter[:name]} says : #{txt}")
+  def chat(txt,chatter_name=nil)
+    if (chatter_name==nil)
+      chatter = @current_chatter
+    else
+      chatter = Chat.find_chatter(chatter_name)
+    end
+    message("#{chatter[:name]} says : '#{txt}'")
   end
 
   def chatter(cell_name, chatter_name, &block)

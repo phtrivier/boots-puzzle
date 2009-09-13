@@ -1,0 +1,17 @@
+--- 
+adventure: 
+  plugins: 
+  - water
+  - tunnel
+  - events
+  - switch
+  - chess
+  - chat
+  - static
+  - decoration
+  - npc
+  - i18n
+  name: ratlab
+  levels: 
+  - puzzle: level_0_puzzle
+  - puzzle: level_1_puzzle

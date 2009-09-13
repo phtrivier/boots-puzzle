@@ -27,3 +27,4 @@ boots-puzzle_*_i386
 *.deb
 tmp/*
 misc/*
+art/*

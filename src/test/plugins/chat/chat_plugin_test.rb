@@ -35,7 +35,7 @@ class EventsTest < PluginTestCase
     pu.current_chatter = {:name => "Bob"}
     pu.chat "Hello !"
 
-    assert_equal "Bob says : Hello !", m.message_read
+    assert_equal "Bob says : 'Hello !'", m.message_read
 
   end
 
@@ -64,11 +64,11 @@ class EventsTest < PluginTestCase
 
     chat_cell.static_contact!(pu, :up)
     assert_equal 1, @read_count
-    assert_equal "Bob says : 1", m.message_read
+    assert_equal "Bob says : '1'", m.message_read
 
     chat_cell.static_contact!(pu, :up)
     assert_equal 2, @read_count
-    assert_equal "Bob says : 2", m.message_read
+    assert_equal "Bob says : '2'", m.message_read
 
     # Several images have to be drawn so that the chatter appears
     # correcly

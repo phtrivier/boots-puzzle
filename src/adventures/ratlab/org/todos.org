@@ -1,0 +1,9 @@
+* TODO I18N plugin
+* TODO NPC plugin
+* TODO Level 1
+  - [ ] Add a PNJ plugin for the master
+  - [ ] Add decoration
+  - [ ] Add the plugin
+	
+       
+      
