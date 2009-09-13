@@ -1,9 +1,74 @@
 * TODO I18N plugin
 * TODO NPC plugin
-* TODO Level 1
-  - [ ] Add a PNJ plugin for the master
-  - [ ] Add decoration
-  - [ ] Add the plugin
+* DONE Level 1
+  - [X] Add a PNJ plugin for the master
+  - [X] Add decoration
+  - [X] Add the plugin
 	
        
-      
+* TODO Level 3
+Level to introduce boots
+(double boots for the moment)
+* TODO Level 4
+Level to introduce palms
+(some more water, and a tunnel)
+* TODO Level 5
+Go and 
+
+* Story
+You're the apprentice of a 'mad' scientist.
+The master is using you as his geanypig for all kind of strange experiments.
+His researchs seems to be in the field of space and time. 
+For example, the legend say he has discovered ways to move on water, to teleport, and maybe even to 
+go back in time. 
+Of course, you will not take long to realize that he actually has some deeper troubles.
+Like, he is really mad, and keeps talking about stuff that don't exist (like this helektrissikty thing he keeps mentionning.)
+It is also obvious from his accent that he is not from here. 
+The problem is that he is not really from now, either. 
+
+The secret of the scientist will be revealed after a few complex experiment that you will help him realize. 
+Most of them resolve around the simple idea : you went from here, you should go there !!
+
+Aspect of the game
+
+ - A phase where you discovers what actions you can do
+ - A phase where you help the scientists gather some books by picking objects (pickable cell, the first time
+   you get on it it turns into its background cell again, and your inventory gets filled. 
+   You don't necessarily need to see your inventory !!)
+ - A phase where you have lunch, because it is time (so you gather ingredients, and use complex swtiches and stuff
+   to go to some places in a known order ... all this in order to help prepare dinner
+ - A phase where you discover the time boots, and master some more complex puzzles
+ - A phase where you finally learn the secret of the scientist : he comes from the future, and has been trying to 
+   fix his time machine by recreating pieces of it. The machine should basically be a giant fast-forward boots. 
+   To finance it, you need to go and steal some money, at night, into the king's castle
+ - A phase in which you start doubting the morality of you acts. At which point you are thrown to jail. You must get out 
+   of the jail without getting caught by guards
+ - A phase in which the king's own chief scientist tries to force you into talking about how the magicall boots work
+ - A phase in which the two scientists debate their relative scientific value while your master's time newly build time machine goes
+   amock, and you have to go switch it down after you master is killed by the king's guard
+ - A climax in which the king's scientist
+ 
+
+* Plugins introduced 
+
+** i18n
+I might want to translate it in the future, for the moment the strings are externalized, so it is a possibility.
+
+** time-warping boots
+The scientist has develop boots that let you go back to where you were, two or three cells back (or to known hitpoints ? 
+Can't I customize the controls too, after all ?)
+
+** cinematics
+
+Controls are stopped (except for force-forwarding dialogs), and stuff happens on the screen without your intervention
+
+** Picking objects
+
+You have an inventory, but you don't necessarily see it. You goal is to grab all xxx versions of something. The problem
+is that getting one puts you into a bad position to get another one. 
+
+** Guards that can catch you (if you ever go into their line of sight)
+
+If you're seen, you're dead, and you must start the puzzle again ... 
+   
+** other kinds of stuff ... 
