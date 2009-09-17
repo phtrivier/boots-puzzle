@@ -2,9 +2,9 @@ Story.for "level_1" do
 
   chatter :master, :master do |puzzle, count|
     if (count == 1)
-      puzzle.chat i18n("level1.hi")
+      puzzle.chat(i18n("level1.hi"))
     else
-      puzzle.chat i18n("level1.justdoit")
+      puzzle.chat(i18n("level1.justdoit"))
     end
   end
 
@@ -24,7 +24,7 @@ Story.for "level_1" do
   end
 
   story_event :tunnel_out do |puzzle|
-    chat (i18n("level1.getout"), :master)
+    chat(i18n("level1.getout"), :master)
   end
 
 end
